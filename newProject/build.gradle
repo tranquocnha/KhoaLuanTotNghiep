@@ -1,0 +1,53 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.webjars/webjars-locator-core
+    implementation 'org.webjars:webjars-locator-core:0.48'
+
+    implementation 'org.webjars:sockjs-client:1.0.2'
+    // https://mvnrepository.com/artifact/org.webjars/stomp-websocket
+    implementation 'org.webjars:stomp-websocket:2.3.3'
+
+    // https://mvnrepository.com/artifact/org.webjars.bower/jquery
+    implementation 'org.webjars.bower:jquery:3.3.1'
+
+    implementation 'org.springframework.integration:spring-integration-amqp:5.5.9'
+    implementation 'org.springframework.integration:spring-integration-rsocket:5.5.9'
+    implementation 'org.springframework.integration:spring-integration-stomp:5.5.9'
+    implementation 'org.springframework.integration:spring-integration-jpa:5.5.9'
+    implementation 'org.springframework.integration:spring-integration-http:5.5.9'
+    implementation 'org.springframework.integration:spring-integration-websocket:5.5.9'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation('io.jsonwebtoken:jjwt:0.9.1')
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    runtimeOnly 'mysql:mysql-connector-java'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.4'
+    implementation group: 'com.paypal.sdk', name: 'rest-api-sdk', version: '1.4.2'
+    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+}
+
+test {
+    useJUnitPlatform()
+}

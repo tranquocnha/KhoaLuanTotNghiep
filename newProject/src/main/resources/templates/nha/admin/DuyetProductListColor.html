@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Vinh/css/Header.css">
+    <link rel="stylesheet" href="/Vinh/css/Footer.css">
+    <link rel="stylesheet" href="/nha/css/Demo.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/nha/css/style.css">
+    <title>Chi Tiết Màu Sản Phẩm</title>
+</head>
+<body>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div class="main">
+    <div th:insert="~{/nha/admin/ListProduct::main__left}"></div>
+    <div class="main__right">
+<!--        <form action="/admin/approve" method="get">-->
+<!--            <label>Tên Sản Phẩm :</label>-->
+<!--            <input type="text" name="tensanpham" id="mem-name"/>-->
+<!--            <button class="filter-btn" type="submit">Lọc kết quả</button>-->
+<!--        </form>-->
+        <div>
+            <span class="alert alert-success" th:utext="${mgsecolor}" th:if="${mgsecolor}"></span>
+        </div>
+        <table class="table__container"  th:unless="${mgs}">
+            <thead class="table__thead">
+            <tr>
+                <th>STT</th>
+                <th>Tên Màu</th>
+                <th>Giá Màu</th>
+                <th>Số Lượng</th>
+                <th>Tài Khoản</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Hành Động</th>
+            </tr>
+            </thead>
+
+            <tbody class="table__tbody">
+            <tr th:each="color,iterstart : ${listColor}">
+                <td th:text="${iterstart.count}"></td>
+                <td><h4 th:text="${color.color}"></h4></td>
+                <td ><h4 th:text="${color.price}"></h4></td>
+                <td th:text="${color.quantity}"></td>
+                <td th:text="${color.accounts.user.name}"></td>
+                <td th:text="${color.product.productName}"></td>
+                <td>
+                    <a th:href="@{/admin/view(id = ${color.product.idProduct})}">
+                        <button class="button__action background-blue " th:href="@{/admin/view(id = ${color.product.idProduct})}">
+                            <span>Cập nhật</span>
+                        </button>
+                    </a>
+                    <a th:href="@{/admin/approve-color/delete/{idColor}/{idProduct}(idColor = ${color.idColor})(idProduct = ${color.product.idProduct})}">
+                        <button class="button__action background-red"
+                                th:href="@{/admin/approve-color/delete/{idColor}/{idProduct}(idColor = ${color.idColor})(idProduct = ${color.product.idProduct})}">
+                <span>
+                  &#88;
+                </span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div  th:insert="~{/HeaderFooter/Footer::footer_clinet}"></div>
+</body>
+</html>

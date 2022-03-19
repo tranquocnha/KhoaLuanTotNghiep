@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="/Vinh/css/Footer.css">
+    <link rel="stylesheet" href="/Vinh/css/productdetail.css">
+    <link rel="stylesheet" href="/Vinh/css/Header.css">
+
+    <title>Product Detail</title>
+
+
+</head>
+
+
+<body>
+
+
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div class="page__container">
+    <div id="alert__notification" class="alert__notification">
+        <h4>
+            Thông báo: Bạn cần chọn màu sắc trước khi thêm vào giỏ hàng
+        </h4>
+    </div>
+    <div class="page">
+        <div class="page__layout">
+            <div class="page__left">
+                <div class="page__wrapper">
+                    <div class="product__thumbnail">
+                        <img class="thumbnail" th:src="@{${'/Images/'+ product.image1}}" alt="">
+                        <img class="thumbnail" th:src="@{${'/Images/'+product.image2}}" alt="">
+                        <img class="thumbnail" th:src="@{${'/Images/'+product.image3}}" alt="">
+                    </div>
+                    <div class="product__image">
+                        <img th:src="@{${'/Images/'+product.image1}}" id="image" alt="project">
+                    </div>
+                </div>
+            </div>
+            <div class="page__right">
+                <h1 class="product__title" th:text="${product.productName}"></h1>
+                <div class="product__price" >
+                    <p id="priceProduct"></p>
+                    <p style="margin-left: 10px">$</p>
+                </div>
+                <div class="product__color">
+                    <h3>Màu Sắc:</h3>
+                    <div class="product__color-button">
+                        <div class="color-choose" th:each="colorlist,iterStat:${color}">
+                            <div th:if="${colorlist.quantity}>0">
+                                <div th:if="${iterStat.count==1}">
+                                    <input type="radio"  class="radioBox" th:id="${colorlist.idColor}" th:max="${colorlist.quantity}" name="fav_language" th:value="${colorlist.price}" checked>
+                                    <label th:for="${colorlist.color}" ><span th:text="${colorlist.color}"></span></label>
+                                </div>
+                                <div th:if="${iterStat.count>1}">
+                                    <input type="radio"  class="radioBox" th:id="${colorlist.idColor}" th:max="${colorlist.quantity}" name="fav_language" th:value="${colorlist.price}"  >
+                                    <label th:for="${colorlist.color}"><span th:text="${colorlist.color}"></span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product__quantity">
+                    <h3>Số lượng: </h3>
+                    <div class="product__quantity-button">
+                        <button onclick="handleDescrease()" class="border rounded-circle" style="background: white; border-color: #c9c9c9">
+                            <span>&#8722;</span>
+                        </button>
+                        <div class="product__quantity-input">
+                            <div>
+                                <input type="text" value="0" name="soluongs" id="count" readonly="readonly"/>
+                                <input type="text" style="display: none" id="countMax"/>
+                            </div>
+                        </div>
+                        <button onclick="handleIncrease()" class="border rounded-circle" style="background: #041E42;border-color:#041E42">
+                            <span>&#43;</span>
+                        </button>
+                    </div>
+
+                    <div class="product__storage">
+                        <h5>Kho:</h5>
+                        <h5 id="hello"></h5>
+                    </div>
+
+
+
+                </div>
+                <form th:action="@{/showCart/getData/{idProduct}(idProduct=${product.idProduct})}" method="get">
+                    <div class="space__add">
+                        <input type="hidden" value="1" name="quantity" id="totalQuantity"/>
+                        <input type="hidden" name="money" id="totalMonet">
+                        <input type="hidden" id="idColor" name="idColor">
+                        <button sec:authorize="isAuthenticated()" type="submit" class="product__add">Thêm vào giỏ
+                        </button>
+                    </div>
+                </form>
+                <div class="space__add">
+                    <a th:href="@{/afterLogin/productDetail/{id}(id=${product.idProduct})}">
+                        <button th:if="${userName}" class="product__add" type="button">Đăng Nhập</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="product__description">
+            <h4 class="product__description-title">
+                Mô tả sản phẩm
+            </h4>
+            <p id="submitDescription" th:text="${product.description}">
+            <p hidden="hidden" id="description" th:text="${product.description}">
+            </p>
+        </div>
+        <div class="product__comment">
+            <h3 class="product__comment-title">
+                NHẬN XÉT VÀ ĐÁNH GIÁ
+            </h3>
+
+            <p class="product__comment-sub">Viết đánh giá</p>
+                        <form>
+                            <div class="product__comment-space">
+                                <input type="text"  placeholder="Viết bình luận tại đây">
+                                <button class="button__review" type="submit">Đánh Giá</button>
+                            </div>
+                        </form>
+            <div class="product__comment-review">
+                <h4 class="product__comment-review-title">
+                    ĐÁNH GIÁ - NHẬN XÉT TỪ KHÁCH HÀNG</h4>
+                <div class="product__comment-content" th:each="comment:${product.getComments()}">
+                    <div class="comment__left-side">
+                        <div class="comment__img">
+                            <img
+                                    src="https://scontent.fdad2-1.fna.fbcdn.net/v/t1.15752-9/242494465_1053848422022293_8726655823271253393_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=ae9488&_nc_ohc=yiIjCECoaNkAX9Wj9fo&tn=I3qahprvjNSrt1Fz&_nc_ht=scontent.fdad2-1.fna&oh=cc4923ddcf75c6a449acf0ab019b33af&oe=6173376B"
+                                    alt="">
+                            <p class="comment__user">Hậu Ma tóe</p>
+                        </div>
+                    </div>
+
+
+                    <div class="comment__right-side">
+                        <div class="comment__rate">
+                            <input class="star star-5" id="star-5" type="radio" name="star"/> <label class="star star-5"
+                                                                                                     for="star-5"></label>
+                            <input class="star star-4" id="star-4" type="radio" name="star"/> <label
+                                class="star star-4" for="star-4"></label>
+                            <input class="star star-3" id="star-3" type="radio" name="star"/> <label class="star star-3"
+                                                                                                     for="star-3"></label>
+                            <input class="star star-2" id="star-2" type="radio" name="star"/> <label class="star star-2"
+                                                                                                     for="star-2"></label>
+                            <input
+                                    class="star star-1" id="star-1" type="radio" name="star"/> <label
+                                class="star star-1"
+                                for="star-1"></label>
+                        </div>
+                        <p class="comment__purpot" th:text="${comment.content}"></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div th:insert="~{/HeaderFooter/Footer::footer_clinet}"></div>
+</div>
+
+
+<script>
+    let mystring = document.getElementById("description");
+    let mota = mystring.innerHTML;
+    let sep = [".", "/-"];
+    let submittt = document.getElementById("submitDescription");
+    let resut = "";
+    for (let i = 0; i < mota.length; i++) {
+        if (mota[i] === sep[0]) {
+            resut += mota[i] + "</br>";
+        }
+            // else if(mota[i]+mota[i+1] === sep[1]){
+            //     resut += mota[i]+"</br>";
+        // }
+        else {
+            resut += mota[i];
+        }
+    }
+    submittt.innerHTML = resut;
+
+
+//    Color
+    const radioBoxElement = document.getElementsByClassName("radioBox");
+    console.log("radioBoxElement:",radioBoxElement);
+
+
+
+    for (let i = 0; i < radioBoxElement.length; i++) {
+        radioBoxElement[i].onclick = (e) => {
+            return handleOnChangeValue(e.target.value, e.target.max,e.target.attributes[2].nodeValue);
+        };
+    }
+    function quantityModel(){
+        var ids;
+        var values;
+        var quantitys;
+        let idColorss= document.getElementById('idColor');
+        idColorss.value=this.ids;
+        let priceElements = document.getElementById("priceProduct");
+        priceElements.innerHTM=this.values;
+    }
+
+    function handleOnChangeValue(value,quantity,id) {
+        quantityModel();
+        console.log("value:",value);
+        console.log("quantity:",quantity);
+        console.log("id: ",id);
+        document.getElementById('priceProduct').innerHTML = (parseFloat(value)).toLocaleString();
+        document.getElementById('countMax').value = parseInt(quantity);
+         document.getElementById('hello').innerHTML = quantity
+        this.ids=parseInt(id);
+         this.values=(parseFloat(value)).toLocaleString()
+        this.quantitys=quantity;
+    }
+    // tang giam
+    // let numberElement = document.getElementById('price').innerHTML;
+
+    // const priceElement = document.getElementById('price');
+
+    const countMaxElement = document.getElementById('countMax').value;
+
+
+
+    // dùng để xử lý xuất kết quả vào from method
+    const submit = document.getElementById('totalMonet');
+
+    const submitQuality = document.getElementById('totalQuantity');
+    // Khai báo  function
+
+    let countElement = document.getElementById('count');
+    let index = 0;
+
+    function handleDescrease(){
+        quantityModel();
+        if(index <= 0) {
+            index = 0;
+            countElement.value = index
+            submit.value = parseFloat(this.values) * parseFloat(index) ;
+        }else{
+            index = index - 1;
+            countElement.value = index
+        }
+        submitQuality.value = parseInt(index);
+        // priceElement.innerHTML = ((parseFloat(numberElement) * parseFloat(index) ) ).toLocaleString()
+        submit.value = parseFloat(this.values) * parseFloat(index);
+    }
+
+    function handleIncrease() {
+        quantityModel();
+        if(index < parseInt(this.quantitys)) {
+            console.log("index: ",index)
+            index = index + 1;
+            countElement.value = index
+        }else{
+            alert(" Da Vuot qua so luong")
+        }
+        submitQuality.value = parseInt(index);
+        // priceElement.innerHTML = ((parseFloat(numberElement) * parseFloat(index)) ).toLocaleString()
+        submit.value = parseFloat(this.values) * parseFloat(index);
+    }
+
+   setTimeout( function() {
+        document.querySelector('.alert__notification').style.display ="block";
+   },2000)
+
+
+    setTimeout(function() {
+        document.querySelector('.alert__notification').style.display ="none";
+    },5000)
+
+</script>
+<!-- Import Js -->
+<script src="/Vinh/js/main.js"></script>
+<script src="/Vinh/js/productDetail.js"></script>
+<script src="/Vinh/js/alert.js"></script>
+
+</body>
+
+</html>

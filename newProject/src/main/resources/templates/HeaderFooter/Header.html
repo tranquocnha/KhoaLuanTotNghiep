@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="https://i.imgur.com/RCMBfPu.png%22%3E">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Vinh/css/Header.css">
+    <title>Header</title>
+</head>
+<body>
+
+<div class="header__container" th:fragment="header-cline">
+        <div class="header__top" sec:authorize ="isAuthenticated()">
+            <div class="header__top-right">
+                <a href="/auction">
+                    <button>
+                        <img src="/Images/icons8-auction-32.png" />
+                        Đấu giá
+                    </button>
+                </a>
+            </div>
+
+<!--            <div class="header__time" id="header__time">-->
+<!--                <div>-->
+<!--                    <span class="days"></span>-->
+<!--                    <div class="smallText">Days</div>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <span class="hours"></span>-->
+<!--                    <div class="smallText">Hours</div>-->
+<!--                </div>-->
+
+<!--                <div>-->
+<!--                    <span class="minutes"></span>-->
+<!--                    <div class="smallText">Minutes</div>-->
+<!--                </div>-->
+
+<!--                <div>-->
+<!--                    <span class="seconds"></span>-->
+<!--                    <div class="smallText">Seconds</div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="header__top-left">
+                <button class="btn btn-primary " type="button"
+                        style="background-color: #FFCC20; border: 1px solid #FFCC20" sec:authorize="hasRole('ADMIN') or hasRole('SALER')">
+                    <div class="header__management" sec:authorize="hasRole('ADMIN') or hasRole('SALER')">
+                        <i class="material-icons" title="Account" style="font-size: 25px;cursor: pointer;"
+                           data-uw-styling-context="true">person</i>
+                        <span class="caret"  th:if="${admin == 'là admin'}">
+                        <a style="text-decoration: none; color:white"  href="/admin/">Quản lý</a>
+                     </span>
+
+                        <span class="caret"  th:if="${admin == 'là saler'}" >
+                         <a  style="text-decoration: none; color:white"  href="/product/list">Truy cập đến shop</a>
+                    </span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    <div class="header__second">
+
+        <div class="header__logo">
+            <a href="/">
+                <img src="/Images/Logo-Neffex.png" />
+            </a>
+        </div>
+
+        <div class="header__search">
+            <form method="get" action="/search" class="d-flex">
+                <input placeholder=" " class="header__search-input" type="search" name="nameProduct"
+                        aria-label="Search">
+                <label class="header__search-label">Tìm kiếm</label>
+                <select name="idCategory" class="form-control mr-2 custom-select">
+                    <option th:value="0">Tất cả danh mục</option>
+                    <option th:each="danhmuc:${category}" th:text="${danhmuc.getCategoryName()}" th:value="${danhmuc.getIdCategory()}"></option>
+                </select>
+ <button class="header__search-button">
+            <img
+                    src="https://www.bidu.com.vn/images/icon/icon_search.svg"
+                    alt=""
+            />
+          </button>
+            </form>
+        </div>
+        <div class="button__login" th:unless="${userNames}">
+            <span class="txt"><a style="color: white" href="/login">
+                            Đăng nhập
+                        </a></span>
+        </div>
+        <div class="header__navigation" th:if="${userNames}">
+            <div class="header__navigation-img">
+                <a href="/showCart">
+                    <img src="/Images/cart-nav-white.00018279d92b8685ff0d50c146eefe5491200c0b.svg" alt="">
+                </a>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                        style="background-color: #FFCC20; border: 1px solid #FFCC20; display: flex;align-items: center">
+                    <i class="material-icons" title="Account" style="font-size: 25px;cursor: pointer;"
+                       data-uw-styling-context="true">person</i>
+                    <span class="caret" >Chào mừng, [[${userNames.name}]]</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a th:if="${userNames}" th:href="@{/ProfileDetail/__${userNames.idUser}__}">Hồ sơ cá nhân</a></li>
+                    <li><a href="/showCart">Giỏ Hàng</a></li>
+                    <li><a href="/logout">Đăng Xuất</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getTimeRemaining(endtime) {
+        const total = Date.parse(endtime) - Date.parse(new Date());
+        const seconds = Math.floor((total / 1000) % 60);
+        const minutes = Math.floor((total / 1000 / 60) % 60);
+        const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+        const days = Math.floor(total / (1000 * 60 * 60 * 24));
+
+        return {
+            total,
+            days,
+            hours,
+            minutes,
+            seconds
+        };
+    }
+
+    function initializeClock(id, endtime) {
+        const clock = document.getElementById(id);
+        const daysSpan = clock.querySelector('.days');
+        const hoursSpan = clock.querySelector('.hours');
+        const minutesSpan = clock.querySelector('.minutes');
+        const secondsSpan = clock.querySelector('.seconds');
+
+        function updateClock() {
+            const t = getTimeRemaining(endtime);
+
+            daysSpan.innerHTML = t.days;
+            hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+            minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+            secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+            if (t.total <= 0) {
+                clearInterval(timeinterval);
+            }
+        }
+
+        updateClock();
+        const timeinterval = setInterval(updateClock, 1000);
+    }
+
+    const deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
+    initializeClock('header__time', deadline);
+</script>
+</body>
+</html>

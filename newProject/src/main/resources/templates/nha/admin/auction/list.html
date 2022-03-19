@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+    <link rel="stylesheet" href="/Vinh/css/Footer.css">
+    <link rel="stylesheet" href="/Vinh/css/Header.css">
+    <link rel="stylesheet" href="/nha/css/Demo.css">
+    <title>Quản lý sản phẩm đấu giá</title>
+</head>
+<body>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div class="main">
+    <div class="search__space">
+        <form method="get">
+            <label>Tên Sản Phẩm</label>
+            <input type="text" name="nameAuction"  class="filter__input"/>
+            <label>Thời gian</label>
+            <input type="text" name="AuctionTime"  class="filter__input"/>
+            <button class="btn  button__search"  type="submit">Lọc kết quả</button>
+        </form>
+    </div>
+    <div class="main__userbill">
+    <div th:insert="~{/nha/admin/ListProduct::main__left}"></div>
+    <div class="main__right">
+
+        <div>
+            <span class="alert alert-success" th:utext="${mgseauction}" th:if="${mgseauction}"></span>
+        </div>
+        <table class="table__container">
+            <thead class="table__thead">
+            <tr>
+                <th>STT</th>
+                <th>Mã đấu giá</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Bước giá</th>
+                <th>Ngày bắt đầu </th>
+                <th>Ngày kết thúc</th>
+                <th>Thời gian đấu giá</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody class="table__tbody">
+            <tr th:each="auction,iterstart:${auctionlist}">
+                <td><h4 th:text="${iterstart.count}"></h4></td>
+                <td><h4 th:text="${auction.idAuction}"></h4></td>
+                <td><h4 th:text="${auction.product.productName}"></h4></td>
+                <td><h4 th:text="${auction.priceJump}"></h4></td>
+                <td><h4 th:text="${auction.startDate}"></h4></td>
+                <td><h4 th:text="${auction.endDate}"></h4></td>
+                <td><h4 th:text="${auction.auctionTime}"></h4></td>
+                <td>
+                    <a th:href="@{/admin/auction/edit/{idAuction}(idAuction = ${auction.idAuction})}">
+                        <button class="button__action background-blue " >
+                            <span role="img" aria-label="edit" class="anticon anticon-edit"><svg viewBox="64 64 896 896" focusable="false" data-icon="edit" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"></path></svg></span>
+                        </button>
+                    </a>
+                    <a th:href="@{/admin/auction/delete/{idAuction}(idAuction = ${auction.idAuction})}">
+                        <button class="button__action background-red">
+                            <svg viewBox="64 64 896 896" focusable="false" data-icon="delete" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path></svg>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+    <div class="center">
+        <span class="pagination">
+                <a th:href="@{'/admin/auction/list'(page=${auctionlist.number -1})}"
+                   th:if="${auctionlist.hasPrevious()}">
+                     <img class="img__arrow" src="/Images/arrrowleft.png" alt=""/>
+                </a>
+            </span>
+
+        <span class="pagination paging" th:text="${auctionlist.number + 1}"></span>
+        <span  class="pagination" th:text="${auctionlist.totalPages}"></span>
+
+        <span class="pagination">
+                <a style="margin-left: 20px;" th:href="@{'/admin/auction/list'(page=${auctionlist.number + 1})}"
+                   th:if="${auctionlist.hasNext()}">
+                    <img class="img_arrow" src="/Images/arrowright.png" alt=""/>
+                </a>
+        </span>
+    </div>
+</div>
+
+</body>
+</html>
