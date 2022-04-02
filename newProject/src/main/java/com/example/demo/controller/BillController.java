@@ -34,7 +34,7 @@ public class BillController {
     ProductBillService productBillService;
 
     @Autowired
-    ColorServiceImpl colorService;
+    private ColorServiceImpl colorService;
 
     @Autowired
     UserService userService;
@@ -77,22 +77,30 @@ public class BillController {
         List<Category> categoryList;
         categoryList = categoryService.findAll();
         model.addAttribute("category", categoryList);
-        model.addAttribute("MensFashion", colorService.findProduct("Đã duyệt", 1));
-        model.addAttribute("WomanFashion", colorService.findProduct("Đã duyệt", 2));
-        model.addAttribute("Accessory", colorService.findProduct("Đã duyệt", 3));
-        model.addAttribute("Bags", colorService.findProduct("Đã duyệt", 4));
-        model.addAttribute("Camera", colorService.findProduct("Đã duyệt", 5));
-        model.addAttribute("FootwareMan", colorService.findProduct("Đã duyệt", 6));
-        model.addAttribute("FootwareWoman", colorService.findProduct("Đã duyệt", 7));
-        model.addAttribute("Health", colorService.findProduct("Đã duyệt", 8));
-        model.addAttribute("Houseware", colorService.findProduct("Đã duyệt", 9));
-        model.addAttribute("Laptop", colorService.findProduct("Đã duyệt", 10));
-        model.addAttribute("Makeup", colorService.findProduct("Đã duyệt", 11));
-        model.addAttribute("MotherAndBaby", colorService.findProduct("Đã duyệt", 12));
-        model.addAttribute("Smartphone", colorService.findProduct("Đã duyệt", 13));
-        model.addAttribute("Television", colorService.findProduct("Đã duyệt", 14));
-        model.addAttribute("Watch", colorService.findProduct("Đã duyệt", 15));
-        model.addAttribute("Sport", colorService.findProduct("Đã duyệt", 16));
+        for (Category category: categoryList) {
+            String[] s1=category.getCategoryName().split(" ");
+            StringBuilder toString= new StringBuilder();
+            for(String s2:s1){
+                toString.append(s2);
+            }
+            model.addAttribute(String.valueOf(toString), colorService.findProduct("Đã duyệt", category.getIdCategory()));
+        }
+//        model.addAttribute("MensFashion", colorService.findProduct("Đã duyệt", 1));
+//        model.addAttribute("WomanFashion", colorService.findProduct("Đã duyệt", 2));
+//        model.addAttribute("Accessory", colorService.findProduct("Đã duyệt", 3));
+//        model.addAttribute("Bags", colorService.findProduct("Đã duyệt", 4));
+//        model.addAttribute("Camera", colorService.findProduct("Đã duyệt", 5));
+//        model.addAttribute("FootwareMan", colorService.findProduct("Đã duyệt", 6));
+//        model.addAttribute("FootwareWoman", colorService.findProduct("Đã duyệt", 7));
+//        model.addAttribute("Health", colorService.findProduct("Đã duyệt", 8));
+//        model.addAttribute("Houseware", colorService.findProduct("Đã duyệt", 9));
+//        model.addAttribute("Laptop", colorService.findProduct("Đã duyệt", 10));
+//        model.addAttribute("Makeup", colorService.findProduct("Đã duyệt", 11));
+//        model.addAttribute("MotherAndBaby", colorService.findProduct("Đã duyệt", 12));
+//        model.addAttribute("Smartphone", colorService.findProduct("Đã duyệt", 13));
+//        model.addAttribute("Television", colorService.findProduct("Đã duyệt", 14));
+//        model.addAttribute("Watch", colorService.findProduct("Đã duyệt", 15));
+//        model.addAttribute("Sport", colorService.findProduct("Đã duyệt", 16));
         return "/nha/Home";
     }
 
@@ -102,22 +110,14 @@ public class BillController {
         List<Category> categoryList;
         categoryList = categoryService.findAll();
         model.addAttribute("category", categoryList);
-        model.addAttribute("MensFashion", colorService.findProduct("Đã duyệt", 1));
-        model.addAttribute("WomanFashion", colorService.findProduct("Đã duyệt", 2));
-        model.addAttribute("Accessory", colorService.findProduct("Đã duyệt", 3));
-        model.addAttribute("Bags", colorService.findProduct("Đã duyệt", 4));
-        model.addAttribute("Camera", colorService.findProduct("Đã duyệt", 5));
-        model.addAttribute("FootwareMan", colorService.findProduct("Đã duyệt", 6));
-        model.addAttribute("FootwareWoman", colorService.findProduct("Đã duyệt", 7));
-        model.addAttribute("Health", colorService.findProduct("Đã duyệt", 8));
-        model.addAttribute("Houseware", colorService.findProduct("Đã duyệt", 9));
-        model.addAttribute("Laptop", colorService.findProduct("Đã duyệt", 10));
-        model.addAttribute("Makeup", colorService.findProduct("Đã duyệt", 11));
-        model.addAttribute("MotherAndBaby", colorService.findProduct("Đã duyệt", 12));
-        model.addAttribute("Smartphone", colorService.findProduct("Đã duyệt", 13));
-        model.addAttribute("Television", colorService.findProduct("Đã duyệt", 14));
-        model.addAttribute("Watch", colorService.findProduct("Đã duyệt", 15));
-        model.addAttribute("Sport", colorService.findProduct("Đã duyệt", 16));
+        for (Category category: categoryList) {
+            String[] s1=category.getCategoryName().split(" ");
+            StringBuilder toString= new StringBuilder();
+            for(String s2:s1){
+                toString.append(s2);
+            }
+            model.addAttribute(String.valueOf(toString), colorService.findProduct("Đã duyệt", category.getIdCategory()));
+        }
         return "redirect:/";
     }
 

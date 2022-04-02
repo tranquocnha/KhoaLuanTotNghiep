@@ -266,8 +266,6 @@
         WELCOME [[${userNames.name}]]
         <div class="search">
             <input id="userName" placeholder="Write your userName" type="text"/>
-            <button onclick="registration()">Enter the chat</button>
-            <button onclick="fetchAll()">Refresh</button>
         </div>
         <ul class="list" id="usersList">
 
@@ -418,6 +416,9 @@
     let selectedUser;
     let newMessages = new Map();
 
+    registration();
+    fetchAll();
+
     function connectToChat(userName) {
         console.log("connecting to chat...")
         let socket = new SockJS('http://localhost:8080/chat');
@@ -442,6 +443,13 @@
             message: text
         }));
     }
+
+
+    function findAll(){
+        let
+    }
+
+
 
     function registration() {
         let userName = document.getElementById("userName").value;

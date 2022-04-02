@@ -3,8 +3,10 @@ package com.example.demo.model;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -24,6 +26,9 @@ public class MessageRecorderEntity {
 
     @NotNull
     String messageContent;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate time;
 
     @ManyToOne(targetEntity = AccUser.class)
     private AccUser accUsers;

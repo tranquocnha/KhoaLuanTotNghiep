@@ -43,7 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             grantedAuthorities.add(authority);
         }
 
-        UserDetails userDetails = (UserDetails)  new User(account.getIdAccount(), account.getPassword(), grantedAuthorities);
+        UserDetails userDetails = new User(account.getIdAccount(), account.getPassword(), grantedAuthorities);
         return userDetails;
     }
 }

@@ -81,22 +81,15 @@ public class AuctionController {
         List<Category> categoryList;
         categoryList = categoryService.findAll();
         model.addAttribute("category", categoryList);
-        model.addAttribute("MensFashion", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 1));
-        model.addAttribute("WomanFashion", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 2));
-        model.addAttribute("Accessory", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 3));
-        model.addAttribute("Bags", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 4));
-        model.addAttribute("Camera", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 5));
-        model.addAttribute("FootwareMan", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 6));
-        model.addAttribute("FootwareWoman", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 7));
-        model.addAttribute("Health", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 8));
-        model.addAttribute("Houseware", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 9));
-        model.addAttribute("Laptop", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 10));
-        model.addAttribute("Makeup", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 11));
-        model.addAttribute("MotherAndBaby", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 12));
-        model.addAttribute("Smartphone", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 13));
-        model.addAttribute("Television", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 14));
-        model.addAttribute("Watch", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 15));
-        model.addAttribute("Sport", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 16));
+        for (Category category: categoryList) {
+            String[] s1=category.getCategoryName().split(" ");
+            StringBuilder toString= new StringBuilder();
+            for(String s2:s1){
+                toString.append(s2);
+            }
+            model.addAttribute(String.valueOf(toString), productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", category.getIdCategory()));
+        }
+
         return "/nha/auction/Home";
     }
     @RequestMapping("/afterLogin/auction/")
@@ -104,22 +97,14 @@ public class AuctionController {
         List<Category> categoryList;
         categoryList = categoryService.findAll();
         model.addAttribute("category", categoryList);
-        model.addAttribute("MensFashion", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 1));
-        model.addAttribute("WomanFashion", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 2));
-        model.addAttribute("Accessory", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 3));
-        model.addAttribute("Bags", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 4));
-        model.addAttribute("Camera", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 5));
-        model.addAttribute("FootwareMan", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 6));
-        model.addAttribute("FootwareWoman", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 7));
-        model.addAttribute("Health", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 8));
-        model.addAttribute("Houseware", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 9));
-        model.addAttribute("Laptop", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 10));
-        model.addAttribute("Makeup", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 11));
-        model.addAttribute("MotherAndBaby", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 12));
-        model.addAttribute("Smartphone", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 13));
-        model.addAttribute("Television", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 14));
-        model.addAttribute("Watch", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 15));
-        model.addAttribute("Sport", productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", 16));
+        for (Category category: categoryList) {
+            String[] s1=category.getCategoryName().split(" ");
+            StringBuilder toString= new StringBuilder();
+            for(String s2:s1){
+                toString.append(s2);
+            }
+            model.addAttribute(String.valueOf(toString), productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", category.getIdCategory()));
+        }
         return "redirect:/auction";
     }
     @RequestMapping("/auction-detail/{id}")
