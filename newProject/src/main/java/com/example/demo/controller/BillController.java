@@ -73,18 +73,23 @@ public class BillController {
     }
     @RequestMapping("/")
     public String index(Model model) {
-
         List<Category> categoryList;
         categoryList = categoryService.findAll();
         model.addAttribute("category", categoryList);
+        String[] nameCategory = new String[100];
+        int i=0;
         for (Category category: categoryList) {
+
             String[] s1=category.getCategoryName().split(" ");
             StringBuilder toString= new StringBuilder();
             for(String s2:s1){
                 toString.append(s2);
             }
+            nameCategory[i] = String.valueOf(toString);
+            i++;
             model.addAttribute(String.valueOf(toString), colorService.findProduct("Đã duyệt", category.getIdCategory()));
         }
+        model.addAttribute("nameCategory",nameCategory);
 //        model.addAttribute("MensFashion", colorService.findProduct("Đã duyệt", 1));
 //        model.addAttribute("WomanFashion", colorService.findProduct("Đã duyệt", 2));
 //        model.addAttribute("Accessory", colorService.findProduct("Đã duyệt", 3));

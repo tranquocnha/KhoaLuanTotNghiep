@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/nha/css/Home.css">
     <title>Trang chủ</title>
-    <link rel="stylesheet" href="../../static/nha/css/Home.css">
 </head>
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
@@ -64,7 +63,7 @@
     <div class="main__category">
         <h4 class="main__category-title">Danh mục</h4>
         <div class="main__category-item" th:each="danhmuc:${category}">
-            <img th:src="@{${'/Images/' + danhmuc.categoryImg}}" alt="">
+            <a th:href="@{'/searchProduct/'+${danhmuc.idCategory}+'?nameProduct='}"><img th:src="@{${'/Images/' + danhmuc.categoryImg}}" alt=""></a>
             <p th:text="${danhmuc.getCategoryName()}"></p>
         </div>
     </div>

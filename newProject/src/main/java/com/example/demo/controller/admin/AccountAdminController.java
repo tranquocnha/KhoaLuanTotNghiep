@@ -55,7 +55,7 @@ public class AccountAdminController {
     @RequestMapping("/account")
     public String listAll(@RequestParam(defaultValue = "0") int page, Principal principal, Model model){
         Page<AccUser> userPage;
-        Pageable pageable = PageRequest.of(page,5);
+        Pageable pageable = PageRequest.of(page,20);
         userPage = userService.findByAlAndAccountRoleAndAccountAndAccUserAndAddress(pageable);
         Page<Address> userPages;
         Pageable pageables = PageRequest.of(page,5);

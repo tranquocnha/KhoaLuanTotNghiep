@@ -15,8 +15,41 @@ public interface ColorRepository extends JpaRepository<Color, Integer> {
 
     List<Color> findAllByProduct_StatusAndProduct_Accounts_IdAccount(String status , String idAccount);
 
-    @Query("select c , min(c.price) as min from Color c inner join Product p on p.idProduct = c.product.idProduct where p.status = ?1 and p.category.idCategory = ?2 group by c.product.idProduct")
+    @Query("select c , min(c.price) as min " +
+            "from Color c inner join Product p on p.idProduct = c.product.idProduct " +
+            "where p.status = ?1 and p.category.idCategory = ?2 " +
+            "group by c.product.idProduct")
     List<Color> findByProduct_StatusAndProduct_Category_IdCategory(String status , Integer category);
 
+    @Query("select c , min(c.price) as min1 " +
+            "from Color c inner join Product p on p.idProduct = c.product.idProduct " +
+            "where p.status = ?1 and p.category.idCategory = ?2 " +
+            "group by c.product.idProduct " +
+            "order by min(c.price) desc ")
+    List<Color> findByProduct_StatusAndProduct_Category_IdCategoryDesc(String status , Integer category);
+
+    @Query("select c , min(c.price) as min1 " +
+            "from Color c inner join Product p on p.idProduct = c.product.idProduct " +
+            "where p.status = ?1 and p.category.idCategory = ?2 " +
+            "group by c.product.idProduct " +
+            "order by min(c.price) asc ")
+    List<Color> findByProduct_StatusAndProduct_Category_IdCategoryAsc(String status , Integer category);
+
+
+
+    @Query("select c , min(c.price) as min " +
+            "from Color c inner join Product p on p.idProduct = c.product.idProduct " +
+            "where p.status = ?1 and p.category.idCategory = ?2  and p.productName like %?3%" +
+            "group by c.product.idProduct")
+    List<Color> findByProduct_StatusAndProduct_Category_IdCategoryAndProduct_ProductName(String status , Integer category,String nameProduct);
+
+    @Query("select c , min(c.price) as min " +
+            "from Color c inner join Product p on p.idProduct = c.product.idProduct " +
+            "where p.status = ?1 and p.category.idCategory = ?2 " +
+            "group by c.product.idProduct " +
+            "order by c.product.idProduct desc")
+    List<Color> findByProduct_StatusAndProduct_Category_IdCategoryOrderByProductDesc(String status , Integer category);
+
     List<Color> findByProduct_Status(String status);
+
 }

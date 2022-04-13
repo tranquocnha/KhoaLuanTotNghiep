@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/admin/**", "/danhmuc/**","/nhas/**").access("hasAnyRole('ROLE_ADMIN')");
 
         // shop  admin và user đều đc đấu giá
-        http.authorizeRequests().antMatchers("/daugia/**","/afterLogin/**", "/user/**,","/chatSocket","/chats","/ProfileDetail").access("hasAnyRole('ROLE_CUSTOMER','ROLE_ADMIN','ROLE_SALER')");
+        http.authorizeRequests().antMatchers("/daugia/**","/afterLogin/**", "/user/**,","/chatSocket","/chats").access("hasAnyRole('ROLE_CUSTOMER','ROLE_ADMIN','ROLE_SALER')");
 
 //
         // Các trang không yêu cầu login

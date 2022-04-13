@@ -61,7 +61,27 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
+    public List<Color> findProduct(String status, Integer idCategory, String nameProduct) {
+        return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryAndProduct_ProductName(status,idCategory,nameProduct);
+    }
+
+    @Override
     public List<Color> findByProduct_Status(String status) {
         return colorRepository.findByProduct_Status(status);
+    }
+
+    @Override
+    public List<Color> findProductOderByDesc(String status, Integer idCategory) {
+        return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryDesc(status,idCategory);
+    }
+
+    @Override
+    public List<Color> findProductOderByAsc(String status, Integer idCategory) {
+        return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryAsc(status,idCategory);
+    }
+
+    @Override
+    public List<Color> findProductOderByProductDesc(String status, Integer idCategory) {
+        return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryOrderByProductDesc(status,idCategory);
     }
 }

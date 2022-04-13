@@ -21,6 +21,11 @@ public class Category {
     public Category() {
     }
 
+    public Category(String categoryName, String categoryImg) {
+        this.categoryName = categoryName;
+        this.categoryImg = categoryImg;
+    }
+
     public Category(int idCategory, String categoryName, String categoryImg, Set<Product> products) {
         this.idCategory = idCategory;
         this.categoryName = categoryName;

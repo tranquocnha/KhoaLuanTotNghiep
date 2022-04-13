@@ -67,7 +67,7 @@
                         <div class="color-choose" th:each="colorlist,iterStat:${color}">
                             <div th:if="${colorlist.quantity}>0">
                                 <div th:if="${iterStat.count==1}">
-                                    <input type="radio"  class="radioBox" th:id="${colorlist.idColor}" th:max="${colorlist.quantity}" name="fav_language" th:value="${colorlist.price}" checked>
+                                    <input type="radio"  class="radioBox" th:id="${colorlist.idColor}" th:max="${colorlist.quantity}" name="fav_language" th:value="${colorlist.price}">
                                     <label th:for="${colorlist.color}" ><span th:text="${colorlist.color}"></span></label>
                                 </div>
                                 <div th:if="${iterStat.count>1}">

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.AccUser;
 import com.example.demo.model.Category;
+import com.example.demo.model.DTO.CategoryDTO;
 import com.example.demo.repository.UserRepository.UserRepository;
 import com.example.demo.service.categoryService.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +10,23 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class CategoryController {
+
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -53,24 +60,41 @@ public class CategoryController {
     }
 
     @GetMapping(value = "/category/create")
-    private String viewCreate(Model model, Principal principal) {
-    
-        model.addAttribute("categorys", new Category());
-        return "/nha/category/create";
+    private ModelAndView viewCreate() {
+        return new ModelAndView("/nha/category/create");
     }
 
-    @PostMapping(value = "/category/create")
-    private String Create(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult, Model model, Principal principal, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasFieldErrors()) {
-            return "/nha/category/create";
+    @PostMapping(value = "/category/createSave")
+    private String Create(@RequestParam("categoryName")String categoryName,@RequestParam("categoryImg") MultipartFile categoryImg, Model model, RedirectAttributes redirectAttributes) throws IOException {
+        System.out.println("img1"+categoryImg);
+        Category category1=new Category();
+        category1.setCategoryName(categoryName);
+        if(categoryImg == null || categoryImg.isEmpty()){
+            redirectAttributes.addFlashAttribute("messFileImg","Error Null and Empty");
+            redirectAttributes.addFlashAttribute("saveCategoryName",categoryName);
+            redirectAttributes.addFlashAttribute("saveCategoryImg",categoryImg);
+            return "redirect:/admin/category/create";
         }
-        List<Category> categoryList = categoryService.findByName(category.getCategoryName());
+//        if (bindingResult.hasFieldErrors()) {
+//            return "/nha/category/create";
+//        }
+        System.out.println("img2"+categoryImg);
+        List<Category> categoryList = categoryService.findByName(categoryName);
 
         if ( categoryList.size() != 0) {
             model.addAttribute("mgsdm", "Danh mục đã tồn tại.");
             return "/nha/category/create";
         }
-        categoryService.save(category);
+        System.out.println("img3"+categoryImg);
+        String fileName = categoryImg.getOriginalFilename();
+        System.out.println("img4"+fileName);
+        try {
+            FileCopyUtils.copy(categoryImg.getBytes(), new File("D:\\Java-API\\KhoaLuanTotNghiep\\KhoaLuanTotNghiep\\newProject\\src\\main\\resources\\static\\Images\\" + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        category1.setCategoryImg(fileName);
+        categoryService.save(category1);
         redirectAttributes.addFlashAttribute("mgsedit", "Thêm mới danh mục thành công.");
         return "redirect:/admin/category/list";
     }

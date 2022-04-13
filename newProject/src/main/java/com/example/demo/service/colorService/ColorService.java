@@ -25,6 +25,10 @@ public interface ColorService {
     List<Color> findAllApprovedProduct(String status , String idAccount);
 
     List<Color> findProduct(String status , Integer idCategory);
-
+    List<Color> findProduct(String status , Integer idCategory,String nameProduct);
     List<Color> findByProduct_Status(String status);
+
+    List<Color> findProductOderByDesc(String status , Integer idCategory);
+    List<Color> findProductOderByAsc(String status , Integer idCategory);
+    List<Color> findProductOderByProductDesc(String status , Integer idCategory);
 }
