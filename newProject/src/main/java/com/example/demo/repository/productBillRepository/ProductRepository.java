@@ -72,4 +72,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "from  Product p,Auction a " +
             "where p.category.idCategory = ?1 and p.idProduct=a.product.idProduct and p.idProduct=a.product.idProduct ")
     List<Product> findAllByCategory_IdCategory(int idCategory);
+
+    //page
+
+    Page<Product> findByStatus(String status,Pageable pageable);
+
+    Page<Product> findByStatusAndProductNameContains(String status,String nameProduct,Pageable pageable);
 }

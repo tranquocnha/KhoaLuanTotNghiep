@@ -27,8 +27,13 @@ public interface ColorService {
     List<Color> findProduct(String status , Integer idCategory);
     List<Color> findProduct(String status , Integer idCategory,String nameProduct);
     List<Color> findByProduct_Status(String status);
-
     List<Color> findProductOderByDesc(String status , Integer idCategory);
     List<Color> findProductOderByAsc(String status , Integer idCategory);
-    List<Color> findProductOderByProductDesc(String status , Integer idCategory);
+    List<Color> findProductOderByProductDesc(String status, Integer idCategory);
+    //page
+    Page<Color> findProduct(String status , Integer idCategory,Pageable pageable);
+    Page<Color> findProduct(String status , Integer idCategory,String nameProduct,Pageable pageable);
+    Page<Color> findProductOderByDesc(String status , Integer idCategory,Pageable pageable);
+    Page<Color> findProductOderByAsc(String status , Integer idCategory,Pageable pageable);
+    Page<Color> findProductOderByProductDesc(String status, Integer idCategory,Pageable pageable);
 }

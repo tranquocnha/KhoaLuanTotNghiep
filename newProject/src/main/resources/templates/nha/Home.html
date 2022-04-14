@@ -12,6 +12,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"/>
     <link rel="stylesheet" href="/Vinh/css/Header.css">
 
 
@@ -208,9 +210,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${MensFashion.size() >0}">
+    <div class="main__bestseller slider" id="slider-container1"  th:if="${MensFashion.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm MensFashion </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev1()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next1()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${MensFashion}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -228,9 +237,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${WomansFashion.size() >0}">
+    <div class="main__bestseller" id="slider-container2"  th:if="${WomansFashion.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm WomanFashion </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev2()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next2()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${WomanFashion}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -248,9 +264,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Accessory.size() >0}">
+    <div class="main__bestseller" id="slider-container3" th:if="${Accessory.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Accessory </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev3()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next3()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Accessory}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -268,9 +291,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Bags.size() >0}">
+    <div class="main__bestseller" id="slider-container4" th:if="${Bags.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Bags </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev4()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next4()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Bags}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -288,9 +318,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Camera.size() >0}">
+    <div class="main__bestseller " id="slider-container5" th:if="${Camera.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Camera </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev5()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next5()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Camera}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -308,9 +345,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${FootwareMan.size() >0}">
+    <div class="main__bestseller" id="slider-container6"  th:if="${FootwareMan.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm FootwareMan </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev6()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next6()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${FootwareMan}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -328,9 +372,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${FootwareWoman.size() >0}">
+    <div class="main__bestseller" id="slider-container7"  th:if="${FootwareWoman.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm FootwareWoman </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev7()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next7()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${FootwareWoman}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -348,9 +399,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Health.size() >0}">
+    <div class="main__bestseller" id="slider-container8"  th:if="${Health.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Health </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev8()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next8()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Health}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -368,9 +426,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Houseware.size() >0}">
+    <div class="main__bestseller" id="slider-container9"  th:if="${Houseware.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Houseware </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev9()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next9()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Houseware}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -388,9 +453,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Laptop.size() >0}">
+    <div class="main__bestseller" id="slider-container10"  th:if="${Laptop.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Laptop </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev10()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next10()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Laptop}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -408,9 +480,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Makeup.size() >0}">
+    <div class="main__bestseller" id="slider-container11"  th:if="${Makeup.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Health </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev11()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next11()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Makeup}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -428,9 +507,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Motherandbaby.size() >0}">
+    <div class="main__bestseller" id="slider-container12"  th:if="${Motherandbaby.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Health </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev12()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next12()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${MotherAndBaby}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -448,9 +534,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Smartphone.size() >0}">
+    <div class="main__bestseller" id="slider-container13"  th:if="${Smartphone.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Smartphone </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev13()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next13()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Smartphone}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -468,9 +561,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Television.size() >0}">
+    <div class="main__bestseller" id="slider-container14"  th:if="${Television.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Television </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev14()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next14()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Television}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -488,9 +588,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Watch.size() >0}">
+    <div class="main__bestseller" id="slider-container15"  th:if="${Watch.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Health </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev15()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next15()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Watch}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -508,9 +615,16 @@
             </div>
         </div>
     </div>
-    <div class="main__bestseller" th:if="${Sport.size() >0}">
+    <div class="main__bestseller" id="slider-container16"  th:if="${Sport.size() >0}">
         <h4 class="main__bestseller-title">Sản phẩm Sport </h4>
-
+<!--        <div class="slide__button">-->
+<!--            <div onclick="prev16()" class="control-prev-btn" style="">-->
+<!--                <i class="fas fa-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <div onclick="next16()" class="control-next-btn">-->
+<!--                <i class="fas fa-arrow-right"></i>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="main__bestseller-list" th:each="sanPham:${Sport}">
             <div class="main__bestseller-item">
                 <a th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
@@ -529,43 +643,111 @@
         </div>
     </div>
 </div>
-
-
 <div class="footer" th:fragment="footer_clinet">
-
-    <div class="footer__content">
-
-        <div class="footer__img">
-            <img src="/Images/Logo-Neffex.png" />
-        </div>
-
-        <ul class="footer__list">
-            <h5 class="footer__list-title">Về Neffex</h5>
-            <li class="footer__item">Thông tin về chúng tôi</li>
-            <li class="footer__item">Danh sách cửa hàng</li>
-            <li class="footer__item">Liên hệ</li>
-            <li class="footer__item">Flash sale</li>
-        </ul>
-
-        <ul class="footer__list">
-            <h5 class="footer__list-title">Theo dõi chúng tôi tại</h5>
-            <li class="footer__item">
-                Facebook
-            </li>
-            <li class="footer__item">Instagram</li>
-            <li class="footer__item">Google</li>
-            <li class="footer__item">Twitter</li>
-        </ul>
-
-        <ul class="footer__list">
-            <h5 class="footer__list-title">Thanh toán</h5>
-            <img src="/Images/visalogo.svg" alt="">
-            <img src="https://cdn.pixabay.com/photo/2018/05/08/21/29/paypal-3384015_960_720.png" alt="">
-            <img src="/Images/JCBlogo.svg" alt="">
-            <img src="/Images/mastercard.webp" alt="">
-        </ul>
-    </div>
 </div>
+<script>
+    // //1
+    // function prev1() {
+    //     document.getElementById('slider-container1').scrollLeft -= 270;
+    // }
+    // function next1() {
+    //     document.getElementById('slider-container1').scrollLeft += 270;
+    // }
+    // //2
+    // function prev2() {
+    //     document.getElementById('slider-container2').scrollLeft -= 270;
+    // }
+    // function next2() {
+    //     document.getElementById('slider-container2').scrollLeft += 270;
+    // }
+    // //3
+    // function prev3() {
+    //     document.getElementById('slider-container3').scrollLeft -= 270;
+    // }
+    // function next3() {
+    //     document.getElementById('slider-container3').scrollLeft += 270;
+    // }
+    // function prev4() {
+    //     document.getElementById('slider-container4').scrollLeft -= 270;
+    // }
+    // function next4() {
+    //     document.getElementById('slider-container4').scrollLeft += 270;
+    // }
+    // function prev5() {
+    //     document.getElementById('slider-container5').scrollLeft -= 270;
+    // }
+    // function next5() {
+    //     document.getElementById('slider-container5').scrollLeft += 270;
+    // }
+    // function prev6() {
+    //     document.getElementById('slider-container6').scrollLeft -= 270;
+    // }
+    // function next6() {
+    //     document.getElementById('slider-container6').scrollLeft += 270;
+    // }
+    // function prev7() {
+    //     document.getElementById('slider-container7').scrollLeft -= 270;
+    // }
+    // function next7() {
+    //     document.getElementById('slider-container7').scrollLeft += 270;
+    // }
+    // function prev8() {
+    //     document.getElementById('slider-container8').scrollLeft -= 270;
+    // }
+    // function next8() {
+    //     document.getElementById('slider-container8').scrollLeft += 270;
+    // }
+    // function prev9() {
+    //     document.getElementById('slider-container9').scrollLeft -= 270;
+    // }
+    // function next9() {
+    //     document.getElementById('slider-container9').scrollLeft += 270;
+    // }
+    // function prev10() {
+    //     document.getElementById('slider-container10').scrollLeft -= 270;
+    // }
+    // function next10() {
+    //     document.getElementById('slider-container10').scrollLeft += 270;
+    // }
+    // function prev11() {
+    //     document.getElementById('slider-container11').scrollLeft -= 270;
+    // }
+    // function next11() {
+    //     document.getElementById('slider-container11').scrollLeft += 270;
+    // }
+    // function prev12() {
+    //     document.getElementById('slider-container12').scrollLeft -= 270;
+    // }
+    // function next12() {
+    //     document.getElementById('slider-container12').scrollLeft += 270;
+    // }
+    // function prev13() {
+    //     document.getElementById('slider-container13').scrollLeft -= 270;
+    // }
+    // function next13() {
+    //     document.getElementById('slider-container13').scrollLeft += 270;
+    // }
+    // function prev14() {
+    //     document.getElementById('slider-container14').scrollLeft -= 270;
+    // }
+    // function next14() {
+    //     document.getElementById('slider-container14').scrollLeft += 270;
+    // }
+    // function prev15() {
+    //     document.getElementById('slider-container15').scrollLeft -= 270;
+    // }
+    // function next15() {
+    //     document.getElementById('slider-container15').scrollLeft += 270;
+    // }
+    // function prev16() {
+    //     document.getElementById('slider-container16').scrollLeft -= 270;
+    // }
+    // function next16() {
+    //     document.getElementById('slider-container16').scrollLeft += 270;
+    // }
+
+
+</script>
 <script src="/nha/JS/Home.js"></script>
 <script src="/Vinh/js/intersectionObserve.js"></script>
 </body>

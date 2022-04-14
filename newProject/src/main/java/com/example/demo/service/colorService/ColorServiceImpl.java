@@ -84,4 +84,29 @@ public class ColorServiceImpl implements ColorService {
     public List<Color> findProductOderByProductDesc(String status, Integer idCategory) {
         return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryOrderByProductDesc(status,idCategory);
     }
+    // Page
+    @Override
+    public Page<Color> findProduct(String status, Integer idCategory, Pageable pageable) {
+        return colorRepository.findByProduct_StatusAndProduct_Category_IdCategory(status, idCategory,pageable);
+    }
+
+    @Override
+    public Page<Color> findProduct(String status, Integer idCategory, String nameProduct, Pageable pageable) {
+        return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryAndProduct_ProductName(status,idCategory,nameProduct,pageable);
+    }
+
+    @Override
+    public Page<Color> findProductOderByDesc(String status, Integer idCategory, Pageable pageable) {
+        return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryDesc(status,idCategory,pageable);
+    }
+
+    @Override
+    public Page<Color> findProductOderByAsc(String status, Integer idCategory, Pageable pageable) {
+        return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryAsc(status,idCategory,pageable);
+    }
+
+    @Override
+    public Page<Color> findProductOderByProductDesc(String status, Integer idCategory, Pageable pageable) {
+        return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryOrderByProductDesc(status,idCategory,pageable);
+    }
 }

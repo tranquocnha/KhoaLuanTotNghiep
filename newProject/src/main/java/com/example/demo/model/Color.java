@@ -91,4 +91,5 @@ public class Color {
     public void setProduct(Product product) {
         this.product = product;
     }
+
 }

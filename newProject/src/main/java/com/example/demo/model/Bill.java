@@ -12,6 +12,7 @@ public class Bill {
     private String current;
     private double totalCost;
     private String status;
+    private String address;
 
     @ManyToOne(targetEntity = AccUser.class)
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
@@ -19,6 +20,10 @@ public class Bill {
 
     @OneToMany(mappedBy = "bill")
     private Set<ProductBill> productBills;
+
+    @ManyToOne(targetEntity = Ward.class)
+    @JoinColumn(name ="ward_id",referencedColumnName = "wardId")
+    private Ward ward;
 
     public Bill() {
     }
@@ -30,6 +35,22 @@ public class Bill {
         this.status = status;
         this.user = user;
         this.productBills = productBills;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Ward getWard() {
+        return ward;
+    }
+
+    public void setWard(Ward ward) {
+        this.ward = ward;
     }
 
     public int getIdBill() {

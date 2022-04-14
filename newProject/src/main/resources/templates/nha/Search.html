@@ -164,6 +164,7 @@
                                 </th:block>
 
                             </select>
+                            <input hidden="hidden" name="page" value="0">
                             <button class="home-filter__btn btn" type="submit">Tìm Kiếm</button>
                             <button class="home-filter__btn btn btn--primary">Mới nhất</button>
                             <div class="select-input">
@@ -171,11 +172,11 @@
                                 <i class="select-input__icon fas fa-angle-down"></i>
                                 <ul class="select-input__list">
                                     <li class="select-input__item">
-                                        <a href="/searchProduct/?nameProduct=desc"
+                                        <a href="/searchProduct/?nameProduct=desc&page=0"
                                            class="select-input__link">Giá: thấp đến cao</a>
                                     </li>
                                     <li class="select-input__item">
-                                        <a href="/searchProduct/?nameProduct=asc"
+                                        <a href="/searchProduct/?nameProduct=asc&page=0"
                                            class="select-input__link">Giá: cao đến thấp</a>
                                     </li>
 
@@ -189,42 +190,15 @@
                     <div class="grid__row">
                         <!-- product item -->
                         <th:block th:if="${product != null}">
-                            <div class="grid__column-2-4" th:each="sanPham:${product}">
+                            <div class="grid__column-2-4" th:each="color:${product}">
                                 <a class="home-product-item"
-                                   th:href="@{/product-detail/{id}(id=${sanPham.getProduct().idProduct})}">
+                                   th:href="@{/product-detail/{id}(id=${color.product.idProduct})}">
                                     <div class="home-product-item__img"
-                                         th:style="'background-image:url('+${'/Images/'+sanPham.getProduct().getImage1()}+')'"></div>
-                                    <h4 class="home-product-item__name" th:text="${sanPham.product.productName}"></h4>
+                                         th:style="'background-image:url('+${'/Images/'+color.product.getImage1()}+')'"></div>
+                                    <h4 class="home-product-item__name" th:text="${color.product.productName}"></h4>
                                     <div class="home-product-item__price">
-                                        <!--                  <span class="home-product-item__price-old">[[${sanPham.price}]] USD</span>-->
-                                        <span class="home-product-item_price-current">[[${sanPham.price}]] USD</span>
+                                        <span class="home-product-item_price-current">[[${color.price}]] USD</span>
                                     </div>
-                                    <!--                <div class="home-product-item__action">-->
-                                    <!--                                            <span class="home-product-item__like home-product-item__like&#45;&#45;liked">-->
-                                    <!--                                                <i class="home-product-item__like-icon-empty far fa-heart"></i>-->
-                                    <!--                                                <i class="home-product-item__like-icon-fill fas fa-heart"></i>-->
-                                    <!--                                            </span>-->
-                                    <!--                  <div class="home-product-item__rating">-->
-                                    <!--                    <i class="home-product-item__star-gold fas fa-star"></i>-->
-                                    <!--                    <i class="home-product-item__star-gold fas fa-star"></i>-->
-                                    <!--                    <i class="home-product-item__star-gold fas fa-star"></i>-->
-                                    <!--                    <i class="home-product-item__star-gold fas fa-star"></i>-->
-                                    <!--                    <i class="fas fa-star"></i>-->
-                                    <!--                  </div>-->
-                                    <!--                  <span class="home-product-item__sold">88 đã bán</span>-->
-                                    <!--                </div>-->
-                                    <!--                <div class="home-product-item__origin">-->
-                                    <!--                  <span class="home-product-item__brand">whoo</span>-->
-                                    <!--                  <span class="home-product-item__origin-name">Hàn Quốc</span>-->
-                                    <!--                </div>-->
-                                    <!--                <div class="home-product-item__favourite">-->
-                                    <!--                  <i class="fas fa-check"></i>-->
-                                    <!--                  <span>Yêu thích</span>-->
-                                    <!--                </div>-->
-                                    <!--                <div class="home-product-item__sale-off">-->
-                                    <!--                  <span class="home-product-item__sale-off-percent">43%</span>-->
-                                    <!--                  <span class="home-product-item__sale-off-label">GIẢM</span>-->
-                                    <!--                </div>-->
                                 </a>
                             </div>
                         </th:block>
@@ -237,7 +211,7 @@
                                     <h4 class="home-product-item__name" th:text="${sanPham.productName}"></h4>
                                     <div class="home-product-item__price" th:each="color:${sanPham.color}">
                                         <span class="home-product-item_price-current"
-                                              th:style="'color:'+${color.color}">[[${color.color}]] USD</span>
+                                              th:style="'color:'+${color.color}">[[${color.color}]]</span>
                                         <span class="home-product-item_price-current"
                                               th:style="'color:'+${color.color}">[[${color.price}]] USD</span>
                                     </div>
@@ -247,110 +221,46 @@
 
                     </div>
                 </div>
+                <th:block th:if="${listProduct != null}">
                 <ul class="pagination home-product__pagination">
-                     <span class="pagination">
-                <a th:href="@{'/admin/auction/list'(page=${auctionlist.number -1})}"
-                   th:if="${auctionlist.hasPrevious()}">
-                     <img class="img__arrow" src="/Images/arrrowleft.png" alt=""/>
-                </a>
-            </span>
+                        <li class="pagination-item">
+                            <a th:href="@{'/searchProduct/'(page=${listProduct.number -1})}"
+                               th:if="${listProduct.hasPrevious()}" class="pagination-item__link">
+                                <img class="pagination-item__icon fas" src="/Images/arrrowleft.png" alt=""/>
+                            </a>
+                        </li>
+                        <th:block th:if="${listProduct.number >1}">
+                            <li class="pagination-item ">
+                                <a th:href="@{'/searchProduct/'(page=${listProduct.number -1})}"
+                                   class="pagination-item__link" th:text="${listProduct.number - 1}"></a>
+                            </li>
+                        </th:block>
+                        <li class="pagination-item pagination-item--active">
+                            <a th:href="@{'/searchProduct/'(page=${listProduct.number})}"
+                               class="pagination-item__link" th:text="${listProduct.number}"></a>
+                        </li>
+                        <th:block th:if="${listProduct.totalPages >= listProduct.number}">
+                            <li class="pagination-item">
+                                <a th:href="@{'/searchProduct/'(page=${listProduct.number +1})}"
+                                   class="pagination-item__link" th:text="${listProduct.number+1}"></a>
+                            </li>
+                        </th:block>
 
-                    <span class="pagination paging" th:text="${auctionlist.number + 1}"></span>
-                    <span  class="pagination" th:text="${auctionlist.totalPages}"></span>
 
-                    <span class="pagination">
-                <a style="margin-left: 20px;" th:href="@{'/admin/auction/list'(page=${auctionlist.number + 1})}"
-                   th:if="${auctionlist.hasNext()}">
-                    <img class="img_arrow" src="/Images/arrowright.png" alt=""/>
-                </a>
-        </span>
-                    <li class="pagination-item">
-                        <a th:href="@{'/admin/auction/list'(page=${auctionlist.number -1})}"
-                           th:if="${auctionlist.hasPrevious()}" class="pagination-item__link">
-                            <i class="pagination-item__icon fas fa-angle-left"></i>
-                        </a>
-                    </li>
-                    <li class="pagination-item pagination-item--active">
-                        <a href="" class="pagination-item__link">1</a>
-                    </li>
-                    <li class="pagination-item">
-                        <a th:href="@{'/searchProduct/list'(page=${auctionlist.number + 1})}"
-                           th:if="${auctionlist.hasNext()}" class="pagination-item__link">
-                            <i class="pagination-item__icon fas fa-angle-right"></i>
-                        </a>
-                    </li>
+                        <li class="pagination-item">
+                            <a th:href="@{'/searchProduct/'(page=${listProduct.number + 1})}"
+                               th:if="${listProduct.hasNext()}" class="pagination-item__link">
+                                <img class="pagination-item__icon fas" src="/Images/arrowright.png" alt=""/>
+                            </a>
+                        </li>
                 </ul>
+                </th:block>
             </div>
         </div>
     </div>
 </div>
 <div th:insert="~{/HeaderFooter/Footer::footer_clinet}">
 
-    <!--    <script>-->
-    <!--        const inputField = document.querySelector('.chosen-value');-->
-    <!--        const dropdown = document.querySelector('.value-list');-->
-    <!--        const dropdownArray = [... document.querySelectorAll('li')];-->
-    <!--        console.log(typeof dropdownArray)-->
-    <!--        dropdown.classList.add('open');-->
-    <!--        inputField.focus(); // Demo purposes only-->
-    <!--        let valueArray = [];-->
-    <!--        dropdownArray.forEach(item => {-->
-    <!--            valueArray.push(item.textContent);-->
-    <!--        });-->
-
-    <!--        const closeDropdown = () => {-->
-    <!--            dropdown.classList.remove('open');-->
-    <!--        }-->
-
-    <!--        inputField.addEventListener('input', () => {-->
-    <!--            dropdown.classList.add('open');-->
-    <!--            let inputValue = inputField.value.toLowerCase();-->
-    <!--            let valueSubstring;-->
-    <!--            if (inputValue.length > 0) {-->
-    <!--                for (let j = 0; j < valueArray.length; j++) {-->
-    <!--                    if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {-->
-    <!--                        dropdownArray[j].classList.add('closed');-->
-    <!--                    } else {-->
-    <!--                        dropdownArray[j].classList.remove('closed');-->
-    <!--                    }-->
-    <!--                }-->
-    <!--            } else {-->
-    <!--                for (let i = 0; i < dropdownArray.length; i++) {-->
-    <!--                    dropdownArray[i].classList.remove('closed');-->
-    <!--                }-->
-    <!--            }-->
-    <!--        });-->
-
-    <!--        dropdownArray.forEach(item => {-->
-    <!--            item.addEventListener('click', (evt) => {-->
-    <!--                inputField.value = item.textContent;-->
-    <!--                dropdownArray.forEach(dropdown => {-->
-    <!--                    dropdown.classList.add('closed');-->
-    <!--                });-->
-    <!--            });-->
-    <!--        })-->
-
-    <!--        inputField.addEventListener('focus', () => {-->
-    <!--            inputField.placeholder = 'Type to filter';-->
-    <!--            dropdown.classList.add('open');-->
-    <!--            dropdownArray.forEach(dropdown => {-->
-    <!--                dropdown.classList.remove('closed');-->
-    <!--            });-->
-    <!--        });-->
-
-    <!--        inputField.addEventListener('blur', () => {-->
-    <!--            inputField.placeholder = 'Select state';-->
-    <!--            dropdown.classList.remove('open');-->
-    <!--        });-->
-
-    <!--        document.addEventListener('click', (evt) => {-->
-    <!--            const isDropdown = dropdown.contains(evt.target);-->
-    <!--            const isInput = inputField.contains(evt.target);-->
-    <!--            if (!isDropdown && !isInput) {-->
-    <!--                dropdown.classList.remove('open');-->
-    <!--            }-->
-    <!--        });-->
-    <!--    </script>-->
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

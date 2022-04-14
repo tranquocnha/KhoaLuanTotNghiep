@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-public class SearchHome {
+public class SearchHomeController {
     private final UserRepository userRepo;
     private final ProductRepository productRepository;
     private final ColorServiceImpl colorService;
     private final CategoryRepository categoryRepository;
 
     @Autowired
-    public SearchHome(UserRepository userRepo, ProductRepository productRepository, ColorServiceImpl colorService, CategoryRepository categoryRepository) {
+    public SearchHomeController(UserRepository userRepo, ProductRepository productRepository, ColorServiceImpl colorService, CategoryRepository categoryRepository) {
         this.userRepo = userRepo;
         this.productRepository = productRepository;
         this.colorService = colorService;
@@ -71,31 +71,24 @@ public class SearchHome {
 //
 //    }
     @GetMapping("/searchProduct")
-    public String searchProductAll(Model model) {
-        int page =0;
+    public String searchProductAll(@RequestParam(value = "nameProduct",required = false) String nameProduct,@RequestParam(name="page",defaultValue = "0") int page,Model model) {
+
         Pageable pageable = PageRequest.of(page,20);
-//        if (nameProduct.isEmpty()) {
-//            model.addAttribute("product", colorService.findProduct("Đã duyệt", id));
-//        } else {
-//            model.addAttribute("product", colorService.findProduct("Đã duyệt", id, nameProduct));
-//        }
+        if (nameProduct.isEmpty()) {
+            model.addAttribute("listProduct", productRepository.findByStatus("Đã duyệt",pageable));
+        } else {
+            model.addAttribute("listProduct", productRepository.findByStatusAndProductNameContains("Đã duyệt",nameProduct,pageable));
+        }
         String idCategory = null;
-        model.addAttribute("listProduct", productRepository.findByStatus("Đã duyệt"));
         model.addAttribute("drowdownCategory", categoryRepository.findAll());
         model.addAttribute("category", categoryRepository.findTop());
         model.addAttribute("idCategory", idCategory);
-
+        model.addAttribute("page",page);
         return "/nha/Search";
-
     }
 
-    /*
-        search nameProdcut and idCategory
-     */
     @GetMapping("/searchProduct/{idCategory}")
     public String searchAndNameProduct(@PathVariable(name = "idCategory") int id, @RequestParam("nameProduct") String nameProduct, Model model) {
-        int page =0;
-        Pageable pageable = PageRequest.of(page,20);
         if (nameProduct.isEmpty()) {
             model.addAttribute("product", colorService.findProduct("Đã duyệt", id));
         } else {
@@ -115,6 +108,7 @@ public class SearchHome {
             }
         }
         String idCategory = String.valueOf(id);
+        model.addAttribute("nameProduct",nameProduct);
         model.addAttribute("searchProduct", colorService.findProduct("Đã duyệt", id));
         model.addAttribute("drowdownCategory", categoryRepository.findAll());
         model.addAttribute("category", categoryRepository.findTop());
@@ -123,4 +117,5 @@ public class SearchHome {
         return "/nha/Search";
 
     }
+
 }

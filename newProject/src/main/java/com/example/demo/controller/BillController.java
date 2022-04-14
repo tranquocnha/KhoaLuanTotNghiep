@@ -71,11 +71,18 @@ public class BillController {
         }
         return null;
     }
+    @GetMapping("/home")
+    public String home(Model model){
+        List<Category> categoryList;
+        categoryList = categoryService.findAll();
+        model.addAttribute("category", categoryList);
+        return "/nha/HomePage";
+    }
     @RequestMapping("/")
     public String index(Model model) {
         List<Category> categoryList;
         categoryList = categoryService.findAll();
-        model.addAttribute("category", categoryList);
+
         String[] nameCategory = new String[100];
         int i=0;
         for (Category category: categoryList) {
@@ -90,6 +97,7 @@ public class BillController {
             model.addAttribute(String.valueOf(toString), colorService.findProduct("Đã duyệt", category.getIdCategory()));
         }
         model.addAttribute("nameCategory",nameCategory);
+        model.addAttribute("category", categoryList);
 //        model.addAttribute("MensFashion", colorService.findProduct("Đã duyệt", 1));
 //        model.addAttribute("WomanFashion", colorService.findProduct("Đã duyệt", 2));
 //        model.addAttribute("Accessory", colorService.findProduct("Đã duyệt", 3));
@@ -143,7 +151,7 @@ public class BillController {
         return "Vinh/ProductDetail";
     }
 
-    @RequestMapping("afterLogin/product-detail/{id}")
+    @RequestMapping("/afterLogin/productDetail/{id}")
     public String afterLoginProductDetailBill(@PathVariable int id, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
         Product product = productService.findById(id);
         //Truyền idproduct để hiện color
