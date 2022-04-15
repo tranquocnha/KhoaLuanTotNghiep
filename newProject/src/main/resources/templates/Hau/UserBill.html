@@ -17,11 +17,11 @@
     <link rel="stylesheet" href="/nha/css/Demo.css">
     <link rel="stylesheet" href="/Vinh/css/Footer.css">
     <link rel="stylesheet" href="/Vinh/css/Header.css">
-    <link rel="stylesheet" href="../../static/nha/css/category/create.css">
+    <link rel="stylesheet" href="/nha/css/category/create.css">
 </head>
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
-<div class="main ">
+<div class="main " style="display: flex">
     <div class="main__left " th:fragment="main__left" style="margin: 50px 0px 0px">
         <div class="main__left-title">
             <h2>Quản lý trang</h2>
@@ -68,6 +68,7 @@
 
                     <th class="table__col">Trạng thái</th>
                     <th class="table__col">Tổng tiền</th>
+                    <th class="table__col">Địa Chỉ</th>
                 </tr>
                 <tr class="mt-2" th:each="billDetail : ${bills}" >
                     <td class="table__data" th:text="${billDetail.idBill}"></td>
@@ -75,6 +76,8 @@
 
                     <td class="table__data" th:text="${billDetail.status}"></td>
                     <td class="table__data" th:text="${billDetail.totalCost}"></td>
+                    <td class="table__data"
+                        th:text="${billDetail.address}+ '/' +${billDetail.ward.wardName}+ '/' +${billDetail.ward.district.districtName}+ '/' +${billDetail.ward.district.province.provinceName}   "></td>
                 </tr>
                 </thead>
             </table>

@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.config.MyConstants;
 import com.example.demo.model.*;
 
+import com.example.demo.model.DTO.AddressDTO;
 import com.example.demo.repository.UserRepository.UserRepository;
+import com.example.demo.repository.addressRepository.WardRepository;
 import com.example.demo.service.colorService.ColorService;
 import com.example.demo.service.payPalService.PayPalPaymentIntent;
 import com.example.demo.service.payPalService.PayPalPaymentMethod;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,19 +53,22 @@ public class CartController {
     public JavaMailSender emailSender;
 
     @Autowired
-    UserRepository userRepo;
+    private UserRepository userRepo;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    BillService billService;
+    private BillService billService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    ColorService colorService;
+    private ColorService colorService;
+
+    @Autowired
+    private WardRepository wardRepository;
 //    @Autowired
 //    AuctionUserService auctionUserService;
 
@@ -222,9 +228,10 @@ public class CartController {
 //        return "Vinh/Pay";
 //    }
 
-    @GetMapping("/bill/pay")
-    public String thanhToan(@SessionAttribute("carts") HashMap<Integer, Cart> cartMap, @ModelAttribute Bill bill,AccUser accUser, Model model) {
+    @PostMapping("/bill/pay")
+    public String thanhToan(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, @ModelAttribute Bill bill, Model model) {
         Double inputTotal = sumTotalMoney;
+
         List<String> nameProduct = new ArrayList<>();
         for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
             Cart value = entry.getValue();
@@ -238,6 +245,7 @@ public class CartController {
         bill.setStatus("Đang giao");
         bill.setUser(user);
         bill.setTotalCost(totalMoney);
+        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).get());
         billService.save(bill);
         ProductBill productBill = new ProductBill();
         for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
@@ -247,13 +255,14 @@ public class CartController {
             productBill.setProduct(value.getProduct());
             billService.saveDetail(productBill);
         }
-        userService.save(accUser);
+        HashMap<Integer, Cart> cartMapNew = new HashMap<Integer, Cart>(cartMap);
         model.addAttribute("inputTotal",inputTotal);
-        model.addAttribute("carts",cartMap);
+        model.addAttribute("carts",cartMapNew);
         model.addAttribute("orderDetail", orderDetail);
         model.addAttribute("productListBillTemp", productListBillTemp);
         model.addAttribute("orderDetail", productBill);
         model.addAttribute("productListBillTemp", productListBill);
+        cartMap.clear();
         return "Vinh/ReceiptPage";
     }
 //
@@ -274,6 +283,7 @@ public class CartController {
         bill.setStatus("Đang giao");
         bill.setUser(user);
         bill.setTotalCost(totalMoney);
+        bill.setQuantity(totalQuantity);
         billService.save(bill);
         ProductBill productBill = new ProductBill();
         for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
@@ -345,12 +355,13 @@ public class CartController {
         } catch (PayPalRESTException e) {
             log.error(e.getMessage());
         }
+        cartMap.clear();
         sumTotalMoney = 0;
         return "redirect:/payPal";
     }
-    @ExceptionHandler(Exception.class)
-    public String showErrorPage(Exception e, Model model){
-        model.addAttribute("message", e.getMessage());
-        return "/Vinh/ErrorPage";
-    }
+//    @ExceptionHandler(Exception.class)
+//    public String showErrorPage(Exception e, Model model){
+//        model.addAttribute("message", e.getMessage());
+//        return "/Vinh/ErrorPage";
+//    }
 }

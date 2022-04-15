@@ -25,8 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder;
+        return new BCryptPasswordEncoder();
     }
 
     @Autowired
@@ -45,10 +44,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/product/**").access("hasAnyRole('ROLE_SALER')");
 
         // admin vào quản trị admin và danh mục
-        http.authorizeRequests().antMatchers("/admin/**", "/danhmuc/**","/nhas/**").access("hasAnyRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/admin/**",
+                "/danhmuc/**",
+                "/nhas/**"
+        ).access("hasAnyRole('ROLE_ADMIN')");
+
 
         // shop  admin và user đều đc đấu giá
-        http.authorizeRequests().antMatchers("/daugia/**","/afterLogin/**", "/user/**,","/chatSocket","/chats").access("hasAnyRole('ROLE_CUSTOMER','ROLE_ADMIN','ROLE_SALER')");
+        http.authorizeRequests().antMatchers("/daugia/**",
+                "/afterLogin/**",
+                "/user/**,",
+                "/chatSocket/**",
+                "/chats/**",
+                "/listOfInvoices/**",
+                "/editPass/**",
+                "/ProfileDetail/**"
+        ).access("hasAnyRole('ROLE_CUSTOMER','ROLE_ADMIN','ROLE_SALER')");
 
 //
         // Các trang không yêu cầu login

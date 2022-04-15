@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,6 +15,7 @@ public class Province {
     private String provinceName;
 
     @OneToMany(mappedBy = "province")
+    @JsonIgnore
     private Set<District> districts;
 
     public Province() {

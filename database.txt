@@ -2085,8 +2085,7 @@ _ Dolby audio: âm thanh đắm chìm của Dolby audio đem lại trải nghi�
 •	Xuất xứ: Thái Lan Chính Hãng.
 •	Sử dụng: sân đá banh Futsal , cầu lông , bóng bàn , tập thể dục . Size: 39 đến 44
 •	Bảo hành: một đổi một lỗi do nhà sản xuất trong vòng 7 ngày . Bảo hành keo chỉ trong vòng 6 tháng .
-', 'panthai1.png', 'panthai2.png', 'panthai3.png', 'panthai', 'Đã duyệt', 'salervuong', 16)
-;
+', 'panthai1.png', 'panthai2.png', 'panthai3.png', 'panthai', 'Đã duyệt', 'salervuong', 16);
 
 insert into color
 values (1, 'Blue', 5, 20, 'Còn hàng', 'salernha', 1),
@@ -2413,16 +2412,16 @@ values (1, 1),
        (7, 1);
 
 insert into `bill`
-values (1,'129 nguyen van linh', '18-09-2022', 'Đã giao', 50, 1,1),
-       (2,'129 nguyen van linh', '18-09-2022', 'Đang giao', 100, 2,4),
-       (3,'129 nguyen van linh', '18-09-2022', 'Đang giao', 120, 3,4),
-       (4,'129 nguyen van linh', '18-09-2022', 'Đang giao', 155, 4,4),
-       (5,'129 nguyen van linh', '18-09-2022', 'Đang giao', 121, 5,6),
-       (6,'129 nguyen van linh', '18-09-2022', 'Đã giao', 131, 1,8),
-       (7,'129 nguyen van linh', '18-09-2022', 'Đang giao', 152, 2,8),
-       (8,'129 nguyen van linh', '18-09-2022', 'Đang giao', 111, 3,8),
-       (9,'129 nguyen van linh', '18-09-2022', 'Đang giao', 60, 4,8),
-       (10,'129 nguyen van linh', '18-09-2022', 'Đang giao', 1000, 5,8);
+values (1,'129 nguyen van linh', '18-09-2022', 'Đã giao', 50, 1,1,2),
+       (2,'129 nguyen van linh', '18-09-2022', 'Đang giao', 100, 2,4,2),
+       (3,'129 nguyen van linh', '18-09-2022', 'Đang giao', 120, 3,4,1),
+       (4,'129 nguyen van linh', '18-09-2022', 'Đang giao', 155, 4,4,1),
+       (5,'129 nguyen van linh', '18-09-2022', 'Đang giao', 121, 5,6,1),
+       (6,'129 nguyen van linh', '18-09-2022', 'Đã giao', 131, 1,8,2),
+       (7,'129 nguyen van linh', '18-09-2022', 'Đang giao', 152, 2,8,5),
+       (8,'129 nguyen van linh', '18-09-2022', 'Đang giao', 111, 3,8,4),
+       (9,'129 nguyen van linh', '18-09-2022', 'Đang giao', 60, 4,8,3),
+       (10,'129 nguyen van linh', '18-09-2022', 'Đang giao', 1000, 5,8,2);
 insert into `product_bill`
 values (1, 1, 1),
        (2, 2, 1),
@@ -2434,5 +2433,4 @@ values (1, 1, 1),
        (8, 7, 1),
        (9, 9, 4),
        (10, 10, 1),
-       (11, 1, 2)
-;
+       (11, 1, 2);

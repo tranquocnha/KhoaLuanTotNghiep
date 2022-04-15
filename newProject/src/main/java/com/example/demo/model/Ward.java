@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ public class Ward {
     private District district;
 
     @OneToMany(mappedBy = "ward")
+    @JsonIgnore
     private Set<Bill> bills;
 
     public Ward() {

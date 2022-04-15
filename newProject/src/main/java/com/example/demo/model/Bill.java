@@ -11,6 +11,7 @@ public class Bill {
     private int idBill;
     private String current;
     private double totalCost;
+    private int quantity;
     private String status;
     private String address;
 
@@ -39,6 +40,14 @@ public class Bill {
 
     public String getAddress() {
         return address;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public void setAddress(String address) {

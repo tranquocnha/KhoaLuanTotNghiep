@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.*;
+import com.example.demo.model.DTO.AddressDTO;
 import com.example.demo.repository.UserRepository.UserRepository;
 import com.example.demo.service.payPalService.PayPalService;
 import com.example.demo.service.productBillService.BillService;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 
 
@@ -70,14 +70,14 @@ public class PaymentController {
         return userRepo.findByAccount_IdAccount(auth.getName());
     }
     @GetMapping("/bill/getData")
-    public String getHoaDon(@RequestParam String total, @RequestParam String quantity,
-                            Model model,
+    public String getHoaDon(@RequestParam String total, @RequestParam String quantity, Model model,
                             @SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
         totalMoney = Integer.parseInt(total);
         totalQuantity = Integer.parseInt(quantity);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("total", total);
         model.addAttribute("quantity", quantity);
+        model.addAttribute("addressDTO", new AddressDTO());
         model.addAttribute("accUser",userService.findByAccount(auth.getName()));
         model.addAttribute("carts",cartMap);
         return "Vinh/Pay";
