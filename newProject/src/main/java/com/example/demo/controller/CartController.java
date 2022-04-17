@@ -6,6 +6,8 @@ import com.example.demo.model.*;
 import com.example.demo.model.DTO.AddressDTO;
 import com.example.demo.repository.UserRepository.UserRepository;
 import com.example.demo.repository.addressRepository.WardRepository;
+import com.example.demo.repository.tempProductRepo.TempBillProductRepository;
+import com.example.demo.repository.tempProductRepo.TempProductRepository;
 import com.example.demo.service.colorService.ColorService;
 import com.example.demo.service.payPalService.PayPalPaymentIntent;
 import com.example.demo.service.payPalService.PayPalPaymentMethod;
@@ -69,6 +71,12 @@ public class CartController {
 
     @Autowired
     private WardRepository wardRepository;
+
+    @Autowired
+    private TempProductRepository tempProductRepository;
+
+    @Autowired
+    private TempBillProductRepository tempBillProductRepository;
 //    @Autowired
 //    AuctionUserService auctionUserService;
 
@@ -229,7 +237,8 @@ public class CartController {
 //    }
 
     @PostMapping("/bill/pay")
-    public String thanhToan(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, @ModelAttribute Bill bill, Model model) {
+    public String thanhToan(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO, @SessionAttribute("carts") HashMap<Integer,
+            Cart> cartMap, @ModelAttribute Bill bill, Model model) {
         Double inputTotal = sumTotalMoney;
 
         List<String> nameProduct = new ArrayList<>();
@@ -248,12 +257,31 @@ public class CartController {
         bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).get());
         billService.save(bill);
         ProductBill productBill = new ProductBill();
+        TempBillProduct tempBillProduct = new TempBillProduct();
         for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
             Cart value = entry.getValue();
             productListBill.put(value.getMaxPrice(), value.getProduct());
             productBill.setBill(bill);
             productBill.setProduct(value.getProduct());
             billService.saveDetail(productBill);
+            tempBillProduct.setBills(bill);
+            TempProduct tempProduct = new TempProduct(
+                    value.getProduct().getAccounts().getIdAccount(),
+                    value.getProduct().getCategory().getCategoryName(),
+                    value.getColor().getColor(),
+                    value.getQuantity(),
+                    value.getColor().getPrice(),
+                    value.getProduct().getProductName(),
+                    value.getProduct().getImage1(),
+                    value.getProduct().getImage2(),
+                    value.getProduct().getImage3(),
+                    value.getProduct().getDescription(),
+                    value.getProduct().getDatePost()
+                    );
+            tempProductRepository.save(tempProduct);
+            tempBillProduct.setTempProduct(tempProduct);
+            tempBillProductRepository.save(tempBillProduct);
+
         }
         HashMap<Integer, Cart> cartMapNew = new HashMap<Integer, Cart>(cartMap);
         model.addAttribute("inputTotal",inputTotal);
@@ -272,9 +300,9 @@ public class CartController {
 //        return "paypal/index";
 //    }
 //
-    @GetMapping("/pay")
-    public String pay(HttpServletRequest request, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap,
-                      @ModelAttribute Bill bill, Model model) {
+    @PostMapping("/pay")
+    public String pay(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO,HttpServletRequest request,
+                      @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, @ModelAttribute Bill bill) {
         HashMap<Double, Product> productListBill = new HashMap<>();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AccUser user = userService.findByAccount(auth.getName());
@@ -286,12 +314,29 @@ public class CartController {
         bill.setQuantity(totalQuantity);
         billService.save(bill);
         ProductBill productBill = new ProductBill();
+        TempBillProduct tempBillProduct = new TempBillProduct();
         for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
             Cart value = entry.getValue();
             productListBill.put(value.getMaxPrice(), value.getProduct());
             productBill.setBill(bill);
             productBill.setProduct(value.getProduct());
             billService.saveDetail(productBill);
+            tempBillProduct.setBills(bill);
+            TempProduct tempProduct = new TempProduct(
+                    value.getProduct().getAccounts().getIdAccount(),
+                    value.getProduct().getCategory().getCategoryName(),
+                    value.getColor().getColor(),
+                    value.getQuantity(),
+                    value.getColor().getPrice(),
+                    value.getProduct().getProductName(),
+                    value.getProduct().getImage1(),
+                    value.getProduct().getImage2(),
+                    value.getProduct().getImage3(),
+                    value.getProduct().getDescription(),
+                    value.getProduct().getDatePost()
+            );
+            tempProductRepository.save(tempProduct);
+            tempBillProduct.setTempProduct(tempProduct);
         }
         orderDetail = productBill;
         productListBillTemp = productListBill;

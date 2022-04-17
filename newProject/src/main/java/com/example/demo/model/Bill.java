@@ -22,6 +22,9 @@ public class Bill {
     @OneToMany(mappedBy = "bill")
     private Set<ProductBill> productBills;
 
+    @OneToMany(mappedBy = "bills")
+    private Set<TempBillProduct> tempBillProducts;
+
     @ManyToOne(targetEntity = Ward.class)
     @JoinColumn(name ="ward_id",referencedColumnName = "wardId")
     private Ward ward;
@@ -36,6 +39,14 @@ public class Bill {
         this.status = status;
         this.user = user;
         this.productBills = productBills;
+    }
+
+    public Set<TempBillProduct> getTempBillProducts() {
+        return tempBillProducts;
+    }
+
+    public void setTempBillProducts(Set<TempBillProduct> tempBillProducts) {
+        this.tempBillProducts = tempBillProducts;
     }
 
     public String getAddress() {
