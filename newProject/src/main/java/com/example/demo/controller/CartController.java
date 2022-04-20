@@ -140,7 +140,7 @@ public class CartController {
         Color color = colorService.findById(idColor);
         System.out.println("color"+color.getColor());
         if (color != null) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 20; i++) {
                 if (arrayQuantity[i] == idColor) {
                     color.setQuantity(color.getQuantity() - temp[i]);
                     if (color.getQuantity() < 1) {
@@ -172,7 +172,7 @@ public class CartController {
     }
 
     private void extracted(@PathVariable int idColor, int[] arrayQuantity, int[] temp) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             if (arrayQuantity[i] == 0) {
                 arrayQuantity[i] = idColor;
                 temp[i] = totalQuantity;
@@ -188,7 +188,7 @@ public class CartController {
         extracted(item.getColor().getIdColor(), arrayQuantity, temp);
         Color color = colorService.findById(item.getColor().getIdColor());
         if (color != null) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 20; i++) {
                 if (arrayQuantity[i] == item.getColor().getIdColor()) {
                     System.out.println("xoa " + temp[i]);
                     color.setQuantity(color.getQuantity() + temp[i]);
@@ -237,8 +237,8 @@ public class CartController {
 //    }
 
     @PostMapping("/bill/pay")
-    public String thanhToan(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO, @SessionAttribute("carts") HashMap<Integer,
-            Cart> cartMap, @ModelAttribute Bill bill, Model model) {
+    public String thanhToan(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO,
+                            @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, @ModelAttribute Bill bill, Model model) {
         Double inputTotal = sumTotalMoney;
 
         List<String> nameProduct = new ArrayList<>();
@@ -254,16 +254,19 @@ public class CartController {
         bill.setStatus("Đang giao");
         bill.setUser(user);
         bill.setTotalCost(totalMoney);
+        bill.setQuantity(totalQuantity);
         bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).get());
         billService.save(bill);
-        ProductBill productBill = new ProductBill();
-        TempBillProduct tempBillProduct = new TempBillProduct();
+        ProductBill productBill1 = new ProductBill();
         for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
             Cart value = entry.getValue();
             productListBill.put(value.getMaxPrice(), value.getProduct());
+            ProductBill productBill = new ProductBill();
             productBill.setBill(bill);
             productBill.setProduct(value.getProduct());
+            productBill1 = productBill;
             billService.saveDetail(productBill);
+            TempBillProduct tempBillProduct = new TempBillProduct();
             tempBillProduct.setBills(bill);
             TempProduct tempProduct = new TempProduct(
                     value.getProduct().getAccounts().getIdAccount(),
@@ -288,7 +291,7 @@ public class CartController {
         model.addAttribute("carts",cartMapNew);
         model.addAttribute("orderDetail", orderDetail);
         model.addAttribute("productListBillTemp", productListBillTemp);
-        model.addAttribute("orderDetail", productBill);
+        model.addAttribute("orderDetail", productBill1);
         model.addAttribute("productListBillTemp", productListBill);
         cartMap.clear();
         return "Vinh/ReceiptPage";
@@ -312,15 +315,18 @@ public class CartController {
         bill.setUser(user);
         bill.setTotalCost(totalMoney);
         bill.setQuantity(totalQuantity);
+        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).get());
         billService.save(bill);
-        ProductBill productBill = new ProductBill();
-        TempBillProduct tempBillProduct = new TempBillProduct();
+        ProductBill productBill1 = new ProductBill();
         for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
             Cart value = entry.getValue();
             productListBill.put(value.getMaxPrice(), value.getProduct());
+            ProductBill productBill = new ProductBill();
             productBill.setBill(bill);
             productBill.setProduct(value.getProduct());
+            productBill1 = productBill;
             billService.saveDetail(productBill);
+            TempBillProduct tempBillProduct = new TempBillProduct();
             tempBillProduct.setBills(bill);
             TempProduct tempProduct = new TempProduct(
                     value.getProduct().getAccounts().getIdAccount(),
@@ -337,8 +343,9 @@ public class CartController {
             );
             tempProductRepository.save(tempProduct);
             tempBillProduct.setTempProduct(tempProduct);
+            tempBillProductRepository.save(tempBillProduct);
         }
-        orderDetail = productBill;
+        orderDetail = productBill1;
         productListBillTemp = productListBill;
         String cancelUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
         String successUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;

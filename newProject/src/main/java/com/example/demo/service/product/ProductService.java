@@ -29,7 +29,7 @@ public interface ProductService {
 
     List<Product> findByStatus(String status);
 
-    List<Product> findByName(String productName);
+    Page<Product> findByName(String productName,Pageable pageable);
 
     List<Product> findByCategoryAndNameProduct(String status, Integer idCategory, String nameProduct);
 

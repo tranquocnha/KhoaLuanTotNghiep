@@ -4,6 +4,7 @@ import com.example.demo.model.Color;
 import com.example.demo.repository.colorRepository.ColorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -84,6 +85,17 @@ public class ColorServiceImpl implements ColorService {
     public List<Color> findProductOderByProductDesc(String status, Integer idCategory) {
         return colorRepository.findByProduct_StatusAndProduct_Category_IdCategoryOrderByProductDesc(status,idCategory);
     }
+
+    @Override
+    public List<Color> findProductOderByLIMIT5(String status) {
+        return colorRepository.findByProduct_StatusAscLIMIT5(status,PageRequest.of(0,5));
+    }
+
+    @Override
+    public List<Color> findProductOderByDescLIMIT5(String status) {
+        return colorRepository.findByProduct_StatusDescLIMIT5(status,PageRequest.of(0,5));
+    }
+
     // Page
     @Override
     public Page<Color> findProduct(String status, Integer idCategory, Pageable pageable) {

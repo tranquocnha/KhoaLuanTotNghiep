@@ -18,6 +18,7 @@ public interface ColorRepository extends JpaRepository<Color, Integer> {
     List<Color> findAllByProduct_StatusAndProduct_Accounts_IdAccount(String status , String idAccount);
 
     //list
+
     @Query("select c , min(c.price) as min1 " +
             "from Color c inner join Product p on p.idProduct = c.product.idProduct " +
             "where p.status = ?1 and p.category.idCategory = ?2 " +
@@ -56,6 +57,20 @@ public interface ColorRepository extends JpaRepository<Color, Integer> {
     List<Color> findByProduct_StatusAndProduct_Category_IdCategoryOrderByProductDesc(String status , Integer category);
 
     List<Color> findByProduct_Status(String status);
+
+
+    @Query("select c , max(c.price) as min1 " +
+            "from Color c inner join Product p on p.idProduct = c.product.idProduct " +
+            "where p.status = ?1 " +
+            "group by c.product.idProduct " +
+            "order by min(c.price) asc")
+    List<Color> findByProduct_StatusAscLIMIT5(String status,Pageable pageable);
+    @Query("select c , min(c.price) as min1 " +
+            "from Color c inner join Product p on p.idProduct = c.product.idProduct " +
+            "where p.status = ?1 " +
+            "group by c.product.idProduct " +
+            "order by min(c.price) desc ")
+    List<Color> findByProduct_StatusDescLIMIT5(String status,Pageable pageable);
 
     //page
     @Query("select c , min(c.price) as price " +

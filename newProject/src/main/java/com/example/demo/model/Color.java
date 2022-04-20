@@ -92,4 +92,16 @@ public class Color {
         this.product = product;
     }
 
+    @Override
+    public String toString() {
+        return "Color{" +
+                "idColor=" + idColor +
+                ", color='" + color + '\'' +
+                ", quantity=" + quantity +
+                ", status='" + status + '\'' +
+                ", price=" + price +
+                ", accounts=" + accounts.getIdAccount() +
+                ", product=" + product.getProductName() +
+                '}';
+    }
 }

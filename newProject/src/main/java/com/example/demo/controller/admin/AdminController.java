@@ -8,6 +8,7 @@ import com.example.demo.service.categoryService.CategoryService;
 import com.example.demo.service.colorService.ColorService;
 import com.example.demo.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
@@ -153,17 +154,16 @@ public class AdminController {
     }
 
     @GetMapping(value = "/search")
-    public String search(@RequestParam("nameProduct") String nameProduct, Model model, Principal principal) {
-        List<Product> products = productService.findByName(nameProduct);
-        if (products.size() == 0) {
-            model.addAttribute("product", products);
-            model.addAttribute("mgs", "khomg tim thay sp");
-            return "/nha/admin/ListProduct";
+    public String search(@RequestParam(name = "page", defaultValue = "0") int page,@RequestParam("nameProduct") String nameProduct, Model model, Principal principal
+            ,RedirectAttributes redirectAttributes) {
+        Sort sort = Sort.by("productName").descending();
+        Page<Product> products = productService.findByName(nameProduct,PageRequest.of(page, 10, sort));
+        if (products == null) {
+            redirectAttributes.addFlashAttribute("mgs", "khomg tim thay sp");
+            return "redirect:/admin/list";
         } else {
             AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
             model.addAttribute("userNames", user);
-            Sort sort = Sort.by("nameProduct").descending();
-//            model.addAttribute("sanphams1", sanPhamService.findByNameadmin(tenSanPham);
             model.addAttribute("product", products);
             return "/nha/admin/ListProduct";
         }

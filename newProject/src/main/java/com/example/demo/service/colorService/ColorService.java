@@ -30,6 +30,9 @@ public interface ColorService {
     List<Color> findProductOderByDesc(String status , Integer idCategory);
     List<Color> findProductOderByAsc(String status , Integer idCategory);
     List<Color> findProductOderByProductDesc(String status, Integer idCategory);
+
+    List<Color> findProductOderByLIMIT5(String status);
+    List<Color> findProductOderByDescLIMIT5(String status);
     //page
     Page<Color> findProduct(String status , Integer idCategory,Pageable pageable);
     Page<Color> findProduct(String status , Integer idCategory,String nameProduct,Pageable pageable);

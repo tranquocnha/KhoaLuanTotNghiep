@@ -72,10 +72,16 @@ public class BillController {
         return null;
     }
     @GetMapping("/home")
-    public String home(Model model){
+    public String home(Model model,@SessionAttribute("carts") HashMap<Integer, Cart> cartMap){
+;
         List<Category> categoryList;
         categoryList = categoryService.findAll();
+
+
         model.addAttribute("category", categoryList);
+        model.addAttribute("card",cartMap.size());
+        model.addAttribute("newProduct",colorService.findProductOderByLIMIT5("Đã duyệt"));
+        model.addAttribute("sellerProduct",colorService.findProductOderByDescLIMIT5("Đã duyệt"));
         return "/nha/HomePage";
     }
     @RequestMapping("/")
@@ -152,17 +158,7 @@ public class BillController {
     }
 
     @RequestMapping("/afterLogin/productDetail/{id}")
-    public String afterLoginProductDetailBill(@PathVariable int id, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
-        Product product = productService.findById(id);
-        //Truyền idproduct để hiện color
-        List<Color> colorList = colorService.findByIdProduct(id);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.getName().equals("anonymousUser")) {
-            model.addAttribute("userName", auth.getName());
-        }
-        model.addAttribute("color", colorList);
-        model.addAttribute("product", product);
-        model.addAttribute("cartMap", cartMap);
+    public String afterLoginProductDetailBill(@PathVariable int id) {
         return "redirect:/product-detail/"+id;
     }
 

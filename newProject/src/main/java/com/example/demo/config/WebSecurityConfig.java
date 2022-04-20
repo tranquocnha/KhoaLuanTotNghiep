@@ -52,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // shop  admin và user đều đc đấu giá
         http.authorizeRequests().antMatchers("/daugia/**",
+                "/showCart/**",
                 "/afterLogin/**",
                 "/user/**,",
                 "/chatSocket/**",

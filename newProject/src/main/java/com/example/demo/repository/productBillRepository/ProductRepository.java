@@ -24,7 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     List<Product> findByStatus(String status);
 
-    List<Product> findByProductNameContains(String nameProduct);
+    Page<Product> findByProductNameContains(String nameProduct,Pageable pageable);
 
     List<Product> findByStatusAndProductNameContains(String status,String nameProduct);
 
@@ -74,8 +74,43 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByCategory_IdCategory(int idCategory);
 
     //page
+    @Query("select p " +
+            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
+            "where p.status = 'Đã duyệt' " +
+            "and p.productName like %?1% " +
+            "or c.color like %?1% " +
+            "or p.datePost like %?1% " +
+            "or p.category.categoryName like %?1% " +
+            "group by p.idProduct")
+    Page<Product> findAllSearch(String nameProduct,Pageable pageable);
 
     Page<Product> findByStatus(String status,Pageable pageable);
+
+    @Query("select p " +
+            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
+            "where p.status = 'Đã duyệt' " +
+            "group by p.idProduct order by c.price asc ")
+    Page<Product> findByStatusOrderByProductNameColorAsc(Pageable pageable);
+
+
+    @Query("select p " +
+            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
+            "where p.status = 'Đã duyệt' " +
+            "group by p.idProduct order by c.price desc ")
+    Page<Product> findByStatusOrderByProductNameColorDesc(Pageable pageable);
+    @Query("select p " +
+            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
+            "where p.status = 'Đã duyệt' " +
+            "group by p.idProduct order by p.idProduct desc ")
+    Page<Product> findByStatusOrderByProductNameIdProductDesc(Pageable pageable);
+
+    @Query("select p " +
+            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
+            "where p.status = 'Đã duyệt' " +
+            "and c.price >= ?1 and c.price <= ?2 " +
+            "group by p.idProduct")
+    Page<Product> findByStatusAndSearchPrice(Double min ,Double max , Pageable pageable);
+
 
     Page<Product> findByStatusAndProductNameContains(String status,String nameProduct,Pageable pageable);
 }
