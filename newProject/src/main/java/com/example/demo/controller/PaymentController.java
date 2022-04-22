@@ -7,26 +7,20 @@ import com.example.demo.repository.UserRepository.UserRepository;
 import com.example.demo.repository.addressRepository.WardRepository;
 import com.example.demo.repository.productBillRepository.ProductRepository;
 import com.example.demo.repository.tempAuctionRepo.TempAuctionRepository;
-import com.example.demo.service.payPalService.PayPalService;
 import com.example.demo.service.productBillService.BillService;
 import com.example.demo.service.userService.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -85,7 +79,7 @@ public class PaymentController {
 
         model.addAttribute("addressDTO", new AddressDTO());
         model.addAttribute("carts",cartMap);
-        return "Vinh/Pay";
+        return "/nha/Pay";
     }
 
     private void billGetData(@RequestParam String total
@@ -126,7 +120,7 @@ public class PaymentController {
         model.addAttribute("addressAuctionDTO",addressAuctionDTO);
         model.addAttribute("product",product);
         model.addAttribute("carts",null);
-        return "/Vinh/Pay";
+        return "/nha/Pay";
     }
 
     @PostMapping("/bill/pay/auction")
@@ -151,7 +145,7 @@ public class PaymentController {
         model.addAttribute("inputTotal",addressDTO.getTotalAuction());
         model.addAttribute("product",tempAuction);
         model.addAttribute("user",user);
-        return "Vinh/ReceiptPage";
+        return "/nha/ReceiptPage";
     }
 
     @GetMapping("/bill/history/{idProduct}")

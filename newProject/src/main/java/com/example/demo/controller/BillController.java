@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.*;
 import com.example.demo.repository.UserRepository.UserRepository;
 import com.example.demo.service.categoryService.CategoryService;
-import com.example.demo.service.colorService.ColorService;
 import com.example.demo.service.colorService.ColorServiceImpl;
 import com.example.demo.service.commentService.CommentService;
 import com.example.demo.service.product.ProductService;
@@ -155,7 +154,7 @@ public class BillController {
         model.addAttribute("codeObject", color);
         model.addAttribute("color", colorList);
         model.addAttribute("product", product);
-        return "Vinh/ProductDetail";
+        return "/nha/ProductDetail";
     }
 
     @RequestMapping("/afterLogin/productDetail/{id}")

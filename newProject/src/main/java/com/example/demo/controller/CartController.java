@@ -96,7 +96,7 @@ public class CartController {
 
     @GetMapping("showCart")
     public ModelAndView show(@SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
-        ModelAndView modelAndView = new ModelAndView("Vinh/CartPage");
+        ModelAndView modelAndView = new ModelAndView("nha/CartPage");
         modelAndView.addObject("carts", cartMap);
         modelAndView.addObject("cartSize", cartMap.size());
         return modelAndView;
@@ -233,7 +233,7 @@ public class CartController {
 //            }
 //        }
 //        model.addAttribute("carts", cartMap);
-//        return "Vinh/Pay";
+//        return "nha/Pay";
 //    }
 
     @PostMapping("/bill/pay")
@@ -293,7 +293,7 @@ public class CartController {
         model.addAttribute("orderDetail", productBill1);
         model.addAttribute("productListBillTemp", productListBill);
         cartMap.clear();
-        return "Vinh/ReceiptPage";
+        return "nha/ReceiptPage";
     }
 
 
@@ -403,7 +403,7 @@ public class CartController {
                 model.addAttribute("carts", cartMap);
                 model.addAttribute("orderDetail", orderDetail);
                 model.addAttribute("productListBillTemp", productListBillTemp);
-                return "Vinh/ReceiptPage";
+                return "/nha/ReceiptPage";
             }
         } catch (PayPalRESTException e) {
             log.error(e.getMessage());
@@ -415,6 +415,6 @@ public class CartController {
 //    @ExceptionHandler(Exception.class)
 //    public String showErrorPage(Exception e, Model model){
 //        model.addAttribute("message", e.getMessage());
-//        return "/Vinh/ErrorPage";
+//        return "/nha/ErrorPage";
 //    }
 }
