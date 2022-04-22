@@ -6,6 +6,8 @@ import com.example.demo.model.DTO.CategoryDTO;
 import com.example.demo.repository.UserRepository.UserRepository;
 import com.example.demo.service.categoryService.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -54,8 +56,9 @@ public class CategoryController {
         return null;
     }
     @GetMapping(value = "/category/list")
-    private String viewList(Model model, Principal principal) {
-        model.addAttribute("category", categoryService.findAll());
+    private String viewList(Model model,@RequestParam(name="page",defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page,7);
+        model.addAttribute("category", categoryService.findAll(pageable));
         return "/nha/category/list";
     }
 
@@ -100,24 +103,24 @@ public class CategoryController {
     }
 
     @GetMapping(value = "/category/edit")
-    public String ViewEdit(@RequestParam("id") Integer id, Model model, Principal principal) {
+    public String ViewEdit(@RequestParam("id") Integer id, Model model) {
         model.addAttribute("category", categoryService.findById(id));
         return "/nha/category/edit";
     }
 
     @PostMapping(value = "/category/edit")
-    public String Edit(Category category, Model model, Principal principal) {
+    public String Edit(Category category,RedirectAttributes redirectAttributes) {
         this.categoryService.save(category);
-        model.addAttribute("mgsedit", "Sửa danh mục thành công.");
-        model.addAttribute("category", categoryService.findAll());
-        return "/nha/category/list";
+        redirectAttributes.addFlashAttribute("mgsedit", "Sửa danh mục thành công.");
+
+        return "redirect:/admin/category/list";
     }
 
     @GetMapping(value = "/category/delete/{idCategory}")
-    public String delete(@PathVariable int idCategory, Model model, Principal principal) {
+    public String delete(@PathVariable int idCategory,RedirectAttributes redirectAttributes) {
     
         this.categoryService.delete(idCategory);
-        model.addAttribute("mgsedit", "Xóa danh mục thành công.");
+        redirectAttributes.addFlashAttribute("mgsedit", "Xóa danh mục thành công.");
         return "redirect:/admin/category/list";
     }
 }

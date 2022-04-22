@@ -19,7 +19,7 @@
 </head>
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
-<div class="main">
+<div class="main" style="display: flex">
   <div th:insert="~{/nha/admin/ListProduct::main__left}"></div>
   <div class="main__right">
     <form method="post" action="/admin/edit" th:object="${product}">

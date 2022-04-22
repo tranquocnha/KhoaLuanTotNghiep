@@ -90,6 +90,24 @@
         </tr>
         </tbody>
       </table>
+      <div class="center">
+            <span class="pagination">
+                    <a th:href="@{'/admin/category/list'(page=${category.number - 1})}"
+                       th:if="${category.hasPrevious()}">
+                         <img class="img__arrow" src="/Images/arrrowleft.png" alt=""/>
+                    </a>
+                </span>
+
+        <span class="pagination paging" th:text="${category.number + 1}"></span>
+        <span  class="pagination" th:text="${category.totalPages}"></span>
+
+        <span class="pagination">
+                    <a style="margin-left: 20px;" th:href="@{'/admin/category/list'(page=${category.number + 1})}"
+                       th:if="${category.hasNext()}">
+                        <img class="img_arrow" src="/Images/arrowright.png" alt=""/>
+                    </a>
+            </span>
+      </div>
     </div>
   </div>
 

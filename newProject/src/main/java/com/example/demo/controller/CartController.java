@@ -284,9 +284,8 @@ public class CartController {
             tempProductRepository.save(tempProduct);
             tempBillProduct.setTempProduct(tempProduct);
             tempBillProductRepository.save(tempBillProduct);
-
         }
-        HashMap<Integer, Cart> cartMapNew = new HashMap<Integer, Cart>(cartMap);
+        HashMap<Integer, Cart> cartMapNew = new HashMap<>(cartMap);
         model.addAttribute("inputTotal",inputTotal);
         model.addAttribute("carts",cartMapNew);
         model.addAttribute("orderDetail", orderDetail);
@@ -296,6 +295,8 @@ public class CartController {
         cartMap.clear();
         return "Vinh/ReceiptPage";
     }
+
+
 //
 //
 //    @GetMapping("/payPal")
@@ -315,7 +316,7 @@ public class CartController {
         bill.setUser(user);
         bill.setTotalCost(totalMoney);
         bill.setQuantity(totalQuantity);
-        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).get());
+        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).orElse(null));
         billService.save(bill);
         ProductBill productBill1 = new ProductBill();
         for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {

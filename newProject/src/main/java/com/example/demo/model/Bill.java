@@ -29,6 +29,9 @@ public class Bill {
     @JoinColumn(name ="ward_id",referencedColumnName = "wardId")
     private Ward ward;
 
+    @OneToOne(mappedBy = "bliss")
+    private TempAuction tempAuction;
+
     public Bill() {
     }
 
@@ -39,6 +42,14 @@ public class Bill {
         this.status = status;
         this.user = user;
         this.productBills = productBills;
+    }
+
+    public TempAuction getTempAuction() {
+        return tempAuction;
+    }
+
+    public void setTempAuction(TempAuction tempAuction) {
+        this.tempAuction = tempAuction;
     }
 
     public Set<TempBillProduct> getTempBillProducts() {

@@ -15,6 +15,8 @@ public interface ProductService {
 
     Product findById(int id);
 
+    Product findByIdStatus(String status,int idProduct);
+
     void delete(int id);
 
     List<Product> findProduct(String idAccount);

@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
@@ -15,7 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     // comment - product inner join
     @Query(value = "select p from  Product p inner join Comment cm on cm.product.idProduct=p.idProduct")
     Page<Product> findProductAndComment(Pageable pageable);
-
 
     @Query("select p from  Product p where p.accounts.idAccount= ?1")
     List<Product> findProduct(String idAccount);
@@ -65,7 +66,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("select p " +
             "from  Product p,Auction a " +
-            "where p.status = ?1 and p.category.idCategory = ?2 and p.idProduct=a.product.idProduct and p.idProduct=a.product.idProduct ")
+            "where p.status = ?1 " +
+            "   and p.category.idCategory = ?2 " +
+            "   and p.idProduct=a.product.idProduct " +
+            "   and p.auction.startDate <= current_date and p.auction.endDate >= current_date and p.auction.auctionTime >= current_time ")
     List<Product> findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice(String status, Integer idCategory);
 
     @Query("select p " +
@@ -77,10 +81,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("select p " +
             "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
             "where p.status = 'Đã duyệt' " +
-            "and p.productName like %?1% " +
-            "or c.color like %?1% " +
-            "or p.datePost like %?1% " +
-            "or p.category.categoryName like %?1% " +
+            "   and p.productName like %?1% " +
+            "   or c.color like %?1% " +
+            "   or p.datePost like %?1% " +
+            "   or p.category.categoryName like %?1% " +
             "group by p.idProduct")
     Page<Product> findAllSearch(String nameProduct,Pageable pageable);
 
@@ -113,4 +117,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 
     Page<Product> findByStatusAndProductNameContains(String status,String nameProduct,Pageable pageable);
+
+    Product findByStatusAndIdProduct(String status, int idProduct);
 }

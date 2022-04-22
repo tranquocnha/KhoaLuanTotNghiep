@@ -71,7 +71,7 @@ public class SearchHomeController {
 //
 //    }
     @GetMapping("/searchProduct")
-    public String searchProductAll(@RequestParam(value = "nameProduct",required = false) String nameProduct,@RequestParam(name="page",defaultValue = "0") int page,Model model) {
+    public String searchProductAll(@RequestParam(value = "nameProduct") String nameProduct,@RequestParam(name="page",defaultValue = "0") int page,Model model) {
         Pageable pageable = PageRequest.of(page,20);
         double numberMin =0;
         double numberMax =1;

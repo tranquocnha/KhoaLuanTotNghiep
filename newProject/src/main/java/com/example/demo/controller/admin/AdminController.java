@@ -57,7 +57,7 @@ public class AdminController {
         return null;
     }
     @GetMapping(value = "/list")
-    public String AdminList(@RequestParam(value = "page", defaultValue = "1") int page, Model model, Principal principal) {
+    public String AdminList(@RequestParam(value = "page", defaultValue = "0") int page, Model model, Principal principal) {
         AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
         model.addAttribute("userNames", user);
         //tim kiem phan trang theo ten san pham
@@ -165,6 +165,7 @@ public class AdminController {
             AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
             model.addAttribute("userNames", user);
             model.addAttribute("product", products);
+            model.addAttribute("nameProduct",nameProduct);
             return "/nha/admin/ListProduct";
         }
     }

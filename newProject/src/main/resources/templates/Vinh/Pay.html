@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,128 +25,155 @@
 
 <div class="main-contaner ">
     <div class="main-content ">
-        <form action="/bill/pay" method="post" th:object="${addressDTO}">
-            <div class="checkout-main-left">
-                <div class="checkout-bill_content">
-                    <div class="bill-title">
-                        <h2>Địa chỉ nhận hàng</h2>
-                    </div>
-                    <div class="bill-name_info">
-                        <div class="input-content">
-                            <label>
-                                Địa chỉ đường
-                                <span style="color:red">*</span>
-                            </label>
-                            <input type="text" placeholder="Đia chỉ đường" th:field="*{address}"/>
-                            <div class="text-warning"></div>
+        <th:block th:if="${carts!=null}" >
+            <form action="/bill/pay" method="post" th:object="${addressDTO}">
+                <div class="checkout-main-left">
+                    <div class="checkout-bill_content">
+                        <div class="bill-title">
+                            <h2>Địa chỉ nhận hàng</h2>
                         </div>
-                        <div class="input-content">
-                            <label>Thành phố/Tỉnh    <span style="color:red">*</span></label>
-                            <select class="wide w-100" id="listProvince">
-                                <option value="" disabled selected >Choose...</option>
-                            </select>
-                        </div>
-                        <div class="input-content">
-                            <label>Quận/Huyện    <span style="color:red">*</span></label>
-                            <select class="wide w-100" id="listDistrict">
-                                <option value="" disabled selected>Choose...</option>
-                            </select>
-                        </div>
-                        <div class="input-content">
-                            <label>Phường/Xã    <span style="color:red">*</span></label>
-                            <select class="wide w-100" id="listWard" th:field="*{idWard}">
-                                <option value="" disabled selected>Choose...</option>
-                            </select>
-                        </div>
-                    </div>
-                    <script>
-                        function successHandler() {
-                            $.ajax({
-                                type: "GET",
-                                //tên API
-                                url: "http://localhost:8080/api/address/province",
-                                //xử lý khi thành công
-                                success: function (data) {
-                                    let content = `<option disabled selected>Choose...</option>`;
-                                    // hien thi danh sach o day
-                                    for (let i = 0; i < data.length; i++) {
-                                        content += `<option value="${data[i].provinceId}">${data[i].provinceName}</option>`
-                                    }
-                                    document.getElementById('listProvince').innerHTML = content;
-                                }
-                            });
-                        }
-
-                        successHandler();
-                        $("#listProvince").click(function () {
-                            $.ajax({
-                                type: "GET",
-                                //tên API
-                                url: "http://localhost:8080/api/address/district/" + $("#listProvince").val(),
-                                //xử lý khi thành công
-                                success: function (data) {
-                                    let content = `<option disabled selected>Choose...</option>`;
-                                    // hien thi danh sach o day
-                                    for (let i = 0; i < data.length; i++) {
-                                        content += `<option value="${data[i].districtId}">${data[i].districtName}</option>`
-                                    }
-                                    document.getElementById('listDistrict').innerHTML = content;
-                                }
-                            });
-                        })
-                        $("#listDistrict").click(function () {
-                            $.ajax({
-                                type: "GET",
-                                //tên API
-                                url: "http://localhost:8080/api/address/ward/" + $("#listDistrict").val(),
-                                //xử lý khi thành công
-                                success: function (data) {
-                                    let content = `<option disabled selected>Choose...</option>`;
-                                    // hien thi danh sach o day
-                                    for (let i = 0; i < data.length; i++) {
-                                        content += `<option value="${data[i].wardId}">${data[i].wardName}</option>`
-                                    }
-                                    document.getElementById('listWard').innerHTML = content;
-                                }
-                            });
-                        })
-                    </script>
-                    <br/>
-                    <div class="checkout-main-right">
-                        <div class="checkout-title">
-                            <h2>Gói hàng</h2>
-                        </div>
-                        <div class="checkout_cart-container">
-                            <div class="checkout_cart-subtitle">
-                                <h2>Sản phẩm</h2>
-                                <h2>Giá</h2>
+                        <div class="bill-name_info">
+                            <div class="input-content">
+                                <label>
+                                    Địa chỉ đường
+                                    <span style="color:red">*</span>
+                                </label>
+                                <input type="text" placeholder="Đia chỉ đường" th:field="*{address}"/>
+                                <div class="text-warning"></div>
                             </div>
-                            <div class="item-container">
-                                <div th:if="${carts!=null}" class="item-content" th:each="item:${carts}">
-                                    <ul class="checkout-cart-list">
-                                        <li style="display: flex;">
-                                            <span class="checkout-cart-list__custom-text"
-                                                  th:text="${item.value.product.productName}"></span>
-                                            <span class="checkout-cart-list__custom-text"
-                                                  th:text="${item.value.quantity}"></span>
-                                        </li>
-                                        <li th:text="${item.value.maxPrice}"></li>
-                                    </ul>
+                            <div class="input-content">
+                                <label>Thành phố/Tỉnh    <span style="color:red">*</span></label>
+                                <select class="wide w-100" id="listProvince">
+                                    <option value="" disabled selected >Choose...</option>
+                                </select>
+                            </div>
+                            <div class="input-content">
+                                <label>Quận/Huyện    <span style="color:red">*</span></label>
+                                <select class="wide w-100" id="listDistrict">
+                                    <option value="" disabled selected>Choose...</option>
+                                </select>
+                            </div>
+                            <div class="input-content">
+                                <label>Phường/Xã    <span style="color:red">*</span></label>
+                                <select class="wide w-100" id="listWard" th:field="*{idWard}">
+                                    <option value="" disabled selected>Choose...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="checkout-main-right">
+                            <div class="checkout-title">
+                                <h2>Gói hàng</h2>
+                            </div>
+                            <div class="checkout_cart-container">
+                                <div class="checkout_cart-subtitle">
+                                    <h2>Sản phẩm</h2>
+                                    <h2>Giá</h2>
+                                </div>
+                                <div class="item-container">
+                                    <th:block th:if="${carts!=null}" >
+                                        <div class="item-content" th:each="item:${carts}">
+                                            <ul class="checkout-cart-list">
+                                                <li style="display: flex;">
+                                                    <span class="checkout-cart-list__custom-text"
+                                                          th:text="${item.value.product.productName}"></span>
+                                                    <span class="checkout-cart-list__custom-text"
+                                                          th:text="${item.value.quantity}"></span>
+                                                </li>
+                                                <li th:text="${item.value.maxPrice}"></li>
+                                            </ul>
+                                        </div>
+                                    </th:block>
+                                </div>
+                                <div class="checkout_cart-grand-total-area">
+                                    <h4>Tổng cộng</h4>
+                                    <h4 th:text="${total}"></h4>
                                 </div>
                             </div>
-                            <div class="checkout_cart-grand-total-area">
-                                <h4>Tổng cộng</h4>
-                                <h4 th:text="${total}"></h4>
-                            </div>
+                            <button class="btn-order" type="submit">Thanh toán khi nhận hàng</button>
+                            <button class="btn-order" formaction="/pay">
+                                Thanh toán Paypal
+                            </button>
                         </div>
-                        <button class="btn-order" type="submit">Thanh toán khi nhận hàng</button>
-                        <button class="btn-order" formaction="/pay">
-                            Thanh toán Paypal
-                        </button>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </th:block>
+        <th:block th:if="${product != null}">
+            <form action="/bill/pay/auction" method="post" th:object="${addressAuctionDTO}">
+                <div class="checkout-main-left">
+                    <div class="checkout-bill_content">
+                        <div class="bill-title">
+                            <h2>Địa chỉ nhận hàng</h2>
+                        </div>
+                        <div class="bill-name_info">
+                            <div class="input-content">
+                                <label>
+                                    Địa chỉ đường
+                                    <span style="color:red">*</span>
+                                </label>
+                                <input type="text" placeholder="Đia chỉ đường" th:field="*{address}"/>
+                                <div class="text-warning"></div>
+                            </div>
+                            <div class="input-content">
+                                <label>Thành phố/Tỉnh    <span style="color:red">*</span></label>
+                                <select class="wide w-100" id="listProvince">
+                                    <option value="" disabled selected >Choose...</option>
+                                </select>
+                            </div>
+                            <div class="input-content">
+                                <label>Quận/Huyện    <span style="color:red">*</span></label>
+                                <select class="wide w-100" id="listDistrict">
+                                    <option value="" disabled selected>Choose...</option>
+                                </select>
+                            </div>
+                            <div class="input-content">
+                                <label>Phường/Xã    <span style="color:red">*</span></label>
+                                <select class="wide w-100" id="listWard" th:field="*{idWard}">
+                                    <option value="" disabled selected>Choose...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="checkout-main-right">
+                            <div class="checkout-title">
+                                <h2>Gói hàng</h2>
+                            </div>
+                            <div class="checkout_cart-container">
+                                <div class="checkout_cart-subtitle">
+                                    <h2>Sản phẩm</h2>
+                                    <h2>Giá</h2>
+                                </div>
+                                <div class="item-container">
+                                    <th:block th:if="${product != null}">
+                                        <div class="item-content">
+                                            <ul class="checkout-cart-list">
+                                                <li style="display: flex;">
+                                                    <span class="checkout-cart-list__custom-text"
+                                                          th:text="${product.productName}"></span>
+                                                    <span class="checkout-cart-list__custom-text">1</span>
+                                                </li>
+                                                <li  th:text="${total}"></li>
+                                            </ul>
+                                        </div>
+                                    </th:block>
+                                </div>
+                                <div class="checkout_cart-grand-total-area">
+                                    <h4>Tổng cộng</h4>
+                                    <h4 th:text="${total}"></h4>
+                                </div>
+                            </div>
+                            <input type="hidden" th:field="*{totalAuction}" >
+                            <input type="hidden" th:field="*{idProduct}">
+                            <button class="btn-order" type="submit">Thanh toán khi nhận hàng</button>
+                            <button class="btn-order" formaction="/pay">
+                                Thanh toán Paypal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </th:block>
     </div>
 </div>
 
@@ -189,6 +215,57 @@
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    function successHandler() {
+        $.ajax({
+            type: "GET",
+            //tên API
+            url: "http://localhost:8080/api/address/province",
+            //xử lý khi thành công
+            success: function (data) {
+                let content = `<option disabled selected>Choose...</option>`;
+                // hien thi danh sach o day
+                for (let i = 0; i < data.length; i++) {
+                    content += `<option value="${data[i].provinceId}">${data[i].provinceName}</option>`
+                }
+                document.getElementById('listProvince').innerHTML = content;
+            }
+        });
+    }
 
+    successHandler();
+    $("#listProvince").click(function () {
+        $.ajax({
+            type: "GET",
+            //tên API
+            url: "http://localhost:8080/api/address/district/" + $("#listProvince").val(),
+            //xử lý khi thành công
+            success: function (data) {
+                let content = `<option disabled selected>Choose...</option>`;
+                // hien thi danh sach o day
+                for (let i = 0; i < data.length; i++) {
+                    content += `<option value="${data[i].districtId}">${data[i].districtName}</option>`
+                }
+                document.getElementById('listDistrict').innerHTML = content;
+            }
+        });
+    })
+    $("#listDistrict").click(function () {
+        $.ajax({
+            type: "GET",
+            //tên API
+            url: "http://localhost:8080/api/address/ward/" + $("#listDistrict").val(),
+            //xử lý khi thành công
+            success: function (data) {
+                let content = `<option disabled selected>Choose...</option>`;
+                // hien thi danh sach o day
+                for (let i = 0; i < data.length; i++) {
+                    content += `<option value="${data[i].wardId}">${data[i].wardName}</option>`
+                }
+                document.getElementById('listWard').innerHTML = content;
+            }
+        });
+    })
+</script>
 </body>
 </html>

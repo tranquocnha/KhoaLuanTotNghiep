@@ -14,8 +14,8 @@ public class AuctionServiceImpl implements AuctionService{
     @Autowired
     AuctionRepository auctionRepository;
     @Override
-    public Auction findByProduct(int id) {
-        return auctionRepository.findByProduct_IdProduct(id);
+    public Auction findByProduct(String status,int id) {
+        return auctionRepository.findByProduct_StatusAndProduct_IdProduct(status,id);
     }
 
     @Override
