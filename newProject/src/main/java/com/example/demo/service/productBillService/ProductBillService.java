@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductBillService {
+    void delete(int idProductBill);
     Page<ProductBill> findAll(Pageable pageable);
 
     Page<ProductBill> findByProduct_ProductNameContains(String nameProduct, Pageable pageable);

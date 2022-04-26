@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="/Vinh/css/Header.css">
+    <link rel="stylesheet" href="/Vinh/css/Footer.css">
+    <link rel="stylesheet" href="/nha/css/Demo.css">
+    <title>Chi tiết đơn hàng</title>
+
+</head>
+<body>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div class="main ">
+    <div class="search__form">
+        <form action="/nhas/pagaList" method="post">
+            <label>Tên Người Dùng</label>
+            <input type="text" class="filter__input" name="nameUser" id="mem-name"/>
+            <label>Tên Sản Phẩm</label>
+            <input type="text"  class="filter__input" name="nameProduct" id="mem-add"/>
+            <button class="filter__btn" type="submit">Lọc kết quả</button>
+        </form>
+    </div>
+    <div class="main__userbill ">
+        <div th:insert="~{/nha/admin/ListProduct::main__left}" ></div>
+
+        <div class="main__right">
+            <div class="main__right-table">
+                <table class="table table-hover text-center">
+                    <thead class="table__thead">
+
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Hóa Đơn</th>
+                        <th>Tên Sản Phẩm </th>
+                        <th>Số Lượng</th>
+                        <th>Hình</th>
+                        <th>Tên Shop</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:if="${viewBillProduct != null}">
+                            <tr th:each="listProduct,iterStat:${viewBillProduct}">
+                                <td th:text="${iterStat.count}"></td>
+                                <td th:text="${listProduct.bills.idBill}"></td>
+                                <td th:text="${listProduct.tempProduct.productName}"></td>
+                                <td th:text="${listProduct.tempProduct.quantity}"></td>
+                                <td><img th:src="@{'/Images/'+${listProduct.tempProduct.image1}}" th:alt="${listProduct.tempProduct.image1}" style="width: auto;height: 80px;"></td>
+                                <td th:text="${listProduct.tempProduct.idAccount}"></td>
+                            </tr>
+                    </th:block>
+                    <th:block th:if="${viewBillProduct == null}">
+                            <tr>
+                                <th colspan="6">khong co san pham nao</th>
+                            </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="center" th:if="${viewBillProduct.totalPages >1}">
+                <div class="center__pagination_img">
+                    <a th:href="@{'/nhas/bill/'+${idBill}+'/view'(page=${viewBillProduct.number - 1})}"
+                       th:if="${viewBillProduct.hasPrevious()}">
+                        <img class="img__arrow" src="/Images/arrrowleft.png" alt=""/>
+                    </a>
+                    <a>
+                        <span th:text="${viewBillProduct.number + 1}"></span>/<span
+                            th:text="${viewBillProduct.totalPages}"></span>
+                    </a>
+                    <a th:href="@{'/nhas/bill/'+${idBill}+'/view'(page=${viewBillProduct.number + 1})}"
+                       th:if="${viewBillProduct.hasNext()}">
+                        <img class="img_arrow" src="/Images/arrowright.png" alt=""/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

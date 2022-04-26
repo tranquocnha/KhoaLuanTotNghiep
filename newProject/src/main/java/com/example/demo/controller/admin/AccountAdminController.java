@@ -1,9 +1,11 @@
 package com.example.demo.controller.admin;
 
 import com.example.demo.model.AccUser;
+import com.example.demo.model.Account;
 import com.example.demo.model.Address;
 import com.example.demo.model.Role;
 import com.example.demo.repository.UserRepository.UserRepository;
+import com.example.demo.service.accountService.AccountService;
 import com.example.demo.service.addressService.AddressService;
 import com.example.demo.service.userService.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +25,16 @@ import java.security.Principal;
 @RequestMapping("/admin")
 public class AccountAdminController {
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Autowired
-    UserRepository userRepo;
+    private UserRepository userRepo;
 
     @Autowired
-    AddressService addressService;
+    private AddressService addressService;
+
+    @Autowired
+    private AccountService accountService;
 
     @ModelAttribute("userNames")
     public AccUser getDauGia() {
@@ -97,9 +102,19 @@ public class AccountAdminController {
         return "nha/admin/AccountAdd";
     }
     @GetMapping("/{id}/delete")
-    public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
-        userService.delete(id);
-        redirectAttributes.addFlashAttribute("success", "Deleted!!");
+    public String delete(@PathVariable int id,Principal principal, RedirectAttributes redirectAttributes) {
+        AccUser accUserDelete = userService.findById(id);
+        Account accountConfim = accountService.findById(principal.getName());
+        for (Role role: accUserDelete.getAccount().getRoles()) {
+            for (Role role1: accountConfim.getRoles()) {
+                if(role.getRoleName().equals(role1.getRoleName())){
+                    redirectAttributes.addFlashAttribute("success","Unable to delete the same role");
+                }else{
+                    userService.delete(id);
+                    redirectAttributes.addFlashAttribute("success", "Deleted!!");
+                }
+            }
+        }
         return "redirect:/admin/account";
     }
 

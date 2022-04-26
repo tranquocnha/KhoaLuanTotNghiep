@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!-- Basic -->
 
@@ -83,7 +83,7 @@
                     </select>
                 </div>
                 <div class="right-phone-box">
-                    <p>Call US :- <a href="#"> +84 935 184 010</a></p>
+                    <p>Call VN :- <a href="#"> +84 935 184 010</a></p>
                 </div>
                 <div class="our-link">
                     <ul>
@@ -115,8 +115,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-menu">
                 <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
                     <li class="dropdown megamenu-fw">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Product</a>
                         <ul class="dropdown-menu megamenu-content" role="menu">
@@ -178,11 +178,34 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Auction</a>
                         <ul class="dropdown-menu">
                             <li><a href="/auction">List Auction</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <th:block th:unless="${userNames}">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User</a>
+                        </th:block>
+                        <th:block th:if="${userNames}">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"> Chào mừng, [[${userNames.name}]]</a>
+                        </th:block>
+                        <ul class="dropdown-menu">
+                            <th:block th:if="${userNames}">
+                                <th:block sec:authorize="hasRole('ADMIN') or hasRole('SALER')">
+                                    <li th:if="${admin == 'là admin'}"><a href="/admin">Quản lý</a></li>
+                                    <li th:if="${admin == 'là saler'}"><a href="/product/list">Shop</a></li>
+                                </th:block>
+                                <li>
+                                    <a th:href="@{/ProfileDetail/__${userNames.idUser}__}">Hồ sơ cá nhân</a>
+                                </li>
+                                <li><a href="/logout">Đăng Xuất</a></li>
+                            </th:block>
+                            <li th:unless="${userNames}">
+                                <a href="/login">Login</a>
+                            </li>
 
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="service.html">Our Service</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact Us</a></li>
+<!--                    <li class="nav-item"><a class="nav-link" href="service.html">Our Service</a></li>-->
+<!--                    <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact Us</a></li>-->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

@@ -13,6 +13,11 @@ public class ProductBillServiceImpl implements ProductBillService{
     ProductBillRepository productBillRepository;
 
     @Override
+    public void delete(int idProductBill) {
+        productBillRepository.deleteById(idProductBill);
+    }
+
+    @Override
     public Page<ProductBill> findAll(Pageable pageable) {
         return productBillRepository.findAll(pageable);
     }

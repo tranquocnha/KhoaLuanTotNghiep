@@ -5,6 +5,8 @@ import com.example.demo.model.ProductBill;
 import com.example.demo.repository.productBillRepository.BillRepository;
 import com.example.demo.repository.productBillRepository.ProductBillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,15 +14,21 @@ import java.util.List;
 @Service
 public class BillServiceImpl implements BillService{
     @Autowired
-    BillRepository billRepository;
+    private BillRepository billRepository;
 
     @Autowired
-    ProductBillRepository productBillRepository;
+    private ProductBillRepository productBillRepository;
 
     @Override
     public List<Bill> findBills(int id) {
         return billRepository.findBills(id);
     }
+
+    @Override
+    public Page<Bill> findAll(Pageable pageable) {
+        return billRepository.findAll(pageable);
+    }
+
 
     @Override
     public void delete(int id) {

@@ -70,7 +70,7 @@ public class BillController {
         }
         return null;
     }
-    @GetMapping("/")
+    @GetMapping("")
     public String home(Model model,@SessionAttribute(value = "carts",required = false) HashMap<Integer, Cart> cartMap){
 ;
         List<Category> categoryList;
@@ -86,7 +86,7 @@ public class BillController {
         model.addAttribute("sellerProduct",colorService.findProductOderByDescLIMIT5("Đã duyệt"));
         return "/nha/HomePage";
     }
-    @RequestMapping("/")
+    @RequestMapping("/a")
     public String index(Model model) {
         List<Category> categoryList;
         categoryList = categoryService.findAll();

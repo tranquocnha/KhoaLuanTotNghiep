@@ -94,8 +94,7 @@ public class SearchHomeController {
                 numberMax = Double.parseDouble(splits[1]);
                 model.addAttribute("listProduct", productRepository.findByStatusAndSearchPrice(numberMin, numberMax, pageable));
             }
-        }
-        else {
+        }else {
             model.addAttribute("listProduct", productRepository.findByStatusAndProductNameContains("Đã duyệt",nameProduct,pageable));
         }
         model.addAttribute("drowdownCategory", categoryRepository.findAll());
@@ -134,7 +133,6 @@ public class SearchHomeController {
         model.addAttribute("category", categoryRepository.findTop());
         model.addAttribute("listProduct",null);
         model.addAttribute("idCategory", idCategory);
-
         return "/nha/Search";
 
     }
