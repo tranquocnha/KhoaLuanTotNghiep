@@ -1,11 +1,11 @@
 package com.example.demo.controller.API;
 
-import com.example.demo.model.AccUser;
-import com.example.demo.model.Comment;
-import com.example.demo.model.CommentProduct;
+import com.example.demo.model.*;
 import com.example.demo.model.DTO.CommentDTO;
-import com.example.demo.model.Product;
+import com.example.demo.model.DTO.CommentRepDTO;
+import com.example.demo.repository.commentRepository.CommentAccUserRepository;
 import com.example.demo.repository.commentRepository.CommentProductRepo;
+import com.example.demo.repository.commentRepository.CommentRepRepository;
 import com.example.demo.repository.commentRepository.CommentRepository;
 import com.example.demo.repository.productBillRepository.ProductRepository;
 import com.example.demo.repository.socket.AccUserRepository;
@@ -30,6 +30,10 @@ public class CommentController {
     private AccUserRepository accUserRepository;
     @Autowired
     private CommentProductRepo commentProductRepo;
+    @Autowired
+    private CommentRepRepository commentRepRepository;
+    @Autowired
+    private CommentAccUserRepository commentAccUserRepository;
     @GetMapping("/comment/{id}")
     public ResponseEntity<Iterable<Comment>> commentProduct(@PathVariable("id")int id){
         try{
@@ -59,6 +63,24 @@ public class CommentController {
         }
     }
 
+    @PostMapping("/comment/rep")
+    public ResponseEntity<CommentRepDTO> createCommentRep(@RequestBody CommentRepDTO commentRepDTO, Principal principal){
+        try{
+            AccUser accUser = accUserRepository.findByAccount_IdAccount(principal.getName());
+            Comment comment = commentRepository.findById(commentRepDTO.getIdComment()).orElse(null);
+            CommentRep commentRep = new CommentRep();
+            commentRep.setComments(comment);
+            commentRep.setContent(commentRepDTO.getContent());
+            commentRepRepository.save(commentRep);
+            CommentAccUser commentAccUser = new CommentAccUser();
+            commentAccUser.setCommentRep(commentRep);
+            commentAccUser.setAccUsers(accUser);
+            commentAccUserRepository.save(commentAccUser);
+            return new ResponseEntity<>(commentRepDTO, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
 }

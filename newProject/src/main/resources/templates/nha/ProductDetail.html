@@ -27,7 +27,48 @@
 
     <title>Product Detail</title>
 
+    <style>
+        .bdge {
+            height: 21px;
+            background-color: orange;
+            color: #fff;
+            font-size: 11px;
+            padding: 8px;
+            border-radius: 4px;
+            line-height: 3px
+        }
 
+        .comments {
+            text-decoration: underline;
+            text-underline-position: under;
+            cursor: pointer
+        }
+
+        .dot {
+            height: 7px;
+            width: 7px;
+            margin-top: 3px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block
+        }
+
+        .hit-voting:hover {
+            color: blue
+        }
+
+        .hit-voting {
+            cursor: pointer
+        }
+
+        .servicedrop {
+            transition-delay: 1s
+        }
+
+        .action-collapse {
+            cursor: pointer
+        }
+    </style>
 </head>
 
 
@@ -164,7 +205,6 @@
                 <div th:if="${product != null}" id="commnet">
                 </div>
                 <input type="hidden" id="idProduct" th:value="${product.idProduct}">
-
             </div>
         </div>
     </div>
@@ -184,34 +224,53 @@
                 let content ='';
                 for (let i = 0; i < data.length; i++) {
                     console.log(data[i]);
+                    content += '<div class="">\n' +
+                        '    <div class="d-flex row">\n' +
+                        '        <div class="d-flex flex-column col-md-8">\n' +
+                        '            <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">\n' +
+                        '                <div class="profile-image">' +
+                        '                   <img class="rounded-circle" src="https://pluspng.com/img-png/user-png-icon-download-icons-logos-emojis-users-2240.png" width="70">' +
+                        '               </div>\n' +
+                        '                <div class="d-flex flex-column ml-3">\n' +
+                        '                    <div class="d-flex flex-row post-title">\n' +
+                        '                        <h5>'+data[i].userSet[0].accUser.name+'</h5>\n' +
+                        '                    </div>\n' +
+                        '                    <div class="d-flex flex-row align-items-center align-content-center post-title">'+data[i].content+'</div>\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '            <div class="coment-bottom bg-white p-2 px-4">\n' +
+                        '                <div class="d-flex flex-row add-comment-section mt-4 mb-4">' +
+                        '                   <img class="img-fluid img-responsive rounded-circle mr-2" src="https://pluspng.com/img-png/user-png-icon-download-icons-logos-emojis-users-2240.png" width="38">' +
+                        '                       <input type="text" class="form-control mr-3" id="content'+i+'" placeholder="Add comment">' +
+                        '                       <button sec:authorize="isAuthenticated()" class="btn btn-primary" onclick="addCommentRep('+data[i].idComment+','+i+')" type="button">Comment</button>' +
+                        '                 </div> \n';
+                            if(data[i].commentReps.length>=1) {
+                                content += '<div class="collapsable-comment">\n' +
+                                '                    <div class="d-flex flex-row justify-content-between align-items-center action-collapse p-2" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-' + (i + 1) + '" href="#collapse-' + (i + 1) + '">' +
+                                '                       <span>Comments</span>' +
+                                '                       <i class="fa fa-chevron-down servicedrop"></i>' +
+                                '                     </div>\n' +
+                                '              <div id="collapse-' + (i + 1) + '" class="collapse">\n';
+                                for (let j = 0; j < data[i].commentReps.length; j++) {
+                                    content += '<div class="commented-section mt-2">\n' +
+                                        '                            <div class="d-flex flex-row align-items-center commented-user">\n' +
+                                        '                                <h5 class="mr-2">' + data[i].commentReps[j].commentAccUsers[0].accUsers.name + '</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">4 hours ago</span>\n' +
+                                        '                            </div>\n' +
+                                        '                            <div class="comment-text-sm"><span>' + data[i].commentReps[j].content + '</span></div>\n' +
+                                        // '                            <div class="reply-section">\n' +
+                                        // '                                <div class="d-flex flex-row align-items-center voting-icons"><i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">10</span><span class="dot ml-2"></span>\n' +
+                                        // '                                    <h6 class="ml-2 mt-1">Reply</h6>\n' +
+                                        // '                                </div>\n' +
+                                        // '                            </div>\n' +
+                                        '                        </div> \n';
+                                }
+                            }
+                            content += '    </div>\n' +
+                                '            </div>\n' +
+                                '        </div>\n' +
+                                '    </div>\n' +
+                                '</div>';
 
-                    content += '  <div class="product__comment-content" > \n' +
-                        '         <div class="comment__left-side">\n' +
-                        '                        <div class="comment__img">\n' +
-                        '                            <img\n' +
-                        '                                    src="https://scontent.fdad2-1.fna.fbcdn.net/v/t1.15752-9/242494465_1053848422022293_8726655823271253393_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=ae9488&_nc_ohc=yiIjCECoaNkAX9Wj9fo&tn=I3qahprvjNSrt1Fz&_nc_ht=scontent.fdad2-1.fna&oh=cc4923ddcf75c6a449acf0ab019b33af&oe=6173376B"\n' +
-                        '                                    alt="">\n' +
-                        '                            <p class="comment__user" >'+data[i].userSet[0].accUser.name+'</p>\n' +
-                        '                        </div>\n' +
-                        '         </div>\n' +
-                        '         <div class="comment__right-side">\n' +
-                        '                        <div class="comment__rate">\n' +
-                        '                            <input class="star star-5" id="star-5" type="radio" name="star"/> <label class="star star-5"\n' +
-                        '                                                                                                     for="star-5"></label>\n' +
-                        '                            <input class="star star-4" id="star-4" type="radio" name="star"/> <label\n' +
-                        '                                class="star star-4" for="star-4"></label>\n' +
-                        '                            <input class="star star-3" id="star-3" type="radio" name="star"/> <label class="star star-3"\n' +
-                        '                                                                                                     for="star-3"></label>\n' +
-                        '                            <input class="star star-2" id="star-2" type="radio" name="star"/> <label class="star star-2"\n' +
-                        '                                                                                                     for="star-2"></label>\n' +
-                        '                            <input\n' +
-                        '                                    class="star star-1" id="star-1" type="radio" name="star"/> <label\n' +
-                        '                                class="star star-1"\n' +
-                        '                                for="star-1"></label>\n' +
-                        '                        </div>\n' +
-                        '                        <p class="comment__purpot">'+data[i].content+'</p>\n' +
-                        '          </div>\n' +
-                        '        </div>\n';
                 }
                 document.getElementById('commnet').innerHTML = content;
             }
@@ -235,13 +294,54 @@
             //tên API
             url: "/api/comment",
             //xử lý khi thành công
-            success: console.log('success')
+            success: function (){
+                console.log('success');
+                listComment();
+            }
         });
         //chặn sự kiện mặc định của thẻ
         listComment();
     }
-</script>
-<script>
+    function addCommentRep(idComment,i){
+        console.log("a"+idComment+"b"+i);
+        let content = $('#content'+i).val();
+        let CommentRepDTO = {
+            idComment: idComment,
+            content: content,
+        };
+        console.log(CommentRepDTO);
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(CommentRepDTO),
+            //tên API
+            url: "/api/comment/rep",
+            //xử lý khi thành công
+            success: function (){
+                console.log('success');
+                listComment();
+            }
+        });
+        //chặn sự kiện mặc định của thẻ
+        listComment();
+    }
+    function  forUpDown() {
+        for (let i = 0; i < 50; i++) {
+            $(document).ready(function () {
+                $('#collapse-' + i).on('shown.bs.collapse', function () {
+                    $(".servicedrop").addClass('fa-chevron-up').removeClass('fa-chevron-down');
+                });
+                $('#collapse-' + i).on('hidden.bs.collapse', function () {
+                    $(".servicedrop").addClass('fa-chevron-down').removeClass('fa-chevron-up');
+                });
+            });
+        }
+    }
+    forUpDown();
+
     let mystring = document.getElementById("description");
     let mota = mystring.innerHTML;
     let sep = [".", "/-"];
@@ -259,8 +359,6 @@
         }
     }
     submittt.innerHTML = resut;
-
-
     //    Color
     const radioBoxElement = document.getElementsByClassName("radioBox");
     console.log("radioBoxElement:", radioBoxElement);
@@ -349,13 +447,11 @@
     setTimeout(function () {
         document.querySelector('.alert__notification').style.display = "none";
     }, 5000)
-
 </script>
 <!-- Import Js -->
 <script src="/Vinh/js/main.js"></script>
 <script src="/Vinh/js/productDetail.js"></script>
 <script src="/Vinh/js/alert.js"></script>
-
 </body>
 
 </html>

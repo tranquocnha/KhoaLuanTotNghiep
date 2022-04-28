@@ -20,15 +20,20 @@ public class AdminHomeController {
     @GetMapping("")
     public String adminHome(Model model){
 
-        double sum = (Double.parseDouble(billRepository.sumProductYear())+Double.parseDouble(billRepository.sumAuctionYear()));
-        double product = Double.parseDouble(billRepository.sumProductYear());
-        double auction = Double.parseDouble(billRepository.sumAuctionYear());
-        double percentProduct = (product/sum)* 100;
-        double percentAuction = (auction/sum)*100;
-
-        model.addAttribute("percentProduct",percentProduct);
-        model.addAttribute("percentAuction",percentAuction);
-
+        if(billRepository.sumProductYear() !=null && Double.parseDouble(billRepository.sumProductYear())>=0 &&
+                billRepository.sumAuctionYear()!=null && Double.parseDouble(billRepository.sumAuctionYear())>=0) {
+            double sum = (Double.parseDouble(billRepository.sumProductYear()) + Double.parseDouble(billRepository.sumAuctionYear()));
+            double product = Double.parseDouble(billRepository.sumProductYear());
+            double auction = Double.parseDouble(billRepository.sumAuctionYear());
+            double percentProduct = (product / sum) * 100;
+            double percentAuction = (auction / sum) * 100;
+            if (percentProduct >= 0) {
+                model.addAttribute("percentProduct", percentProduct);
+            }
+            if (percentAuction >= 0) {
+                model.addAttribute("percentAuction", percentAuction);
+            }
+        }
         model.addAttribute("sumTotal",billRepository.sumTotal());
         model.addAttribute("dateNow", LocalDate.now());
         model.addAttribute("sumQuantity",billRepository.sumQuantity());
