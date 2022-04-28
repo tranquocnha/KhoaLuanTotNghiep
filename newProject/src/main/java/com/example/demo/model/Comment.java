@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -12,18 +14,22 @@ public class Comment {
 
     @ManyToOne(targetEntity = Product.class)
     @JoinColumn(name = "idProduct", referencedColumnName = "idProduct")
+    @JsonIgnore
     private Product product;
 
     @Column(length = 2000)
     private String Content;
 
-    @ManyToMany(mappedBy = "comments", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<AccUser> userSet;
+    @OneToMany(mappedBy = "comment")
+    private Set<CommentProduct> userSet;
+
+    @OneToMany(mappedBy = "comments")
+    private Set<CommentRep> commentReps;
 
     public Comment() {
     }
 
-    public Comment(int idComment, Product product, String content, Set<AccUser> userSet) {
+    public Comment(int idComment, Product product, String content, Set<CommentProduct> userSet) {
         this.idComment = idComment;
         this.product = product;
         Content = content;
@@ -54,11 +60,19 @@ public class Comment {
         Content = content;
     }
 
-    public Set<AccUser> getUserSet() {
+    public Set<CommentProduct> getUserSet() {
         return userSet;
     }
 
-    public void setUserSet(Set<AccUser> userSet) {
+    public void setUserSet(Set<CommentProduct> userSet) {
         this.userSet = userSet;
+    }
+
+    public Set<CommentRep> getCommentReps() {
+        return commentReps;
+    }
+
+    public void setCommentReps(Set<CommentRep> commentReps) {
+        this.commentReps = commentReps;
     }
 }

@@ -12,17 +12,35 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RequestMapping("/adminhome")
+@RequestMapping("/admin")
 public class AdminHomeController {
     @Autowired
     private BillRepository billRepository;
 
     @GetMapping("")
     public String adminHome(Model model){
-        String sumTotal = billRepository.sumTotal();
 
-        model.addAttribute("sumTotal",sumTotal);
+        double sum = (Double.parseDouble(billRepository.sumProductYear())+Double.parseDouble(billRepository.sumAuctionYear()));
+        double product = Double.parseDouble(billRepository.sumProductYear());
+        double auction = Double.parseDouble(billRepository.sumAuctionYear());
+        double percentProduct = (product/sum)* 100;
+        double percentAuction = (auction/sum)*100;
+
+        model.addAttribute("percentProduct",percentProduct);
+        model.addAttribute("percentAuction",percentAuction);
+
+        model.addAttribute("sumTotal",billRepository.sumTotal());
         model.addAttribute("dateNow", LocalDate.now());
+        model.addAttribute("sumQuantity",billRepository.sumQuantity());
+        model.addAttribute("countAccount",billRepository.countAccount());
+        model.addAttribute("countAccountSaler",billRepository.countAccountSaler());
+        model.addAttribute("countAccountUser",billRepository.countAccountUser());
+        model.addAttribute("countAuctionProduct",billRepository.countAuctionProduct());
+        model.addAttribute("countProduct",String.valueOf(Integer.parseInt(billRepository.countProduct())-Integer.parseInt(billRepository.countAuctionProduct())));
+        model.addAttribute("countComment",billRepository.countComment());
+
+
+
         return "/nha/revenue/Revenue";
     }
 }

@@ -23,9 +23,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private AccountRepository accountRepo;
 
-    @Autowired
-    private RoleRepository roleRepo;
-
     @Override
     public UserDetails loadUserByUsername(String idAccount) throws UsernameNotFoundException {
         Account account = this.accountRepo.findByIdAccount(idAccount);

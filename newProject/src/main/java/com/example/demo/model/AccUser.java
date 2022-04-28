@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -9,36 +10,47 @@ import java.util.Set;
 public class AccUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int idUser;
     private String name;
     private boolean sex;
     private String dateOfBirth;
     @NotNull
+    @JsonIgnore
     private String gmail;
+    @JsonIgnore
     private int numberCard;
+    @JsonIgnore
     private String phoneUser;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "account", referencedColumnName = "idAccount")
+    @JsonIgnore
     private Account account;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private Set<Bill> bills;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "commentProduct",
-            joinColumns = @JoinColumn(name = "idUser"),
-            inverseJoinColumns = @JoinColumn(name = "idComment"))
-    private Set<Comment> comments;
+    @OneToMany(mappedBy = "accUser")
+    @JsonIgnore
+    private Set<CommentProduct> commentProducts;
 
     @OneToMany(mappedBy = "accUser",fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Address> address;
 
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     private Set<AuctionUser> auctionUsers;
 
     @OneToMany(mappedBy = "accUsers")
+    @JsonIgnore
     private Set<MessageRecorderEntity> messageRecorderEntitySet;
+
+    @OneToMany(mappedBy = "accUsers")
+    @JsonIgnore
+    private Set<CommentAccUser> commentAccUsers;
 
     public AccUser() {
     }
@@ -54,7 +66,13 @@ public class AccUser {
     }
 
 
+    public Set<CommentAccUser> getCommentAccUsers() {
+        return commentAccUsers;
+    }
 
+    public void setCommentAccUsers(Set<CommentAccUser> commentAccUsers) {
+        this.commentAccUsers = commentAccUsers;
+    }
 
     public int getIdUser() {
         return idUser;
@@ -128,12 +146,20 @@ public class AccUser {
         this.bills = bills;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
+    public Set<CommentProduct> getCommentProducts() {
+        return commentProducts;
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    public void setCommentProducts(Set<CommentProduct> commentProducts) {
+        this.commentProducts = commentProducts;
+    }
+
+    public Set<MessageRecorderEntity> getMessageRecorderEntitySet() {
+        return messageRecorderEntitySet;
+    }
+
+    public void setMessageRecorderEntitySet(Set<MessageRecorderEntity> messageRecorderEntitySet) {
+        this.messageRecorderEntitySet = messageRecorderEntitySet;
     }
 
     public Set<Address> getAddress() {

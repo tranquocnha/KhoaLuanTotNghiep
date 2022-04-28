@@ -10,4 +10,5 @@ public interface AccUserRepository extends JpaRepository<AccUser, Long> {
     AccUser findByGmail(String mail);
 
     AccUser findByName(String name);
+    AccUser findByAccount_IdAccount(String idAccount);
 }

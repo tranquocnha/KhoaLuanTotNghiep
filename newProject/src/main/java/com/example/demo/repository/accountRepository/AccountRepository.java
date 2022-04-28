@@ -19,7 +19,6 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 //    String findByPassword(@Param("idAccount")String idAccount);
 
     @Query(value="select *  from  acc_user join`account`  where  `account`.id_account=acc_user.`account` and   gmail=:gmail", nativeQuery = true)
-
     Account findAccountByGmail(@Param("gmail")String gmail);
 
 

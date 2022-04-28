@@ -33,13 +33,13 @@ public class AdminController {
     @Autowired
     ColorService colorService;
 
-    @GetMapping(value="")
-    public String AdminHome(Model model, Principal principal) {
-        // xet duyet account
-        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
-        model.addAttribute("userNames", user);
-        return "/nha/admin/HomeAdmin";
-    }
+//    @GetMapping(value="")
+//    public String AdminHome(Model model, Principal principal) {
+//        // xet duyet account
+//        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
+//        model.addAttribute("userNames", user);
+//        return "/nha/admin/HomeAdmin";
+//    }
     @ModelAttribute("admin")
     public String AdminOrSaler(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

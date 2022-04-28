@@ -148,44 +148,22 @@
             <p class="product__comment-sub">Viết đánh giá</p>
             <form>
                 <div class="product__comment-space">
-                    <input type="text" placeholder="Viết bình luận tại đây">
-                    <button class="button__review" type="submit">Đánh Giá</button>
+                    <input type="text" id="contentComment" placeholder="Viết bình luận tại đây">
+                    <button sec:authorize="isAuthenticated()" onclick="addComment()" class="product__add">Đánh Giá
+                    </button>
+                    <div class="space__add" style="padding: 0px 0px">
+                        <a class="btn" th:href="@{/afterLogin/productDetail/{id}(id=${product.idProduct})}">
+                            <button th:if="${userName}" class="product__add" type="button">Đăng Nhập</button>
+                        </a>
+                    </div>
                 </div>
             </form>
             <div class="product__comment-review">
                 <h4 class="product__comment-review-title">
                     ĐÁNH GIÁ - NHẬN XÉT TỪ KHÁCH HÀNG</h4>
-                <th:block th:if="${product != null}">
-                <div class="product__comment-content" th:each="comment:${product.getComments()}">
-                    <div class="comment__left-side">
-                        <div class="comment__img">
-                            <img
-                                    src="https://scontent.fdad2-1.fna.fbcdn.net/v/t1.15752-9/242494465_1053848422022293_8726655823271253393_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=ae9488&_nc_ohc=yiIjCECoaNkAX9Wj9fo&tn=I3qahprvjNSrt1Fz&_nc_ht=scontent.fdad2-1.fna&oh=cc4923ddcf75c6a449acf0ab019b33af&oe=6173376B"
-                                    alt="">
-                            <p class="comment__user">Hậu Ma tóe</p>
-                        </div>
-                    </div>
-
-
-                    <div class="comment__right-side">
-                        <div class="comment__rate">
-                            <input class="star star-5" id="star-5" type="radio" name="star"/> <label class="star star-5"
-                                                                                                     for="star-5"></label>
-                            <input class="star star-4" id="star-4" type="radio" name="star"/> <label
-                                class="star star-4" for="star-4"></label>
-                            <input class="star star-3" id="star-3" type="radio" name="star"/> <label class="star star-3"
-                                                                                                     for="star-3"></label>
-                            <input class="star star-2" id="star-2" type="radio" name="star"/> <label class="star star-2"
-                                                                                                     for="star-2"></label>
-                            <input
-                                    class="star star-1" id="star-1" type="radio" name="star"/> <label
-                                class="star star-1"
-                                for="star-1"></label>
-                        </div>
-                        <p class="comment__purpot" th:text="${comment.content}"></p>
-                    </div>
+                <div th:if="${product != null}" id="commnet">
                 </div>
-                </th:block>
+                <input type="hidden" id="idProduct" th:value="${product.idProduct}">
 
             </div>
         </div>
@@ -193,7 +171,76 @@
     <div th:insert="~{/HeaderFooter/Footer::footer_clinet}"></div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    function listComment() {
+        $.ajax({
+            type: "GET",
+            //tên API
+            url: "/api/comment/"+document.getElementById('idProduct').value,
+            //xử lý khi thành công
+            success: function (data) {
+                // hien thi danh sach o day
+                let content ='';
+                for (let i = 0; i < data.length; i++) {
+                    console.log(data[i]);
 
+                    content += '  <div class="product__comment-content" > \n' +
+                        '         <div class="comment__left-side">\n' +
+                        '                        <div class="comment__img">\n' +
+                        '                            <img\n' +
+                        '                                    src="https://scontent.fdad2-1.fna.fbcdn.net/v/t1.15752-9/242494465_1053848422022293_8726655823271253393_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=ae9488&_nc_ohc=yiIjCECoaNkAX9Wj9fo&tn=I3qahprvjNSrt1Fz&_nc_ht=scontent.fdad2-1.fna&oh=cc4923ddcf75c6a449acf0ab019b33af&oe=6173376B"\n' +
+                        '                                    alt="">\n' +
+                        '                            <p class="comment__user" >'+data[i].userSet[0].accUser.name+'</p>\n' +
+                        '                        </div>\n' +
+                        '         </div>\n' +
+                        '         <div class="comment__right-side">\n' +
+                        '                        <div class="comment__rate">\n' +
+                        '                            <input class="star star-5" id="star-5" type="radio" name="star"/> <label class="star star-5"\n' +
+                        '                                                                                                     for="star-5"></label>\n' +
+                        '                            <input class="star star-4" id="star-4" type="radio" name="star"/> <label\n' +
+                        '                                class="star star-4" for="star-4"></label>\n' +
+                        '                            <input class="star star-3" id="star-3" type="radio" name="star"/> <label class="star star-3"\n' +
+                        '                                                                                                     for="star-3"></label>\n' +
+                        '                            <input class="star star-2" id="star-2" type="radio" name="star"/> <label class="star star-2"\n' +
+                        '                                                                                                     for="star-2"></label>\n' +
+                        '                            <input\n' +
+                        '                                    class="star star-1" id="star-1" type="radio" name="star"/> <label\n' +
+                        '                                class="star star-1"\n' +
+                        '                                for="star-1"></label>\n' +
+                        '                        </div>\n' +
+                        '                        <p class="comment__purpot">'+data[i].content+'</p>\n' +
+                        '          </div>\n' +
+                        '        </div>\n';
+                }
+                document.getElementById('commnet').innerHTML = content;
+            }
+        });
+    }
+    listComment();
+    function addComment(){
+        let content = $('#contentComment').val();
+        let idProduct = $('#idProduct').val();
+        let Comment = {
+            content: content,
+            idProduct: idProduct,
+        };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(Comment),
+            //tên API
+            url: "/api/comment",
+            //xử lý khi thành công
+            success: console.log('success')
+        });
+        //chặn sự kiện mặc định của thẻ
+        listComment();
+    }
+</script>
 <script>
     let mystring = document.getElementById("description");
     let mota = mystring.innerHTML;

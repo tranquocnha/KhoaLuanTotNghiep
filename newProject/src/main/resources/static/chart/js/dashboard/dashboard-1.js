@@ -219,94 +219,133 @@
 
 
 (function($) {
-    "use strict"
-
-    let ctx = document.getElementById("chart_widget_2");
-    ctx.height = 280;
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
-            type: 'line',
-            defaultFontFamily: 'Montserrat',
-            datasets: [{
-                data: [0, 15, 57, 12, 85, 10, 50],
-                label: "iPhone X",
-                backgroundColor: '#847DFA',
-                borderColor: '#847DFA',
-                borderWidth: 0.5,
-                pointStyle: 'circle',
-                pointRadius: 5,
-                pointBorderColor: 'transparent',
-                pointBackgroundColor: '#847DFA',
-            }, {
-                label: "Pixel 2",
-                data: [0, 30, 5, 53, 15, 55, 0],
-                backgroundColor: '#F196B0',
-                borderColor: '#F196B0',
-                borderWidth: 0.5,
-                pointStyle: 'circle',
-                pointRadius: 5,
-                pointBorderColor: 'transparent',
-                pointBackgroundColor: '#F196B0',
-            }]
-        },
-        options: {
-            responsive: !0,
-            maintainAspectRatio: false,
-            tooltips: {
-                mode: 'index',
-                titleFontSize: 12,
-                titleFontColor: '#000',
-                bodyFontColor: '#000',
-                backgroundColor: '#fff',
-                titleFontFamily: 'Montserrat',
-                bodyFontFamily: 'Montserrat',
-                cornerRadius: 3,
-                intersect: false,
-            },
-            legend: {
-                display: false,
-                position: 'top',
-                labels: {
-                    usePointStyle: true,
-                    fontFamily: 'Montserrat',
-                },
-
-
-            },
-            scales: {
-                xAxes: [{
-                    display: false,
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    scaleLabel: {
-                        display: false,
-                        labelString: 'Month'
+    var labels = [];
+    $.ajax({
+        type: "GET",
+        //tên API
+        url: "http://localhost:8080/admin/api/chart/year",
+        //xử lý khi thành công
+        success: function (dataYear) {
+            // hien thi danh sach o day
+            $.ajax({
+                type: "GET",
+                //tên API
+                url: "http://localhost:8080/admin/api/chart/year/auction",
+                //xử lý khi thành công
+                success: function (data) {
+                    for (let i = 0; i < dataYear.length; i++) {
+                        labels[i] = dataYear[i];
                     }
-                }],
-                yAxes: [{
-                    display: false,
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Value'
+                    console.log(labels[0])
+                    let year = [];
+                    let total = [];
+                    for (let j=0;j<labels.length;j++){
+                        year[j]= labels[j].split(",")[0];
+                        total[j] = labels[j].split(",")[1];
                     }
-                }]
-            },
-            title: {
-                display: false,
-            }
+                    let totalAuction = [];
+                    for (let j=0;j<data.length;j++){
+                        if(year[j] === data[j].split(",")[0]){
+                            totalAuction[j] = data[j].split(",")[1];
+                        }else{
+                            totalAuction[j] = data[j].split(",")[1];
+                        }
+                    }
+                    console.log(year)
+                    "use strict"
+                    let ctx = document.getElementById("chart_widget_2");
+                    ctx.height = 280;
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: year,
+                            // labels: ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
+                            type: 'line',
+                            defaultFontFamily: 'Montserrat',
+                            datasets: [{
+                                label: "Product",
+                                data: total,
+                                backgroundColor: '#847DFA',
+                                borderColor: '#847DFA',
+                                borderWidth: 0.5,
+                                pointStyle: 'circle',
+                                pointRadius: 5,
+                                pointBorderColor: 'transparent',
+                                pointBackgroundColor: '#847DFA',
+                            }, {
+                                label: "Auction",
+                                data: totalAuction,
+                                backgroundColor: '#F196B0',
+                                borderColor: '#F196B0',
+                                borderWidth: 0.5,
+                                pointStyle: 'circle',
+                                pointRadius: 5,
+                                pointBorderColor: 'transparent',
+                                pointBackgroundColor: '#F196B0',
+                            }]
+                        },
+                        options: {
+                            responsive: !0,
+                            maintainAspectRatio: false,
+                            tooltips: {
+                                mode: 'index',
+                                titleFontSize: 12,
+                                titleFontColor: '#000',
+                                bodyFontColor: '#000',
+                                backgroundColor: '#fff',
+                                titleFontFamily: 'Montserrat',
+                                bodyFontFamily: 'Montserrat',
+                                cornerRadius: 3,
+                                intersect: false,
+                            },
+                            legend: {
+                                display: false,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    fontFamily: 'Montserrat',
+                                },
+
+
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: false,
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    scaleLabel: {
+                                        display: false,
+                                        labelString: 'Month'
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: false,
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Value'
+                                    }
+                                }]
+                            },
+                            title: {
+                                display: false,
+                            }
+                        }
+                    });
+                }
+            });
+
         }
+
     });
 
 
-    
+
 
 
 })(jQuery);
