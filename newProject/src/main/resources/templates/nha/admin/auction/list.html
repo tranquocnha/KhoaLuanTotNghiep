@@ -20,22 +20,26 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/Vinh/css/Footer.css">
     <link rel="stylesheet" href="/Vinh/css/Header.css">
     <link rel="stylesheet" href="/nha/css/Demo.css">
     <title>Quản lý sản phẩm đấu giá</title>
+
+
 </head>
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
 <div class="main">
     <div class="search__space">
-        <form method="get">
-            <label>Tên Sản Phẩm</label>
-            <input type="text" name="nameAuction"  class="filter__input"/>
-            <label>Thời gian</label>
-            <input type="text" name="AuctionTime"  class="filter__input"/>
+        <form action="/admin/auction/list" method="get">
+
+            <label>Thời gian bắt đầu</label>
+            <input type="text" name="dateStart"  class="filter__input"/>
+            <label>Thời gian kết thúc</label>
+            <input type="text" name="dateEnd"  class="filter__input"/>
+            <input type="hidden" name="page" value="0">
             <button class="btn  button__search"  type="submit">Lọc kết quả</button>
         </form>
     </div>
@@ -46,17 +50,17 @@
         <div>
             <span class="alert alert-success" th:utext="${mgseauction}" th:if="${mgseauction}"></span>
         </div>
-        <table class="table__container">
+        <table  id="example" class="table table-striped table-bordered" style="width:100%" >
             <thead class="table__thead">
             <tr>
-                <th>STT</th>
-                <th>Mã đấu giá</th>
-                <th>Tên Sản Phẩm</th>
-                <th>Bước giá</th>
-                <th>Ngày bắt đầu </th>
-                <th>Ngày kết thúc</th>
-                <th>Thời gian đấu giá</th>
-                <th>Hành động</th>
+                <th >STT</th>
+                <th >Mã đấu giá</th>
+                <th >Tên Sản Phẩm</th>
+                <th >Bước giá</th>
+                <th >Ngày bắt đầu </th>
+                <th >Ngày kết thúc</th>
+                <th >Thời gian đấu giá</th>
+                <th >Hành động</th>
             </tr>
             </thead>
             <tbody class="table__tbody">
@@ -86,25 +90,33 @@
     </div>
     </div>
 
-    <div class="center">
-        <span class="pagination">
-                <a th:href="@{'/admin/auction/list'(page=${auctionlist.number -1})}"
-                   th:if="${auctionlist.hasPrevious()}">
-                     <img class="img__arrow" src="/Images/arrrowleft.png" alt=""/>
-                </a>
-            </span>
+<!--    <div class="center">-->
+<!--        <span class="pagination">-->
+<!--                <a th:href="@{'/admin/auction/list?dateStart='+${dateStart}+'&&dateEnd='${dateEnd}(page=${auctionlist.number -1})}"-->
+<!--                   th:if="${auctionlist.hasPrevious()}">-->
+<!--                     <img class="img__arrow" src="/Images/arrrowleft.png" alt=""/>-->
+<!--                </a>-->
+<!--            </span>-->
 
-        <span class="pagination paging" th:text="${auctionlist.number + 1}"></span>
-        <span  class="pagination" th:text="${auctionlist.totalPages}"></span>
+<!--        <span class="pagination paging" th:text="${auctionlist.number + 1}"></span>-->
+<!--        <span  class="pagination" th:text="${auctionlist.totalPages}"></span>-->
 
-        <span class="pagination">
-                <a style="margin-left: 20px;" th:href="@{'/admin/auction/list'(page=${auctionlist.number + 1})}"
-                   th:if="${auctionlist.hasNext()}">
-                    <img class="img_arrow" src="/Images/arrowright.png" alt=""/>
-                </a>
-        </span>
-    </div>
+<!--        <span class="pagination">-->
+<!--                <a style="margin-left: 20px;" th:href="@{'/admin/auction/list'(page=${auctionlist.number + 1})}"-->
+<!--                   th:if="${auctionlist.hasNext()}">-->
+<!--                    <img class="img_arrow" src="/Images/arrowright.png" alt=""/>-->
+<!--                </a>-->
+<!--        </span>-->
+<!--    </div>-->
 </div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/chart/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
 </body>
 </html>

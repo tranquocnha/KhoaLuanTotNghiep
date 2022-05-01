@@ -3,6 +3,7 @@ package com.example.demo.controller.admin;
 import com.example.demo.model.AccUser;
 import com.example.demo.model.Auction;
 import com.example.demo.repository.UserRepository.UserRepository;
+import com.example.demo.repository.auctionRepository.AuctionRepository;
 import com.example.demo.service.auctionService.AuctionService;
 import com.example.demo.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.sql.Date;
 import java.util.Optional;
 
 @Controller
@@ -24,7 +26,8 @@ import java.util.Optional;
 public class AdminAuctionController {
     @Autowired
     AuctionService auctionService;
-
+    @Autowired
+    private AuctionRepository auctionRepository;
 
     @Autowired
     ProductService productService;
@@ -53,25 +56,20 @@ public class AdminAuctionController {
         return null;
     }
     @GetMapping("/auction/list")
-    public String listAuction(@RequestParam(defaultValue = "0") int page,
-                              Optional<String> nameProduct, Optional<String> auctionTime, Model model){
-        Pageable pageableSort = PageRequest.of(page, 5);
-        if(!nameProduct.isPresent()){
-            if(auctionTime.isPresent()){
-                model.addAttribute("nameAuction",auctionTime.get());
-                model.addAttribute("auctionlist",auctionService.findByAuctionTimeContains(auctionTime.get(),pageableSort));
-            }else{
-                model.addAttribute("auctionlist",auctionService.findByAllPage(pageableSort));
-            }
-        }else{
-            if(auctionTime.isPresent()){
-                model.addAttribute("nameColor",nameProduct.get());
-                model.addAttribute("nameProduct",auctionTime.get());
-                model.addAttribute("auctionlist",null);
-            }else{
-                model.addAttribute("nameAuction",nameProduct.get());
-                model.addAttribute("auctionlist",null);
-            }
+    public String listAuction(@RequestParam(name = "dateStart")String dateStart,
+                              @RequestParam(name = "dateEnd")String dateEnd, Model model){
+        System.out.println(dateStart +"/"+dateEnd);
+        if(dateStart.isEmpty() && dateEnd.isEmpty()){
+            model.addAttribute("auctionlist",auctionRepository.findAll());
+        } else if(dateStart.isEmpty() && !dateEnd.isEmpty() ){
+            System.out.println(dateEnd);
+            model.addAttribute("auctionlist",auctionRepository.findBySearchDayEnd(dateEnd));
+        } else if(dateEnd.isEmpty() && !dateStart.isEmpty()){
+            System.out.println(dateStart);
+            model.addAttribute("auctionlist",auctionRepository.findBySearchDayStart(dateStart));
+        } else  {
+            System.out.println(dateStart +"/"+dateEnd);
+            model.addAttribute("auctionlist",auctionRepository.findBySearchDayStartAndDayEnd(dateStart,dateEnd));
         }
         return "/nha/admin/auction/list";
     }

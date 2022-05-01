@@ -3,9 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.config.MyConstants;
 import com.example.demo.model.*;
 
+import com.example.demo.model.DTO.AddressAuctionDTO;
 import com.example.demo.model.DTO.AddressDTO;
 import com.example.demo.repository.UserRepository.UserRepository;
 import com.example.demo.repository.addressRepository.WardRepository;
+import com.example.demo.repository.tempAuctionRepo.TempAuctionRepository;
 import com.example.demo.repository.tempProductRepo.TempBillProductRepository;
 import com.example.demo.repository.tempProductRepo.TempProductRepository;
 import com.example.demo.service.colorService.ColorService;
@@ -62,7 +64,8 @@ public class CartController {
 
     @Autowired
     private BillService billService;
-
+    @Autowired
+    private TempAuctionRepository tempAuctionRepository;
     @Autowired
     private ProductService productService;
 
@@ -294,71 +297,6 @@ public class CartController {
         model.addAttribute("productListBillTemp", productListBill);
         cartMap.clear();
         return "nha/ReceiptPage";
-    }
-    @PostMapping("/payAuction")
-    public String payAuction(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO,HttpServletRequest request,
-                      @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, @ModelAttribute Bill bill) {
-        HashMap<Double, Product> productListBill = new HashMap<>();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AccUser user = userService.findByAccount(auth.getName());
-        LocalDate currentDate = LocalDate.now();
-        bill.setCurrent(String.valueOf(currentDate));
-        bill.setStatus("Đang giao");
-        bill.setUser(user);
-        bill.setTotalCost(totalMoney);
-        bill.setQuantity(totalQuantity);
-        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).orElse(null));
-        billService.save(bill);
-        ProductBill productBill1 = new ProductBill();
-        for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
-            Cart value = entry.getValue();
-            productListBill.put(value.getMaxPrice(), value.getProduct());
-            ProductBill productBill = new ProductBill();
-            productBill.setBill(bill);
-            productBill.setProduct(value.getProduct());
-            productBill1 = productBill;
-            billService.saveDetail(productBill);
-            TempBillProduct tempBillProduct = new TempBillProduct();
-            tempBillProduct.setBills(bill);
-            TempProduct tempProduct = new TempProduct(
-                    value.getProduct().getAccounts().getIdAccount(),
-                    value.getProduct().getCategory().getCategoryName(),
-                    value.getColor().getColor(),
-                    value.getQuantity(),
-                    value.getColor().getPrice(),
-                    value.getProduct().getProductName(),
-                    value.getProduct().getImage1(),
-                    value.getProduct().getImage2(),
-                    value.getProduct().getImage3(),
-                    value.getProduct().getDescription(),
-                    value.getProduct().getDatePost()
-            );
-            tempProductRepository.save(tempProduct);
-            tempBillProduct.setTempProduct(tempProduct);
-            tempBillProductRepository.save(tempBillProduct);
-        }
-        orderDetail = productBill1;
-        productListBillTemp = productListBill;
-        String cancelUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
-        String successUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
-        try {
-            Payment payment = paypalService.createPayment(
-                    sumTotalMoney,
-                    "USD",
-                    PayPalPaymentMethod.paypal,
-                    PayPalPaymentIntent.sale,
-                    "payment description",
-                    cancelUrl,
-                    successUrl);
-            for (Links links : payment.getLinks()) {
-                if (links.getRel().equals("approval_url")) {
-                    return "redirect:" + links.getHref();
-                }
-            }
-        } catch (PayPalRESTException e) {
-            log.error(e.getMessage());
-        }
-        return "redirect:/";
     }
 
 //

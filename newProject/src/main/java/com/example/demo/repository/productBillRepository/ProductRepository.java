@@ -65,12 +65,19 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByMyNameProduct(String idAccount, String nameProduct);
 
     @Query("select p " +
-            "from  Product p,Auction a " +
-            "where p.status = ?1 " +
+            "from  Product p inner join Auction a on p.idProduct=a.product.idProduct " +
+            "   where p.status = ?1 " +
             "   and p.category.idCategory = ?2 " +
-            "   and p.idProduct=a.product.idProduct " +
             "   and p.auction.startDate <= current_date and p.auction.endDate >= current_date and p.auction.auctionTime >= current_time ")
     List<Product> findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice(String status, Integer idCategory);
+
+    @Query(value = "select * from  product as p\n" +
+            "    inner join auction a on p.id_product = a.product_id_product\n" +
+            "    inner join category c on p.id_category = c.id_category\n" +
+            "where p.status like ?1\n" +
+            "    and c.id_category = ?2\n" +
+            "    and a.start_date <= CURDATE() and a.end_date >= CURDATE() and a.auction_time >= CURTIME()",nativeQuery = true)
+    List<Product> findByAuction(String status, Integer idCategory);
 
     @Query("select p " +
             "from  Product p,Auction a " +

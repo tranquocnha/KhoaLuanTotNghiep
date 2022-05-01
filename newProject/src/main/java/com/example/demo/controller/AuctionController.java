@@ -104,7 +104,7 @@ public class AuctionController {
             for(String s2:s1){
                 toString.append(s2);
             }
-            model.addAttribute(String.valueOf(toString), productRepository.findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice("Đã duyệt", category.getIdCategory()));
+            model.addAttribute(String.valueOf(toString), productRepository.findByAuction("Đã duyệt", category.getIdCategory()));
         }
         return "/nha/auction/Home";
     }
