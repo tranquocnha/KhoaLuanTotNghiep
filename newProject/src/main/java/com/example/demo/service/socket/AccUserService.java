@@ -2,6 +2,7 @@ package com.example.demo.service.socket;
 
 import com.example.demo.model.AccUser;
 
+import java.util.List;
 import java.util.Set;
 
 public interface AccUserService {
@@ -9,7 +10,7 @@ public interface AccUserService {
 
     AccUser findByUserName(String userName);
 
-    Set<String> findAllByName();
+    List<AccUser> findAllByName();
 
     Boolean blockControl(String name, String name1);
 }

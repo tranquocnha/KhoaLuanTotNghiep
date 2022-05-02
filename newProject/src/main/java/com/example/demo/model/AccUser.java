@@ -25,7 +25,6 @@ public class AccUser {
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "account", referencedColumnName = "idAccount")
-    @JsonIgnore
     private Account account;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

@@ -68,6 +68,7 @@ public class ProductController {
         return null;
     }
 
+
     @GetMapping(value = "/product/list")
     public String user(Model model, Principal principal, @PageableDefault(size = 5) Pageable pageable) {
         String userName = principal.getName();
@@ -88,7 +89,6 @@ public class ProductController {
         model.addAttribute("listSP", productService.findAllByNotApprovedYet("No money", userName));
         return "/vuong/listNoUpdateMoney";
     }
-
     @GetMapping(value = "/product/waitList")
     public String formWaitList(Model model, Principal principal) {
         model.addAttribute("listProductColor", colorService.findByProduct_Status("No money"));

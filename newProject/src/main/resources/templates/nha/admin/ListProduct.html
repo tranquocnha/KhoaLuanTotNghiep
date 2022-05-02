@@ -35,6 +35,14 @@
     <link rel="stylesheet" href="/Vinh/css/Footer.css">
     <link rel="stylesheet" href="/nha/css/Demo.css">
     <title>Admin</title>
+    <style>
+        .over {
+            white-space: nowrap;
+            width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 
 <body>
@@ -234,16 +242,16 @@
             <tbody class="table__tbody" th:unless="${mgs}">
             <tr th:each="sanpham: ${product}">
                 <td>
-                    <h4 th:text="${sanpham.productName}"></h4>
+                    <h4 class="over" th:text="${sanpham.productName}"></h4>
                 </td>
                 <td >
-                    <h4 th:text="${sanpham.accounts.user.name}"></h4>
+                    <h4 class="over" th:text="${sanpham.accounts.user.name}"></h4>
                 </td>
                 <td >
-                    <h4 th:text="${sanpham.category.categoryName}"></h4>
+                    <h4 class="over" th:text="${sanpham.category.categoryName}"></h4>
                 </td>
 
-                <td>
+                <td class="over">
                     <a th:href="@{/admin/edit(id = ${sanpham.idProduct})}">
                         <button class="button__action background-blue"  th:href="@{/admin/edit(id = ${sanpham.idProduct})}">
 <!--                            <img src="/Images/edit.png"/>-->

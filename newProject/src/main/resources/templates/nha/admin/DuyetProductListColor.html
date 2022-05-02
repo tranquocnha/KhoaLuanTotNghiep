@@ -17,6 +17,14 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/nha/css/style.css">
     <title>Chi Tiết Màu Sản Phẩm</title>
+    <style>
+        .over {
+            white-space: nowrap;
+            width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
@@ -46,13 +54,13 @@
 
             <tbody class="table__tbody">
             <tr th:each="color,iterstart : ${listColor}">
-                <td th:text="${iterstart.count}"></td>
-                <td><h4 th:text="${color.color}"></h4></td>
-                <td ><h4 th:text="${color.price}"></h4></td>
-                <td th:text="${color.quantity}"></td>
-                <td th:text="${color.accounts.user.name}"></td>
-                <td th:text="${color.product.productName}"></td>
-                <td>
+                <td class="over" th:text="${iterstart.count}"></td>
+                <td><h4 class="over"  th:text="${color.color}"></h4></td>
+                <td ><h4 class="over"  th:text="${color.price}"></h4></td>
+                <td class="over"  th:text="${color.quantity}"></td>
+                <td class="over"  th:text="${color.accounts.user.name}"></td>
+                <td class="over"  th:text="${color.product.productName}"></td>
+                <td class="over" >
                     <a th:href="@{/admin/view(id = ${color.product.idProduct})}">
                         <button class="button__action background-blue " th:href="@{/admin/view(id = ${color.product.idProduct})}">
                             <span>Cập nhật</span>

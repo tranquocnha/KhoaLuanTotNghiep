@@ -265,7 +265,8 @@
     <div class="people-list" id="people-list">
         WELCOME [[${userNames.name}]]
         <div class="search">
-            <input id="userName" placeholder="Write your userName" type="text"/>
+            <input id="userName"  placeholder="Write your userName" type="hidden" th:value="${account}"/>
+
         </div>
         <ul class="list" id="usersList">
 
@@ -416,12 +417,9 @@
     let selectedUser;
     let newMessages = new Map();
 
-    registration();
-    fetchAll();
-
     function connectToChat(userName) {
         console.log("connecting to chat...")
-        let socket = new SockJS('http://localhost:8080/chat');
+        let socket = new SockJS(url + '/chat');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log("connected to: " + frame);
@@ -443,7 +441,6 @@
             message: text
         }));
     }
-
 
     function registration() {
         let userName = document.getElementById("userName").value;
@@ -471,13 +468,13 @@
 
     function fetchAll() {
         $.get(url + "/fetchAllUsers", function (response) {
-            let users = response;
+            console.log(response);
             let usersTemplateHTML = "";
-            for (let i = 0; i < users.length; i++) {
-                usersTemplateHTML = usersTemplateHTML + '<a href="#" onclick="selectUser(\'' + users[i] + '\')"><li class="clearfix">\n' +
+            for (let i = 0; i < response.length; i++) {
+                usersTemplateHTML = usersTemplateHTML + '<a href="#" onclick="selectUser(\'' + response[i].account.idAccount + '\')"><li class="clearfix">\n' +
                     '                <img src="https://rtfm.co.ua/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png" width="55px" height="55px" alt="avatar" />\n' +
                     '                <div class="about">\n' +
-                    '                    <div id="userNameAppender_' + users[i] + '" class="name">' + users[i] + '</div>\n' +
+                    '                    <div id="userNameAppender_' + response[i].name + '" class="name">' + response[i].name + '</div>\n' +
                     '                    <div class="status">\n' +
                     '                        <i class="fa fa-circle offline"></i>\n' +
                     '                    </div>\n' +
@@ -487,6 +484,8 @@
             $('#usersList').html(usersTemplateHTML);
         });
     }
+    registration();
+    fetchAll();
 </script>
 </body>
 </html>

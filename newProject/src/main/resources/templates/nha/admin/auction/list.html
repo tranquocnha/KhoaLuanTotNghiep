@@ -27,7 +27,14 @@
     <link rel="stylesheet" href="/nha/css/Demo.css">
     <title>Quản lý sản phẩm đấu giá</title>
 
-
+<style>
+    .over {
+        white-space: nowrap;
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 </head>
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
@@ -65,13 +72,13 @@
             </thead>
             <tbody class="table__tbody">
             <tr th:each="auction,iterstart:${auctionlist}">
-                <td><h4 th:text="${iterstart.count}"></h4></td>
-                <td><h4 th:text="${auction.idAuction}"></h4></td>
-                <td><h4 th:text="${auction.product.productName}"></h4></td>
-                <td><h4 th:text="${auction.priceJump}"></h4></td>
-                <td><h4 th:text="${auction.startDate}"></h4></td>
-                <td><h4 th:text="${auction.endDate}"></h4></td>
-                <td><h4 th:text="${auction.auctionTime}"></h4></td>
+                <td><h4 class="over" th:text="${iterstart.count}"></h4></td>
+                <td><h4 class="over" th:text="${auction.idAuction}"></h4></td>
+                <td><h4 class="over" th:text="${auction.product.productName}"></h4></td>
+                <td><h4 class="over" th:text="${auction.priceJump}"></h4></td>
+                <td><h4 class="over" th:text="${auction.startDate}"></h4></td>
+                <td><h4 class="over" th:text="${auction.endDate}"></h4></td>
+                <td><h4 class="over" th:text="${auction.auctionTime}"></h4></td>
                 <td>
                     <a th:href="@{/admin/auction/edit/{idAuction}(idAuction = ${auction.idAuction})}">
                         <button class="button__action background-blue " >

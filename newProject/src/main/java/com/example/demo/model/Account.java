@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -11,31 +12,40 @@ public class Account {
     @Column(name = "idAccount")
     private String idAccount;
     @NotNull
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private String rePassword;
+    @JsonIgnore
     private boolean status;
 
 //     @ManyToMany(mappedBy = "accounts",fetch = FetchType.EAGER)
 //    private Set<Role> roles;
     @Column(name = "reset_password_token")
+    @JsonIgnore
     private String resetPasswordToken;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "accountRole" ,
             joinColumns = @JoinColumn(name = "idAccount") ,
             inverseJoinColumns = @JoinColumn(name = "idRole"))
+    @JsonIgnore
     private Set<Role> roles;
 
     @OneToOne(mappedBy = "account")
+    @JsonIgnore
     private AccUser user;
 
     @OneToMany(mappedBy = "accounts")
+    @JsonIgnore
     private Set<Product> products;
 
     @OneToMany(mappedBy = "accounts", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Discount> discounts;
 
     @OneToMany(mappedBy = "accounts", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Color> colors;
 
     public Account() {

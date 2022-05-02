@@ -26,7 +26,14 @@
     <link rel="stylesheet" href="/Vinh/css/Header.css">
 
     <title>Product Detail</title>
-
+    <style>
+        .over {
+            white-space: nowrap;
+            width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
     <style>
         .bdge {
             height: 21px;
@@ -98,7 +105,7 @@
                     </div>
                 </div>
                 <div class="page__right">
-                    <h1 class="product__title" th:text="${product.productName}"></h1>
+                    <h1 class="product__title over"  th:text="${product.productName}"></h1>
                     <div class="product__price">
                         <p id="priceProduct"></p>
                         <p style="margin-left: 10px">$</p>

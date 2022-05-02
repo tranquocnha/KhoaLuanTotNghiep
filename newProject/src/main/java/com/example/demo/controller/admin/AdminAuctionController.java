@@ -58,13 +58,12 @@ public class AdminAuctionController {
     @GetMapping("/auction/list")
     public String listAuction(@RequestParam(name = "dateStart")String dateStart,
                               @RequestParam(name = "dateEnd")String dateEnd, Model model){
-        System.out.println(dateStart +"/"+dateEnd);
         if(dateStart.isEmpty() && dateEnd.isEmpty()){
             model.addAttribute("auctionlist",auctionRepository.findAll());
-        } else if(dateStart.isEmpty() && !dateEnd.isEmpty() ){
+        } else if(dateStart.isEmpty()){
             System.out.println(dateEnd);
             model.addAttribute("auctionlist",auctionRepository.findBySearchDayEnd(dateEnd));
-        } else if(dateEnd.isEmpty() && !dateStart.isEmpty()){
+        } else if(dateEnd.isEmpty()){
             System.out.println(dateStart);
             model.addAttribute("auctionlist",auctionRepository.findBySearchDayStart(dateStart));
         } else  {
@@ -92,7 +91,7 @@ public class AdminAuctionController {
     public String submitEditAuction(Auction auction,RedirectAttributes redirectAttributes){
         auctionService.save(auction);
         redirectAttributes.addFlashAttribute("mgseauction" , "Update " +auction.getProduct().getProductName()+"success");
-        return "redirect:/admin/auction/list";
+        return "redirect:/admin/auction/list?dateStart=&dateEnd=";
     }
 
 

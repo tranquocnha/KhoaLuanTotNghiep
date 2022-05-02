@@ -26,19 +26,12 @@ public class AccUserServiceImpl implements AccUserService {
 
     @Override
     public AccUser findByUserName(String userName) {
-        return accUserRepository.findByName(userName);
+        return accUserRepository.findByAccount_IdAccount(userName);
     }
 
     @Override
-    public Set<String> findAllByName() {
-        List<AccUser> listUsers = accUserRepository.findAll();
-        Set<String> response = new HashSet<String>();
-        listUsers.forEach(user ->{
-            String name = user.getName();
-            response.add(name);
-        });
-
-        return response;
+    public List<AccUser> findAllByName() {
+        return  accUserRepository.findAll();
     }
 
     @Override

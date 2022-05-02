@@ -29,6 +29,14 @@
     <!--  <link rel="stylesheet" href="/nha/css/category/create.css">-->
     <link rel="stylesheet" href="/nha/css/Demo.css">
     <link rel="stylesheet" href="/Vinh/css/Header.css">
+    <style>
+        .over {
+            white-space: nowrap;
+            width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
@@ -59,13 +67,13 @@
             </thead>
             <tbody class="table__tbody">
             <tr th:each="comment,iterstart:${product_comment}">
-                <td><h4 th:text="${iterstart.count}"></h4></td>
-                <td><h4 th:text="${comment.productName}"></h4></td>
-                <td><h4 th:text="${comment.datePost}"></h4></td>
-                <td><h4 th:text="${comment.status}"></h4></td>
-                <td><h4 th:text="${comment.accounts.user.name}"></h4></td>
-                <td><h4 th:text="${comment.category.categoryName}"></h4></td>
-                <td>
+                <td><h4 class="over" th:text="${iterstart.count}"></h4></td>
+                <td><h4 class="over" th:text="${comment.productName}"></h4></td>
+                <td><h4 class="over" th:text="${comment.datePost}"></h4></td>
+                <td><h4 class="over" th:text="${comment.status}"></h4></td>
+                <td><h4 class="over" th:text="${comment.accounts.user.name}"></h4></td>
+                <td><h4 class="over" th:text="${comment.category.categoryName}"></h4></td>
+                <td class="over">
                     <a th:href="@{/admin/comment/list/{id}(id = ${comment.idProduct})}">
                         <button class="button__action background-blue " >
                             <span>Danh Sách Bình Luận</span>

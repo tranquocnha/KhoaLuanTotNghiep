@@ -20,6 +20,8 @@ public class Comment {
     @Column(length = 2000)
     private String Content;
 
+
+
     @OneToMany(mappedBy = "comment")
     private Set<CommentProduct> userSet;
 

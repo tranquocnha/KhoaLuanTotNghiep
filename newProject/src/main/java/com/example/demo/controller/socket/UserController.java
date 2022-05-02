@@ -11,8 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -30,13 +33,14 @@ public class UserController {
         return userRepo.findByAccount_IdAccount(auth.getName());
     }
     @GetMapping(value="/chats", consumes= MediaType.ALL_VALUE)
-    public String chat() {
+    public String chat(Model model, Principal principal) {
+        model.addAttribute("account",principal.getName());
         return "nha/socket/chatMessager";
     }
 
     @GetMapping("/fetchAllUsers")
     @ResponseBody
-    public Set<String> fetchAll() {
+    public List<AccUser> fetchAll() {
         return userServiceInterface.findAllByName();
     }
 
@@ -51,19 +55,4 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("/blockUser")
-//    public ResponseEntity<Void> block(@RequestParam String angryUser, @RequestParam String blockedUser) throws Exception {
-//        userServiceInterface.block(angryUser, blockedUser);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @GetMapping("/unblockUser")
-//    public ResponseEntity<Void> unblock(@RequestParam String angryUser, @RequestParam String blockedUser) {
-//        Boolean b = userServiceInterface.unblock(angryUser, blockedUser);
-//        if(b.equals(Boolean.TRUE)) {
-//            return ResponseEntity.ok().build();
-//        } else {
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
 }
