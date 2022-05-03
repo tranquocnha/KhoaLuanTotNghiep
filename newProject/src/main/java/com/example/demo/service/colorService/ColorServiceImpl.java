@@ -47,6 +47,11 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
+    public Page<Color> findAllByProduct(String  idAccount, Pageable pageable) {
+        return colorRepository.findAllByProduct_Accounts_IdAccount(idAccount,pageable);
+    }
+
+    @Override
     public List<Color> findAllProduct(String idAccount) {
         return colorRepository.findAllByProduct_Accounts_IdAccount(idAccount);
     }
@@ -54,6 +59,11 @@ public class ColorServiceImpl implements ColorService {
     @Override
     public List<Color> findAllApprovedProduct(String status, String idAccount) {
         return colorRepository.findAllByProduct_StatusAndProduct_Accounts_IdAccount(status , idAccount);
+    }
+
+    @Override
+    public Page<Color> findAllApprovedProduct(String status, String idAccount,Pageable pageable) {
+        return colorRepository.findAllByProduct_StatusAndProduct_Accounts_IdAccount(status , idAccount,pageable);
     }
 
     @Override

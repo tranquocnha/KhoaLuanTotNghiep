@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findByIdStatus(String status, int idProduct) {
-        return productRepository.findByStatusAndIdProduct(status,idProduct);
+        return productRepository.findByStatusAndIdProduct(status, idProduct);
     }
 
     @Override
@@ -51,12 +51,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findByNameApproved(String status, String nameProduct) {
-        return productRepository.findByStatusAndProductNameContains(status , nameProduct);
+        return productRepository.findByStatusAndProductNameContains(status, nameProduct);
     }
 
     @Override
     public List<Product> findByCategory(String status, int idCategory) {
-        return productRepository.findByStatusAndCategory_IdCategoryOrderByPrice(status , idCategory);
+        return productRepository.findByStatusAndCategory_IdCategoryOrderByPrice(status, idCategory);
     }
 
     @Override
@@ -75,18 +75,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findByName(String productName,Pageable pageable) {
-        return productRepository.findByProductNameContains(productName,pageable);
+    public Page<Product> findByName(String productName, Pageable pageable) {
+        return productRepository.findByProductNameContains(productName, pageable);
     }
 
     @Override
     public List<Product> findByCategoryAndNameProduct(String status, Integer idCategory, String nameProduct) {
-        return productRepository.findByStatusAndCategory_IdCategoryAndProductNameContainsOrderByPrice(status , idCategory , nameProduct);
+        return productRepository.findByStatusAndCategory_IdCategoryAndProductNameContainsOrderByPrice(status, idCategory, nameProduct);
     }
 
     @Override
     public List<Product> findByCategory(String status, Integer idCategory) {
-        return productRepository.findByStatusAndCategory_IdCategoryOrderByPrice(status , idCategory);
+        return productRepository.findByStatusAndCategory_IdCategoryOrderByPrice(status, idCategory);
     }
 
     @Override
@@ -96,16 +96,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllByNotApprovedYet(String status, String idAccount) {
-        return productRepository.findAllByNotApprovedYet(status , idAccount);
+        return productRepository.findAllByNotApprovedYet(status, idAccount);
+    }
+
+    @Override
+    public Page<Product> findAllProductByNotApprovedYet(Pageable pageable, String status, String idAccount) {
+        return productRepository.findAllProductByNotApprovedYet(pageable, status, idAccount);
     }
 
     @Override
     public List<Product> findByNotApprovedYet(String status, String idAccount, String nameProduct) {
-        return productRepository.findByProductNameNotApprovedYet(status , idAccount , nameProduct);
+        return productRepository.findByProductNameNotApprovedYet(status, idAccount, nameProduct);
     }
 
     @Override
     public List<Product> findByNameProduct(String idAccount, String nameProduct) {
-        return productRepository.findByMyNameProduct(idAccount , nameProduct);
+        return productRepository.findByMyNameProduct(idAccount, nameProduct);
     }
 }
