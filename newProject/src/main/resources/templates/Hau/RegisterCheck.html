@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/nha/css/register.css">
+    <title>Register Page</title>
+</head>
+
+<body>
+<div class="register">
+
+    <div class="register__form-background">
+        <div class="register__form-img">
+            <img src="/Images/Logo-Neffex.png" />
+        </div>
+
+        <h5 class="register__form-title">Create your Walmart account</h5>
+        <form  th:action="@{/confirm}" method="post">
+
+            <p class="register__form-title">Please check your email to register an account</p>
+            <!--            <input type="text" class="form__field-input" placeholder=" "  th:field="*{phoneUser}"  autofocus>-->
+            <!--            <label class="form__field-label">Số điện thoại</label>-->
+            <!--            <p class="form__field-error"  th:if="${#fields.hasErrors('phoneUser')}" th:errors="*{phoneUser}"></p>-->
+
+            <p th:text="${email1}"   class="register__form-title">email1</p>
+            <p th:text="${password}" class="register__form-title">password</p>
+            <p th:text="${userName}" class="register__form-title">userName</p>
+            <p th:text="${phoneUser}" class="register__form-title">phoneUser</p>
+            <p th:text="${sex}" class="register__form-title">sex</p>
+            <p th:text="${numberCard}" class="register__form-title">numberCard</p>
+            <p th:text="${add}" class="register__form-title">add</p>
+            <p th:text="${date}" class="register__form-title">date</p>
+            <p th:text="${rePassword}" class="register__form-title">rePassword</p>
+
+            <div class="form__button">
+                <button class="button__signin" type="submit">Confirm</button>
+                <button class="form__button-signin" ><a href="/login">Sign in</a></button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+</body>
+
+
+</html>

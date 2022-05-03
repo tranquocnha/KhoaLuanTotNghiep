@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thông tin cá nhân</title></head>
+
+<div th:insert="~{/Hau/layout :: head}"></div>
+<body>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+
+<div class="alert alert-success  alert-dismissible fade show" role="alert" th:if="${message}">
+    <strong th:text="${message}">Holy guacamole!</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="main">
+    <div class="main__userbill">
+        <div th:replace="~{/Hau/layout :: main__left}"></div>
+        <div class="main__right  " style="border-color: #00BFFF;margin: 50px 0px 0px">
+            <div class="alert" role="alert">
+                <label class="col-form-label user__title"><h4>Thông Tin Cá Nhân :</h4></label>
+                <div class="col-lg-6 user__name" th:text="${users.account.idAccount} "></div>
+            </div>
+            <div class="form__container">
+                <form class="form-group row col-lg-10 mt-3" th:object="${users}" method="post"
+                      th:action="@{/editMember}">
+                    <input type="hidden" th:field="*{idUser}">
+                    <input type="hidden" th:field="*{account.idAccount}">
+                    <input type="hidden" th:field="*{sex}">
+                    <div class="col-lg-10 mt-3">
+
+                        <div class="form-group row  m-lg-2 ">
+                            <label class="col-lg-2 col-sm-4 col-form-label mx-auto content1" for="name">Họ Tên<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-lg-9 col-sm-8 mt-1">
+                                <input type="text" class="form-control" th:field="*{name}" id="name">
+                                <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                       style="color: #ff0000"></label>
+                            </div>
+                        </div>
+                        <div class="form-group row  m-lg-2">
+                            <label class="col-lg-2 col-sm-4 col-form-label mx-auto content1" for="name">Gmail<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-lg-9 col-sm-8 mt-1 ">
+                                <input type="text" class="form-control" th:field="*{gmail}" id="gmail">
+                                <label th:if="${#fields.hasErrors('gmail')}" th:errors="*{gmail}"
+                                       style="color: #ff0000"></label>
+                            </div>
+                        </div>
+                        <div class="form-group row  m-lg-2">
+                            <label class="col-lg-3  col-sm-4  col-form-label mx-auto content1" for="name">Số điện
+                                thoại<span
+                                        class="text-danger">*</span></label>
+                            <div class="col-lg-9  col-sm-8 mt-1 ">
+                                <input type="text" class="form-control" th:field="*{phoneUser}" id="phoneUser">
+                                <label th:if="${#fields.hasErrors('phoneUser')}" th:errors="*{phoneUser}"
+                                       style="color: #ff0000"></label>
+                            </div>
+                        </div>
+                        <div class="form-group row  m-lg-2">
+                            <label class="col-lg-3  col-sm-4  col-form-label mx-auto content1" for="name">Ngày sinh<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-lg-9  col-sm-8 mt-1 ">
+                                <input type="text" class="form-control" th:field="*{dateOfBirth}" id="dateOfBirth">
+                                <label th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"
+                                       style="color: #ff0000"></label>
+                            </div>
+                        </div>
+                        <div class="form-group row  m-lg-2">
+                            <label class="col-lg-3  col-sm-4  col-form-label mx-auto content1" for="name">Số CMND<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-lg-9  col-sm-8 mt-1 ">
+                                <input type="text" class="form-control" th:field="*{numberCard}" id="numberCard">
+                                <label th:if="${#fields.hasErrors('numberCard')}" th:errors="*{numberCard}"
+                                       style="color: #ff0000"></label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-sm-4 col-form-label hiden"></span></label>
+                            <div class="col-lg-10 col-sm-8">
+                                <label class="col-lg-10 col-sm-12 col-form-label "><span
+                                        class="text-danger mr-1">*</span>Các
+                                    trường
+                                    bắt buộc điền</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-1 mt-3">
+                        <p class="text-center">Ảnh</p>
+                        <p class="text-center">
+                            <img th:src="@{/Images/icon_user.jpg}" style="width: 10em;height: 10em"/>
+                            <!--                        <img src="Images/icon_user.jpg" style="width: 10em;height: 10em" alt="Hồ sơ của tôi">-->
+                        </p>
+                    </div>
+                    <div class="button__layout">
+
+                        <button type="submit" class="btn button__update" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                            Cập Nhật
+                        </button>
+                        <a th:href="@{/}" class="btn btn-warning " style="color: white">
+                            Quay lại trang chủ
+                        </a>
+                    </div>
+                    <div class="row col-lg-12 hide mt-3"></div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="~{/HeaderFooter/Footer::footer_clinet}"></div>
+<div th:replace="~{/Hau/layout :: script}"></div>
+
+</body>
+</html>

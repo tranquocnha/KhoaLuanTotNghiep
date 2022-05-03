@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <link rel="stylesheet" href="/Vinh/css/Header.css">
+    <link rel="stylesheet" href="/Vinh/css/Footer.css">
+    <link rel="stylesheet" href="/nha/css/Demo.css">
+    <title>Chỉnh sửa sản phẩm đấu giá</title>
+</head>
+<body>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div class="main">
+    <div class="main__userbill">
+        <div th:insert="~{/nha/admin/ListProduct::main__left}"></div>
+        <div class="main__right_edit_auction">
+            <div id="content">
+            <div class="container-fluid">
+                <div class="card-body">
+                    <form id="profileForm" class="css" action="/admin/auction/edit" method="post" th:object="${auction}">
+                        <input th:field="*{idAuction}" type="hidden"/>
+                        <input th:field="*{product}" type="hidden">
+                        <div class="form-row">
+                            <div class="name">Tên Sản Phẩm</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input id="name" th:field="*{product.productName}" type="text" class="input--style-5"
+                                           required="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Bước Giá</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input id="price" th:field="*{priceJump}" type="text" class="input--style-5"
+                                           required="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Ngày Bắt Đầu</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input id="startDate" th:field="*{startDate}" type="date" class="input--style-5" required="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Ngày Kết Thúc</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input id="endDate" th:field="*{endDate}" type="date" class="input--style-5" required="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Thời Gian Đấu Giá</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input id="status" th:field="*{auctionTime}" type="time" class="input--style-5"
+                                           required="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="containerBtn">
+                                <button class="btn btn--radius-2 btn--red" type="submit" value="Submit">Lưu</button>
+<!--                                <button class="btn btn&#45;&#45;radius-2 btn&#45;&#45;red" type="submit"><a th:href="@{/admin/auction/list}">Hủy</a>-->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

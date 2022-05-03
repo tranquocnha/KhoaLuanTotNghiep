@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="/Vinh/css/Header.css">
+    <link rel="stylesheet" href="/Vinh/css/Footer.css">
+    <link rel="stylesheet" href="/nha/css/Demo.css">
+    <title>Quản lý đơn hàng</title>
+
+</head>
+<body>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div class="main ">
+    <div class="search__form">
+        <form action="/nhas/pagaList" method="post">
+            <label>Tên Người Dùng</label>
+            <input type="text" class="filter__input" name="nameUser" id="mem-name"/>
+            <label>Tên Sản Phẩm</label>
+            <input type="text"  class="filter__input" name="nameProduct" id="mem-add"/>
+            <button class="filter__btn" type="submit">Lọc kết quả</button>
+        </form>
+    </div>
+    <div class="main__userbill ">
+    <div th:insert="~{/nha/admin/ListProduct::main__left}" ></div>
+
+    <div class="main__right">
+        <div class="main__right-table">
+            <table class="table table-hover text-center">
+                <thead class="table__thead">
+
+                <tr>
+                    <th>STT</th>
+                    <th>Mã giao dịch</th>
+                    <th>Thời gian </th>
+                    <th>Người mua</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Thành tiền</th>
+                    <th>Tình trạng giao dịch</th>
+                    <th>Xóa</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="listProduct,iterStat:${listDonGia}">
+                    <td th:text="${iterStat.count}"></td>
+                    <td th:text="${listProduct.bill.idBill}"></td>
+                    <td th:text="${listProduct.bill.current}"></td>
+                    <td th:text="${listProduct.bill.user.name}"></td>
+                    <td th:text="${listProduct.product.productName}"></td>
+                    <td th:text="${listProduct.bill.current}"></td>
+                    <td th:text="${listProduct.bill.status}"></td>
+                    <td>
+                        <a th:href="@{/nhas/{id}/delete(id=${listProduct.bill.idBill})}">
+                            <button class="button__action background-red" >
+                                <!--                           <img src="/Images/delete.jpg"/>-->
+                                <svg viewBox="64 64 896 896" focusable="false" data-icon="delete" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path></svg>
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="center">
+            <div class="center__pagination">
+                <span th:text="${listDonGia.number + 1}"></span>/<span
+                    th:text="${listDonGia.totalPages}"></span>
+            </div>
+            <div class="center__pagination_img">
+                <a th:href="@{'/nhas/dongia'(page=${listDonGia.number - 1})}"
+                   th:if="${listDonGia.hasPrevious()}">
+                    <img class="img__arrow" src="/Images/arrrowleft.png" alt=""/>
+                </a>
+                <a th:href="@{'/nhas/dongia'(page=${listDonGia.number + 1})}"
+                   th:if="${listDonGia.hasNext()}">
+                    <img class="img_arrow" src="/Images/arrowright.png" alt=""/>
+                </a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

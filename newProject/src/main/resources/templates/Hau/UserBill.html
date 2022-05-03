@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Đơn hàng</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/RCMBfPu.png">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!--    <script crossorigin="anonymous"-->
+<!--            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"-->
+<!--            src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--    -->
+<!--        <div th:insert="~{/Hau/layout :: head}"></div>-->
+    <link rel="stylesheet" href="/nha/css/Demo.css">
+    <link rel="stylesheet" href="/Vinh/css/Footer.css">
+    <link rel="stylesheet" href="/Vinh/css/Header.css">
+    <link rel="stylesheet" href="../../static/nha/css/category/create.css">
+</head>
+<body>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div class="main ">
+    <div class="main__userbill">
+        <div th:replace="/Hau/layout :: main__left"></div>
+        <div class="main__right  " style="border-color: #00BFFF;margin: 50px 0px 0px">
+            <div th:fragment="thong-ke">
+                <div class="card-header card__layout ">
+                    <label class="col-form-label bill__title"><i class="fas fa-file-invoice"></i></i>
+                        Danh sách đơn hàng
+                    </label>
+                </div>
+                <table class="table table-hover h-50 rounded mt-4" id="tableHistory" style="font-size: 14px">
+                    <thead>
+                    <tr class="table" style="font-size:17px ">
+                        <th class="table__col">Số bill</th>
+                        <th class="table__col">Địa chỉ giao hàng</th>
+
+                        <th class="table__col">Trạng thái</th>
+                        <th class="table__col">Tổng tiền</th>
+                    </tr>
+                    <tr class="mt-2" th:each="billDetail : ${bills}">
+                        <td class="table__data" th:text="${billDetail.idBill}"></td>
+                        <td class="table__data" th:text="${billDetail.current}"></td>
+
+                        <td class="table__data" th:text="${billDetail.status}"></td>
+                        <td class="table__data" th:text="${billDetail.totalCost}"></td>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="button__layout">
+                    <a th:href="@{/}" class="btn btn-warning " style="color: white">
+                        Quay lại trang chủ
+                    </a>
+                </div>
+                <div class="row col-lg-12 hide mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="~{/HeaderFooter/Footer::footer_clinet}"></div>
+<div th:replace="~{/Hau/layout :: script}"></div>
+</body>
+</html>

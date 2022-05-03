@@ -1,0 +1,59 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+
+    <title>Document</title>
+<!--    <link rel="stylesheet" href="/static/Hau/errorPage/css/style.css">-->
+<!--    <link rel="stylesheet" href="/static/Hau/errorPage/css/style.css">-->
+<!--    <link rel="stylesheet" href="/static/Hau/error.css">-->
+
+<!--    <link rel="stylesheet" href="/Hau/error.css" type="text/css">-->
+    <link rel="stylesheet" href="/Hau/errorPage/css/style.css">
+    <!--    <style>-->
+<!--        body {-->
+<!--            background:url(/static/Hau/errorPage/images/sun.jpg)no-repeat;-->
+<!--            background-size: cover;-->
+<!--            font-family: 'Open Sans', sans-serif;-->
+<!--            font-size: 100%;-->
+<!--        }-->
+<!--    </style>-->
+</head>
+<body>
+<div class="not-found">
+    <div class="notfound-top">
+        <h1>404</h1>
+    </div>
+    <div class="content">
+        <img src="/Hau/errorPage/images/green.png" alt="" title="">
+        <h3 class="btn btn-secondary"  th:if="${mgs != null}" th:value="${mgs}">Bạn không có quyền truy cập
+        </h3>
+        <h3 class="btn btn-secondary"  th:if="${mgs != null}" th:value="${mgs}">Xin lỗi vì trang này bị lỗi vui lòng quay lại trang chủ
+        </h3>
+        <h3 class="btn btn-secondary" style="margin-left: 40%;" th:if="${message != null}" th:value="${message}">Xin lỗi vì trang này bị lỗi vui lòng quay lại trang chủ
+        </h3>
+<!--        <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h3>-->
+        <form>
+            <!--            <input type="text" value="User Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'User Name';}">-->
+            <!--            <input type="submit" value="Send"/>-->
+<!--            <input type="submit" value="Send" target="_blank" href="/login" class="more-link"/>Quay lại trang chủ-->
+            <a th:href="@{/}" class="more-link">Quay lại trang chủ</a>
+            <a th:href="@{/login}" class="more-link">Đăng Nhập</a>
+        </form>
+        <ul class="social-icon">
+            <li><a  class="fa" href="#"> </a></li>
+            <li><a  class="tw" href="#"> </a></li>
+            <li><a  class="g" href="#"> </a></li>
+        </ul>
+    </div>
+    <div class="clear"> </div>
+</div>
+<div class="copyright">
+    <p>© 2022 Creative 404. All rights reserved | Design by  <a href="https://www.facebook.com/PennyWise4869/" target="_blank">  TrungHau </a></p>
+</div>
+
+</body>
+</html>

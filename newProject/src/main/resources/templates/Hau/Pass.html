@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chỉnh sửa mật khẩu</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/RCMBfPu.png">
+    <div th:insert="~{/Hau/layout :: head}"></div>
+</head>
+
+<body>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div class="alert alert-success  alert-dismissible fade show" role="alert" th:if="${message}">
+    <strong th:text="${message}"></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div class="alert alert-warning  alert-dismissible fade show" role="alert" th:if="${messages}">
+    <strong th:text="${messages}"></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div class="alert alert-danger  alert-dismissible fade show" role="alert" th:if="${messagess}">
+    <strong th:text="${messagess}"></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="main">
+    <div class="main__userbill">
+        <div th:replace="~{/Hau/layout :: main__left}"></div>
+        <div class="main__right  " style="border-color: #00BFFF;margin: 50px 0px 0px">
+
+            <div class="alert" role="alert">
+                <label class="col-form-label user__title"><h4>Đổi mật khẩu</h4></label>
+            </div>
+            <div class="card-body">
+                <form id="profileForm" class="css" th:object="${account1}" method="post"
+                      th:action="@{/editPass}">
+                    <input type="hidden" th:field="*{idAccount}">
+
+                    <input type="hidden" th:field="*{status}">
+                    <input type="hidden" th:field="*{roles}">
+
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-sm-4 col-form-label">Mật khẩu hiện tại</label>
+                        <div class="col-lg-8 col-sm-8">
+                            <input id="psw" name="psw" type="password" class="form-control"
+                                   required></div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-sm-4 col-form-label">Mật khẩu mới</label>
+                        <div class="col-lg-8 col-sm-8">
+                            <input id="psw-new" name="psw-new" type="password" class="form-control"
+                                   required="true" value="" th:field="*{password}"></div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-sm-4 col-form-label">Xác nhận mật khẩu</label>
+                        <div class="col-lg-8 col-sm-8">
+                            <input id="psw-repeat" name="psw-repeat" type="password" class="form-control"
+                                   required="true" value="" th:field="*{rePassword}"></div>
+                    </div>
+                    <div class="button__layout">
+                        <button class="btn button__update " type="submit">Cập Nhật</button>
+                        <a th:href="@{/ProfileDetail/__${account1.user.idUser}__}" class="btn btn-warning "
+                           style="color: white">
+                            Quay lại trang chủ
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="~{/HeaderFooter/Footer::footer_clinet}"></div>
+<div th:replace="~{/Hau/layout :: script}"></div>
+</body>
+</html>
