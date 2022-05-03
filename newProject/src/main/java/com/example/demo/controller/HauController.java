@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -75,42 +76,58 @@ public class HauController {
         return "Hau/ProfileDetail";
     }
 
-    @GetMapping(value = "/editMember/{id}")
-    public String showMemberEdit(@PathVariable("id") int idUser, Model model) {
-        AccUser user = userService.findById(idUser);
+    @GetMapping(value = "/editMember")
+    public String showMemberEdit(Principal principal, Model model) {
+        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
+//        AccUser user = userService.findById(idUser);
         model.addAttribute("users", user);
         model.addAttribute("userName", user.getIdUser());
         return "Hau/ProfileDetail";
     }
 
     @PostMapping("/editMember")
-    public String editMember(@Valid @ModelAttribute("users") AccUser users, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
+    public String editMember(@Validated @ModelAttribute("users") AccUser users, BindingResult bindingResult, Model model, Principal principal) {
+        if (bindingResult.hasFieldErrors()) {
             model.addAttribute("userName", users.getIdUser());
             return "Hau/ProfileDetail";
         } else {
-            userService.save(users);
-            model.addAttribute("message", "Cập Nhật Thành Công !");
-            model.addAttribute("userName", users.getIdUser());
-            return "Hau/ProfileDetail";
+            AccUser userOld = userRepo.findByAccount_IdAccount(principal.getName());
+            if (users.equals(userOld)) {
+                model.addAttribute("message", "Không có thay đổi nào để cập Nhật !");
+                model.addAttribute("userName", users.getIdUser());
+                return "Hau/ProfileDetail";
+            } else {
+                userService.save(users);
+                model.addAttribute("message", "Cập Nhật Thành Công !");
+                model.addAttribute("userName", users.getIdUser());
+                return "Hau/ProfileDetail";
+            }
         }
     }
 
-    @GetMapping(value = "/editPass/{idAccount}")
-    public String showMemberEditPass(@PathVariable("idAccount") String account, Model model) {
-        Account account1 = accountSerivce.findById(account);
+
+    @GetMapping(value = "/editPass")
+    public String showMemberEditPass(Principal principal, Model model) {
+        Account account1 = accountSerivce.findById(principal.getName());
+//        Account account1 = accountSerivce.findById(account);
         model.addAttribute("account1", account1);
         return "/Hau/Pass";
     }
 
     @PostMapping("/editPass")
     public String editPass(@RequestParam("psw") String psw, @ModelAttribute("account")
-            Account account, Model model, RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+    Account account, Model model, RedirectAttributes redirectAttributes) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String oldPass = passwordEncoder.encode(psw);
         String oldPass1 = accountSerivce.findByPassword(account.getIdAccount());
-        System.out.println("day la pass ms nhap"+psw);
-        System.out.println("day là pass cu "+oldPass1);
+//        System.out.println("day la pass ms nhap" + psw);
+//        System.out.println("day là pass cu " + oldPass1);
+//        if (bindingResult.hasFieldErrors()) {
+//            model.addAttribute("account1", account.getIdAccount());
+//            return "/Hau/Pass";
+//        } else {
+
+
         if (BCrypt.checkpw(psw, oldPass1)) {
             if (account.getPassword().equals(account.getRePassword())) {
                 account.setPassword(passwordEncoder.encode(account.getPassword()));
@@ -119,24 +136,25 @@ public class HauController {
 //                redirectAttributes.addAttribute("account", account.getIdAccount()).
 //                        addFlashAttribute("message", "Cập nhật thành công ! ");
                 redirectAttributes.addFlashAttribute("message", "Cập nhật thành công ! ");
-                return "redirect:/editPass/" + account.getIdAccount();
+                return "redirect:/editPass/";
             } else {
-                System.out.println("day la mat khau moi " + account.getPassword());
-                System.out.println("day la mat khau moi xac nhan" + account.getRePassword());
+//                    System.out.println("day la mat khau moi " + account.getPassword());
+//                    System.out.println("day la mat khau moi xac nhan" + account.getRePassword());
                 redirectAttributes.addFlashAttribute("messages", "Mật khẩu phải trùng nhau ! ");
             }
-
         } else {
             redirectAttributes.addFlashAttribute("messagess", "Mật Khẩu Không Đúng ! ");
         }
-        return "redirect:/editPass/" + account.getIdAccount();
+        return "redirect:/editPass/";
     }
+//    }
 
-    @GetMapping(value = "/listOfInvoices/{id_user}")
-    public String showHistory(@PathVariable("id_user") int id_user, Model model, Principal principal) {
-        List<Bill> bills = billService.findBills(id_user);
+    @GetMapping(value = "/listOfInvoices")
+    public String showHistory(Model model, Principal principal) {
+        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
+//        System.out.println(principal.getName());
+        List<Bill> bills = billService.findBills(user.getIdUser());
         model.addAttribute("bills", bills);
-        AccUser user = userService.findById(id_user);
         model.addAttribute("users", user);
         return "Hau/UserBill";
     }

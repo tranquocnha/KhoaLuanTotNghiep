@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -12,15 +16,24 @@ public class AccUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private int idUser;
+    @NotEmpty
+    @Size(min = 4, max = 45)
     private String name;
     private boolean sex;
+    @NotEmpty
     private String dateOfBirth;
     @NotNull
     @JsonIgnore
+    @NotEmpty
+
+    @Email
     private String gmail;
     @JsonIgnore
+    @javax.validation.constraints.NotNull
+    @Min(value = 9,message = "so CMND phai it hon 9 hoac bằng 9 số")
     private int numberCard;
     @JsonIgnore
+    @Size(max = 11, min = 10)
     private String phoneUser;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

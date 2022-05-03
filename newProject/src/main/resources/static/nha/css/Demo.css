@@ -326,10 +326,13 @@ body,h1,h2,h3,h4,h5,h6 {
 .alert {
     display: flex;
     justify-content: center;
-    background-color: #041E42;
     /*background: #ffc220;*/   /*Màu Vàng*/
 }
-
+.titlePage{
+    display: flex;
+    justify-content: center;
+    background-color: #041E42;
+}
 .card-header {
     border:none !important;
 }
