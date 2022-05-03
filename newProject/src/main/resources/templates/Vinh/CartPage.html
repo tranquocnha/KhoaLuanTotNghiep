@@ -34,7 +34,7 @@
 </head>
 
 <body>
-<div th:insert="~{/HeaderFooter/Header::header-cline}" ></div>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
 <div class="cart">
     <div class="cart__banner">
         <h2>Giỏ hàng</h2>
@@ -54,30 +54,34 @@
             </thead>
 
             <tbody>
-            <tr th:if="${carts!=null}" th:each="item,iterStat:${carts}" class="cart__row">
-
+            <tr th:if="${carts!=null}" th:each="item,iterStat :${carts}" class="cart__row">
+                <td><input type="checkbox" name="checkboxCart" th:value="${iterStat.count}"/></td>
                 <td class="cart-thumbnail">
-                    <img th:src='@{${"/Images/"+item.value.product.image1}}' />
+                    <img th:src='@{${"/Images/"+item.value.product.image1}}'/>
                 </td>
                 <td class="product-name" >
-                    <div th:text="${item.value.getProduct().productName}"></div>
+                    <div th:text="${item.value.getProduct().productName}" ></div>
                 </td>
                 <td class="product-category" style="cursor: pointer;text-align: center;">
                     <div th:text="${item.value.getProduct().getCategory().categoryName}"></div>
                 </td>
                 <td class="product-price}">
                     <div th:class="product__price+${iterStat.count}" th:text="${item.value.getColor().price}"></div>
-                    <input type="hidden" th:id="product__price+${iterStat.count}" th:value="${item.value.getColor().price}">
+                    <input type="hidden" th:id="product__price+${iterStat.count}"
+                           th:value="${item.value.getColor().price}">
                 <td class="product-quantity">
                     <div class="plus-cart-minus">
-                        <input style="display:none;" type="hidden" th:id="maxquantily+${iterStat.count}" th:value="${item.value.color.quantity}">
+                        <input style="display:none;" type="hidden" th:id="maxquantily+${iterStat.count}"
+                               th:value="${item.value.color.quantity}">
                         <button class="minus-btn" th:onclick="handleDescrease[[${iterStat.count}]]()">&#8722;</button>
-                        <input type="text" style="text-align:center" name="" th:class="plus-minus-cart-box+${iterStat.count}" th:id="submitQuantily+${iterStat.count}" th:value="${item.value.quantity}" />
+                        <input type="text" style="text-align:center" name=""
+                               th:class="plus-minus-cart-box+${iterStat.count}" th:id="submitQuantily+${iterStat.count}"
+                               th:value="${item.value.quantity}"/>
                         <button class="plus-btn" th:onclick="handleIncrease[[${iterStat.count}]]()">&#43;</button>
                     </div>
                 </td>
                 <td class="total-price">
-                    <input type="hidden" th:id="totalMoney+${iterStat.count}"  th:value="${item.value.maxPrice}">
+                    <input type="hidden" th:id="totalMoney+${iterStat.count}" th:value="${item.value.maxPrice}">
                     <div th:id="totalMoneySubmit+${iterStat.count}" th:text="${item.value.maxPrice}+' USD'"></div>
                 </td>
 
@@ -86,9 +90,10 @@
                         <a th:href="@{/deleteCart/{id}(id=${item.key})}">X</a>
                     </button>
                 </td>
+
             </tr>
             </tbody>
-            <h5 th:unless="${cartSize}"  class="cart__subtitle">Giỏ hàng hiện đang trống,hãy mua sản phẩm</h5>
+            <h5 th:unless="${cartSize}" class="cart__subtitle">Giỏ hàng hiện đang trống,hãy mua sản phẩm</h5>
         </table>
     </div>
 
@@ -96,6 +101,9 @@
         <div class="cart__bill-content">
             <form action="/bill/getData" method="get">
                 <div class="cart__bill-price">
+                    <h5>Mã Giảm Giá:</h5>
+                    <input type="text" name="discountCode" class="form-control"/>
+                    <p></p>
                     <h3>Tổng thanh toán: </h3>
                     <input id="grand__total" class="grand__total">
                     <input id="grand__total1" type="hidden" class="grand__total" name="total">
@@ -111,7 +119,7 @@
     <div class="footer__layout">
 
         <div class="footer__img">
-            <img src="/Images/Logo-Neffex.png" />
+            <img src="/Images/Logo-Neffex.png"/>
         </div>
 
         <ul class="footer__category">

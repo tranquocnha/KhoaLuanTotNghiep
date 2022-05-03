@@ -15,6 +15,11 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
+    public String findIdUserByProduct(int id) {
+        return productRepository.findIdUserByProduct(id);
+    }
+
+    @Override
     public Page<Product> findProductAndComment(Pageable pageable) {
         return productRepository.findProductAndComment(pageable);
     }
@@ -34,14 +39,19 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public Product findByIdStatus(String status, int idProduct) {
-        return productRepository.findByStatusAndIdProduct(status,idProduct);
-    }
+//    @Override
+//    public List<Product> findAllByCategory(int id) {
+//        return productRepository.findAllByCategory(id);
+//    }
 
     @Override
     public void delete(int id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public int findByQuantity(int id) {
+        return productRepository.findByQuantity(id);
     }
 
     @Override
@@ -75,8 +85,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findByName(String productName,Pageable pageable) {
-        return productRepository.findByProductNameContains(productName,pageable);
+    public List<Product> findByName(String productName) {
+        return productRepository.findByProductNameContains(productName);
     }
 
     @Override

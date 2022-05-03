@@ -13,4 +13,5 @@ public interface BillService {
     void save(Bill bill);
 
     void saveDetail(ProductBill productBill);
+    String  findRevenue(int id);
 }

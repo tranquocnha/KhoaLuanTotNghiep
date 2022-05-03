@@ -1,70 +1,71 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Update Product</title>
-    <link rel="stylesheet" href="/vuong/css/css1/ionicons.min.css">
-    <link rel="stylesheet" href="/vuong/css/style.css">
+    <div th:replace="~{Hau/nav-saler::head}"></div>
+<!--    <title>Update Product</title>-->
+<!--    <link rel="stylesheet" href="/vuong/css/css1/ionicons.min.css">-->
+<!--    <link rel="stylesheet" href="/vuong/css/style.css">-->
 
-    <link href="/vuong/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/vuong/css/bootstrap4.css" rel="stylesheet" type="text/css" media="all">
-    <script src="/vuong/js/jquery-1.11.0.min.js"></script>
-    <!-- Custom Theme files -->
-    <link href="/vuong/css/style.css" rel="stylesheet" type="text/css" media="all"/>
-    <link rel="stylesheet" href="/vuong/css/flexslider.css" type="text/css" media="screen"/>
-    <!-- Custom Theme files -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"/>
-    <script type="application/x-javascript"> addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
+<!--    <link href="/vuong/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">-->
+<!--    <link href="/vuong/css/bootstrap4.css" rel="stylesheet" type="text/css" media="all">-->
+<!--    <script src="/vuong/js/jquery-1.11.0.min.js"></script>-->
+<!--    &lt;!&ndash; Custom Theme files &ndash;&gt;-->
+<!--    <link href="/vuong/css/style.css" rel="stylesheet" type="text/css" media="all"/>-->
+<!--    <link rel="stylesheet" href="/vuong/css/flexslider.css" type="text/css" media="screen"/>-->
+<!--    &lt;!&ndash; Custom Theme files &ndash;&gt;-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>-->
+<!--    <link rel="stylesheet"-->
+<!--          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"/>-->
+<!--    <script type="application/x-javascript"> addEventListener("load", function () {-->
+<!--        setTimeout(hideURLbar, 0);-->
+<!--    }, false);-->
 
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    }
+<!--    function hideURLbar() {-->
+<!--        window.scrollTo(0, 1);-->
+<!--    }-->
 
-    </script>
-    <meta name="keywords"
-          content="Auction Responsive web template, Bootstrap Web Templates, Flat Web Templates, AndriodCompatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design"/>
-    <!--Google Fonts-->
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
-          type='text/css'>
+<!--    </script>-->
+<!--    <meta name="keywords"-->
+<!--          content="Auction Responsive web template, Bootstrap Web Templates, Flat Web Templates, AndriodCompatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design"/>-->
+<!--    &lt;!&ndash;Google Fonts&ndash;&gt;-->
+<!--    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>-->
+<!--    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'-->
+<!--          type='text/css'>-->
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"-->
+<!--          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"-->
+<!--            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"-->
+<!--            crossorigin="anonymous"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"-->
+<!--            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"-->
+<!--            crossorigin="anonymous"></script>-->
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 
 
-    <link rel="stylesheet" href="/Vinh/css/Header.css">
-    <link rel="stylesheet" href="/Vinh/css/Footer.css">
+<!--    <link rel="stylesheet" href="/Vinh/css/Header.css">-->
+<!--    <link rel="stylesheet" href="/Vinh/css/Footer.css">-->
 
-    <script type="text/javascript">
-        jQuery(document).ready(function ($) {
-            $(".scroll").click(function (event) {
-                event.preventDefault();
-                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
-            });
-        });
-    </script>
-    <style>
-        label {
-            color: #027ca5;
-        }
-    </style>
+<!--    <script type="text/javascript">-->
+<!--        jQuery(document).ready(function ($) {-->
+<!--            $(".scroll").click(function (event) {-->
+<!--                event.preventDefault();-->
+<!--                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+<!--    <style>-->
+<!--        label {-->
+<!--            color: #027ca5;-->
+<!--        }-->
+<!--    </style>-->
 </head>
 <body>
 
@@ -83,50 +84,51 @@
     });
 </script>
 
-<div class="container">
+<div class="container-fluid">
 
-    <div class="services__layout">
-        <div class="services-top">
-            <button class="btn ">
-                <a th:href="@{/product/list}">Sản Phẩm Của Bạn</a>
-            </button>
-        </div>
-        <div class="services-top">
-            <button class="btn ">
-                <a th:href="@{/product/listApproved}">Sản Phẩm Chưa Duyệt</a>
-            </button>
-        </div>
-        <div class="services-top">
-            <button class="btn ">
-                <a th:href="@{/product/NotApprove}">Sản Phẩm Không Duyệt</a>
-            </button>
-        </div>
-        <div class="services-top">
-            <button class="btn ">
-                <a th:href="@{/product/create}">Thêm Sản Phẩm</a>
-            </button>
-        </div>
-        <div class="services-top">
-            <button class="btn ">
-                <a th:href="@{/product/upProductMoney}">Cập nhập sản phẩm</a>
-            </button>
-        </div>
-        <div class="services-top">
-            <button class="btn ">
-                <a th:href="@{/product/waitList}">Danh sách chờ</a>
-            </button>
-        </div>
-    </div>
-
-    <form method="post" action="/product/productDone/" th:object="${colors}">
-        <fieldset>
+<!--    <div class="services__layout">-->
+<!--        <div class="services-top">-->
+<!--            <button class="btn ">-->
+<!--                <a th:href="@{/product/list}">Sản Phẩm Của Bạn</a>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <div class="services-top">-->
+<!--            <button class="btn ">-->
+<!--                <a th:href="@{/product/listApproved}">Sản Phẩm Chưa Duyệt</a>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <div class="services-top">-->
+<!--            <button class="btn ">-->
+<!--                <a th:href="@{/product/NotApprove}">Sản Phẩm Không Duyệt</a>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <div class="services-top">-->
+<!--            <button class="btn ">-->
+<!--                <a th:href="@{/product/create}">Thêm Sản Phẩm</a>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <div class="services-top">-->
+<!--            <button class="btn ">-->
+<!--                <a th:href="@{/product/upProductMoney}">Cập nhập sản phẩm</a>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <div class="services-top">-->
+<!--            <button class="btn ">-->
+<!--                <a th:href="@{/product/waitList}">Danh sách chờ</a>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div th:replace="~{/Hau/nav-saler::nav-saler}"></div>
+<div class="container mt-5 ">
+    <form method="post" action="/product/productDone/" th:object="${colors}" style="border: 1px solid #000;box-shadow: 5px 10px 18px #888888;">
+        <fieldset class="p-4">
             <div class="services-top">
-                <h3 class="btn btn-secondary">Cập nhật sản phẩm</h3>
+                <h3 style="font-family: 'Lexend', sans-serif;">Cập nhật sản phẩm</h3>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Tên Sản Phẩm *</label>
                 <div class="col-sm-8">
-                    <select class="form-control custom-select is-invalid" th:field="*{product}">
+                    <select class="form-control custom-select is-invalid" th:field="*{product}" style="border-radius: 0">
                         <option th:each="cate: ${productNoMoney}" th:text="${cate.productName}"
                                 th:value="${cate.getIdProduct()}"></option>
                     </select>
@@ -183,12 +185,13 @@
                 <div class="col-sm-2">
                 </div>
                 <div class="col-sm-1">
-                    <input type="submit" style="background:#1ab7ea;color: white" class="form-control" value="Thêm">
+
+                    <input type="submit" style="background:#1ab7ea;color: white" class="form-control form__group_button_back" value="Thêm">
                 </div>
             </div>
         </fieldset>
     </form>
-
+</div>
 </div>
 <!--effec end here-->
 <!--project star here-->

@@ -56,7 +56,6 @@
         <form action="/admin/search" method="get">
             <label>Tên Sản Phẩm : </label>
             <input type="text" class="filter__input" name="nameProduct"  id="mem-name"/>
-            <input type="hidden"  name="page"  value="0"/>
             <button class="filter__btn" type="submit">Lọc kết quả</button>
         </form>
     </div>
@@ -265,37 +264,33 @@
 
         <!-- Cho phan trang -->
         <div class="center" th:if="${nameProduct == null}">
-            <th:block th:if="${product.totalPages >1}">
-                <span class="pagination">
-                    <a th:if="${product.hasPrevious()}" th:href="@{/admin/list(page=${product.number - 1})}">
-                        <img class="img__arrow" src="/Images/arrrowleft.png" alt=""/>
-                    </a>
-                </span>
-                <span class="pagination">
-                        <a th:href="@{/admin/list(page = ${pageNo})}" th:text="${product.number}"></a>
-                </span>
-                <span class="pagination">
-                    <a th:if="${product.hasNext()}" th:href="@{/admin/list(page=${product.number + 1})}">
-                        <img class="img_arrow" src="/Images/arrowright.png" alt=""/>
+            <span class="pagination">
+                <a th:if="${product.hasPrevious()}" th:href="@{/admin/list(page=${product.number - 1})}">
+                    <img class="img__arrow" src="/Images/arrrowleft.png" alt=""/>
+                </a>
+            </span>
+            <span class="pagination">
+                    <a th:href="@{/admin/list(page = ${pageNo})}" th:text="${product.number}"></a>
+            </span>
+            <span class="pagination">
+                <a th:if="${product.hasNext()}" th:href="@{/admin/list(page=${product.number + 1})}">
+                    <img class="img_arrow" src="/Images/arrowright.png" alt=""/>
 
-                    </a>
-                </span>
-            </th:block>
+                </a>
+            </span>
         </div>
         <div class="center" th:if="${nameProduct != null}">
-            <th:block th:if="${product.totalPages >1}">
-                <span class="pagination">
-                    <a th:if="${product.hasPrevious()}"
-                       th:href="@{'/admin/search?nameProduct='+${nameProduct}(page=${product.number - 1})}"><img class="img__arrow" src="/Images/arrrowleft.png" alt=""/></a>
-                </span>
-                <span class="pagination">
-                        <a th:href="@{'/admin/search?nameProduct='+${nameProduct}(page=${product.number -1})}" th:text="${product.number}"></a>
-                </span>
-                <span class="pagination">
-                    <a th:if="${product.hasNext()}"
-                       th:href="@{'/admin/search?nameProduct='+${nameProduct}(page=${product.number + 1})}"> <img class="img_arrow" src="/Images/arrowright.png" alt=""/></a>
-                </span>
-            </th:block>
+            <span class="pagination">
+                <a th:if="${product.hasPrevious()}"
+                   th:href="@{/admin/list(page=${product.number - 1}, tensanpham=${nameProduct})}">Trước</a>
+            </span>
+            <span class="pagination">
+                    <a th:href="@{/admin/list(page = ${pageNo},tensanpham=${product})}" th:text="${pageNo}"></a>
+            </span>
+            <span class="pagination">
+                <a th:if="${sanphams1.hasNext()}"
+                   th:href="@{/admin/list(page=${product.number + 1},tensanpham=${nameProduct})}">Sau</a>
+            </span>
         </div>
         <!--  -->
     </div>

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ProductService {
+    String findIdUserByProduct(int id);
     Page<Product> findProductAndComment(Pageable pageable);
 
     List<Product> findAll();
@@ -14,10 +15,9 @@ public interface ProductService {
     void save(Product product);
 
     Product findById(int id);
-
-    Product findByIdStatus(String status,int idProduct);
-
+//    List<Product> findAllByCategory(int id);
     void delete(int id);
+    int findByQuantity(int id);
 
     List<Product> findProduct(String idAccount);
 
@@ -31,7 +31,7 @@ public interface ProductService {
 
     List<Product> findByStatus(String status);
 
-    Page<Product> findByName(String productName,Pageable pageable);
+    List<Product> findByName(String productName);
 
     List<Product> findByCategoryAndNameProduct(String status, Integer idCategory, String nameProduct);
 

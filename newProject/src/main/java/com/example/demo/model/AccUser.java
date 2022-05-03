@@ -1,8 +1,7 @@
 package com.example.demo.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 @Entity
@@ -10,13 +9,25 @@ public class AccUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUser;
+    @NotEmpty
+    @Size(min = 4, max = 45)
     private String name;
     private boolean sex;
+    @NotEmpty
     private String dateOfBirth;
-    @NotNull
+    @NotEmpty
+
+    @Email
     private String gmail;
+
+    //    @Max(value = 12)
+    @NotNull
+    @Min(value = 9,message = "so CMND phai it hon 9 hoac bằng 9 số")
     private int numberCard;
+
+    @Size(max = 11, min = 10)
     private String phoneUser;
+
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "account", referencedColumnName = "idAccount")

@@ -42,4 +42,9 @@ public class DiscountCodeServiceImpl implements DiscountCodeService{
     public List<DiscountCode> findUsedCodeByNameDiscount(String nameDiscount) {
         return discountCodeRepository.findDiscountCodeByDiscount_NameDiscountAndDiscountStatus_IdStatus(nameDiscount , 2);
     }
+
+    @Override
+    public List<DiscountCode> findDiscountCodeByIdSaler(int id) {
+        return discountCodeRepository.findDiscountCodeByIdSaler(id);
+    }
 }

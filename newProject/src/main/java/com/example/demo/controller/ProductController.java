@@ -10,6 +10,7 @@ import com.example.demo.service.categoryService.CategoryService;
 import com.example.demo.service.colorService.ColorService;
 import com.example.demo.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -69,16 +71,17 @@ public class ProductController {
     }
 
     @GetMapping(value = "/product/list")
-    public String user(Model model, Principal principal, @PageableDefault(size = 5) Pageable pageable) {
+    public String user(Model model, Principal principal, @PageableDefault(size = 4) Pageable pageable) {
         String userName = principal.getName();
-        model.addAttribute("listProduct", colorService.findAllProduct(userName));
+        Page<Color> list=colorService.findAllPage(userName,pageable);
+        model.addAttribute("listProduct",list );
         return "/vuong/ListProductSaler";
     }
 
     @GetMapping(value = "/product/listApproved")
-    public String userNotApprovedYet(Product product, Model model, Principal principal) {
+    public String userNotApprovedYet(Product product, Model model, Principal principal, @PageableDefault(size = 4) Pageable pageable) {
         String userName = principal.getName();
-        model.addAttribute("listSP", colorService.findAllApprovedProduct("Chưa duyệt", userName));
+        model.addAttribute("listSP", colorService.findAllApprovedProduct("Chưa duyệt", userName,pageable));
         return "/vuong/listchuaduyet";
     }
 
@@ -118,7 +121,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/product/create")
-    public String create(@Valid @ModelAttribute("products") Product product, BindingResult bindingResult, Model model, Principal principal) {
+    public String create(@Valid @ModelAttribute("products") Product product, BindingResult bindingResult, Model model, Principal principal , RedirectAttributes redirectAttributes) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         long millis = System.currentTimeMillis();
         Date date = new Date(millis);
@@ -138,8 +141,10 @@ public class ProductController {
         }
         this.productService.save(product);
         model.addAttribute("listProduct", colorService.findAllProduct(idAccount));
-        model.addAttribute("mgs", "thêm mới sản phẩm thành công");
-        return "/vuong/ListProductSaler";
+        redirectAttributes.addFlashAttribute("mgs", "thêm mới sản phẩm thành công");
+//        model.addAttribute("mgs", "thêm mới sản phẩm thành công");
+//        return "/vuong/ListProductSaler";
+        return "redirect:/product/list";
     }
 
     @GetMapping(value = "/product/view")
@@ -165,7 +170,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/product/edit")
-    public String Edit(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model, Principal principal) {
+    public String Edit(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model, Principal principal,RedirectAttributes redirectAttributes) {
         String idAccount = principal.getName();
         AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
 //        new Product().validate(product, bindingResult);
@@ -173,14 +178,15 @@ public class ProductController {
             model.addAttribute("category", categoryService.findAll());
             return "/vuong/edit";
         }
+        this.productService.save(product);
         model.addAttribute("product", colorService.findAllProduct(idAccount));
         model.addAttribute("category", categoryService.findAll());
-        this.productService.save(product);
-        model.addAttribute("mgsedit", "Sửa sản phẩm thành công");
+        redirectAttributes.addFlashAttribute("mgsedit", "Sửa sản phẩm thành công");
+//        model.addAttribute("mgsedit", "Sửa sản phẩm thành công");
         System.out.println("userName ------ " + product.getAccounts());
         System.out.println("ten -----------" + product.getStatus());
         System.out.println("ten -----------" + product.getProductName());
-        return "/vuong/ListProductSaler";
+        return "redirect:/product/list";
     }
 
     @GetMapping("/product/productDone/{id}")
@@ -203,7 +209,7 @@ public class ProductController {
     }
 
     @PostMapping("/product/productDone")
-    public String createColor(@Valid @ModelAttribute("colors") Color color, BindingResult bindingResult, Model model, Principal principal) {
+    public String createColor(@Valid @ModelAttribute("colors") Color color, BindingResult bindingResult, Model model, Principal principal,RedirectAttributes redirectAttributes) {
         String idAccount = principal.getName();
 //        new Product().validate(product, bindingResult);
         if (bindingResult.hasFieldErrors()) {
@@ -214,8 +220,9 @@ public class ProductController {
         }
         this.colorService.save(color);
         model.addAttribute("listProduct", colorService.findAllProduct(idAccount));
-        model.addAttribute("mgs", "thêm mới sản phẩm thành công");
-        return "/vuong/ListProductSaler";
+        redirectAttributes.addFlashAttribute("mgs", "thêm mới sản phẩm thành công");
+//        model.addAttribute("mgs", "thêm mới sản phẩm thành công");
+        return "redirect:/product/list";
     }
 
     @GetMapping(value = "/product/delete/{idProduct}")
@@ -225,6 +232,7 @@ public class ProductController {
         model.addAttribute("listProduct", colorService.findAllProduct(idAccount));
         model.addAttribute("mgsdelete", "Xóa sản phẩm thành công!");
         return "/vuong/ListProductSaler";
+//        return "redirect:/product/list";
     }
 
     @GetMapping("product/searchWaitingApproval")

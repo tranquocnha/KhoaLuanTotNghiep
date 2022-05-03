@@ -25,25 +25,25 @@ import java.util.List;
 @SessionAttributes("carts")
 public class BillController {
     @Autowired
-    private ProductService productService;
+    ProductService productService;
 
     @Autowired
-    private CategoryService categoryService;
+    CategoryService categoryService;
 
     @Autowired
-    private ProductBillService productBillService;
+    ProductBillService productBillService;
 
     @Autowired
     private ColorServiceImpl colorService;
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Autowired
-    private UserRepository userRepo;
+    UserRepository userRepo;
 
     @Autowired
-    private CommentService commentService;
+    CommentService commentService;
 
     @ModelAttribute("carts")
     public HashMap<Integer, Cart> showInfo() {
@@ -71,20 +71,11 @@ public class BillController {
         }
         return null;
     }
-    @GetMapping("/")
-    public String home(Model model,@SessionAttribute(value = "carts",required = false) HashMap<Integer, Cart> cartMap){
-;
+    @GetMapping("/home")
+    public String home(Model model){
         List<Category> categoryList;
         categoryList = categoryService.findAll();
-
         model.addAttribute("category", categoryList);
-        if(cartMap != null) {
-            model.addAttribute("card", cartMap.size());
-        }else{
-            model.addAttribute("card", "0");
-        }
-        model.addAttribute("newProduct",colorService.findProductOderByLIMIT5("Đã duyệt"));
-        model.addAttribute("sellerProduct",colorService.findProductOderByDescLIMIT5("Đã duyệt"));
         return "/nha/HomePage";
     }
     @RequestMapping("/")
@@ -144,8 +135,9 @@ public class BillController {
     }
 
     @RequestMapping("/product-detail/{id}")
-    public String productDetailBill(@PathVariable int id, Model model) {
-        Product product = productService.findByIdStatus("Đã duyệt",id);
+    public String productDetailBill(@PathVariable int id, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
+        Product product;
+        product = productService.findById(id);
         Color color = colorService.findById(id);
         List<Color> colorList = colorService.findByIdProduct(id);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -155,11 +147,22 @@ public class BillController {
         model.addAttribute("codeObject", color);
         model.addAttribute("color", colorList);
         model.addAttribute("product", product);
+        model.addAttribute("cartMap", cartMap);
         return "Vinh/ProductDetail";
     }
 
     @RequestMapping("/afterLogin/productDetail/{id}")
-    public String afterLoginProductDetailBill(@PathVariable int id) {
+    public String afterLoginProductDetailBill(@PathVariable int id, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
+        Product product = productService.findById(id);
+        //Truyền idproduct để hiện color
+        List<Color> colorList = colorService.findByIdProduct(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getName().equals("anonymousUser")) {
+            model.addAttribute("userName", auth.getName());
+        }
+        model.addAttribute("color", colorList);
+        model.addAttribute("product", product);
+        model.addAttribute("cartMap", cartMap);
         return "redirect:/product-detail/"+id;
     }
 

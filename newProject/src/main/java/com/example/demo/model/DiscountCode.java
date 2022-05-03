@@ -8,7 +8,7 @@ public class DiscountCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idCode")
     private int idDiscountCode;
-    private Integer code;
+    private String code;
 
     @ManyToOne(targetEntity = Discount.class)
     @JoinColumn(name = "idDiscount")
@@ -41,11 +41,11 @@ public class DiscountCode {
         return discount;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

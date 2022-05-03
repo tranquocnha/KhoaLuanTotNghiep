@@ -144,17 +144,17 @@ nav.bootsnav.navbar-full .navbar-collapse .nav-full::-webkit-scrollbar {
     width: 0;
 }
 
-/*nav.bootsnav.navbar-full .navbar-collapse .nav-full::-moz-scrollbar {*/
-/*    width: 0;*/
-/*}*/
+nav.bootsnav.navbar-full .navbar-collapse .nav-full::-moz-scrollbar {
+    width: 0;
+}
 
-/*nav.bootsnav.navbar-full .navbar-collapse .nav-full::-ms-scrollbar {*/
-/*    width: 0;*/
-/*}*/
+nav.bootsnav.navbar-full .navbar-collapse .nav-full::-ms-scrollbar {
+    width: 0;
+}
 
-/*nav.bootsnav.navbar-full .navbar-collapse .nav-full::-o-scrollbar {*/
-/*    width: 0;*/
-/*}*/
+nav.bootsnav.navbar-full .navbar-collapse .nav-full::-o-scrollbar {
+    width: 0;
+}
 
 
 nav.bootsnav.navbar-full .navbar-collapse ul.nav{
@@ -310,6 +310,7 @@ ul.cart-list > li.total > span{
 .top-search{
     background-color: #010101;
     padding: 10px 0;
+    display: none;
 }
 
 .top-search input.form-control{
@@ -1270,7 +1271,7 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:
     /* Tabs
     =================================*/ 
     nav.navbar.bootsnav .megamenu-content.tabbed{
-        padding-left: 0! important;
+        padding-left: 0 !mportant;
     }
     
     nav.navbar.bootsnav .tabbed > li{

@@ -14,14 +14,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <link rel="stylesheet" href="/Vinh/css/Header.css">
     <title>Header</title>
 </head>
 <body>
 
 <div class="header__container" th:fragment="header-cline">
-        <div class="header__top">
+        <div class="header__top" sec:authorize ="isAuthenticated()">
             <div class="header__top-right">
                 <a href="/auction">
                     <button>
@@ -56,8 +57,7 @@
                 <button class="btn btn-primary " type="button"
                         style="background-color: #FFCC20; border: 1px solid #FFCC20" sec:authorize="hasRole('ADMIN') or hasRole('SALER')">
                     <div class="header__management" sec:authorize="hasRole('ADMIN') or hasRole('SALER')">
-                        <i class="material-icons" title="Account" style="font-size: 25px;cursor: pointer;"
-                           data-uw-styling-context="true">person</i>
+
                         <span class="caret"  th:if="${admin == 'là admin'}">
                         <a style="text-decoration: none; color:white"  href="/admin/">Quản lý</a>
                      </span>
@@ -102,18 +102,19 @@
         <div class="header__navigation" th:if="${userNames}">
             <div class="header__navigation-img">
                 <a href="/showCart">
+
+<!--                    <i class="fa-thin fa-bag-shopping"></i>-->
                     <img src="/Images/cart-nav-white.00018279d92b8685ff0d50c146eefe5491200c0b.svg" alt="">
                 </a>
             </div>
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
                         style="background-color: #FFCC20; border: 1px solid #FFCC20; display: flex;align-items: center">
-                    <i class="material-icons" title="Account" style="font-size: 25px;cursor: pointer;"
-                       data-uw-styling-context="true">person</i>
+
                     <span class="caret" >Chào mừng, [[${userNames.name}]]</span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a th:if="${userNames}" th:href="@{/ProfileDetail/__${userNames.idUser}__}">Hồ sơ cá nhân</a></li>
+                    <li><a th:if="${userNames}" th:href="@{/ProfileDetail}">Hồ sơ cá nhân</a></li>
                     <li><a href="/showCart">Giỏ Hàng</a></li>
                     <li><a href="/logout">Đăng Xuất</a></li>
                 </ul>

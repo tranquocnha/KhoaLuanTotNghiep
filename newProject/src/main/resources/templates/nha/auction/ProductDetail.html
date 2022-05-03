@@ -181,17 +181,17 @@
             </div>
           </div>
           <div class="modal-footer">
-            <form action="/bill/getData" method="post">
+            <form th:action="@{/showCart/getData/{idProduct}(idProduct=${sanPham.idProduct})}" method="get">
               <div class="space__add">
-                <input type="hidden" th:value="${sanPham.idProduct}" name="idProduct">
                 <input type="hidden" value="1" name="quantity"/>
                 <input type="hidden" name="money" th:value="${nguoiCaoNhat.startingPrice}">
-                <button type="submit" class="button__close">Mua Sản Phẩm
+                <input type="hidden" th:value="${color.idColor}" name="idColor">
+                <button type="submit" class="button__close">Thêm vào giỏ
                 </button>
               </div>
             </form>
-            <a class="button__close" onclick="" th:href="@{${'/bill/history/'+sanPham.idProduct+'?total='+nguoiCaoNhat.startingPrice}}">
-              Thêm vào lịch sử chờ mua
+            <a class="button__close" th:href="@{/showCart/getData/__${sanPham.idProduct}__}">
+              Thêm vào giỏ hàng
             </a>
           </div>
         </div>

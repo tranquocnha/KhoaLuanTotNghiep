@@ -19,20 +19,6 @@
     <title>Trang chủ</title>
     <link rel="stylesheet" href="/nha/css/Home.css">
     <link rel="stylesheet" href="/nha/css/search.css">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!-- Site CSS -->
-    <link rel="stylesheet" href="/css/style.css">
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="/css/responsive.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/custom.css">
-
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body>
 <div class="header__container" th:fragment="header-cline">
@@ -132,25 +118,7 @@
                         </th:block>
                     </ul>
                 </nav>
-                <br/>
-                <nav class="category">
-                    <div class="filter-price-left">
-                        <div class="title-left">
-                            <h3>Price</h3>
-                        </div>
-                        <form action="/searchProduct" method="get">
-                            <div class="price-box-slider">
-                                <div id="slider-range"></div>
-                                <p>
-                                    <input type="text" id="amount" readonly style="border:0; color:#fbb714; font-weight:bold;">
-                                    <input type="hidden" name="nameProduct" id="inputsubmit" value="plzabvc0-1000">
-                                    <input type="hidden" name="page" value="0">
-                                    <button class="btn hvr-hover" type="submit">Filter</button>
-                                </p>
-                            </div>
-                        </form>
-                    </div>
-                </nav>
+
             </div>
             <div class="grid__column-10">
                 <div class="home-filter">
@@ -186,7 +154,7 @@
                         </form>
                     </th:block>
                     <th:block th:if="${idCategory ==null}">
-                        <form method="get" action="/searchProduct">
+                        <form method="get" action="/searchProduct/">
                             <select id='selUser' name="nameProduct" class="home-filter__btn btn">
                                 <option value=''>Select User</option>
                                 <th:block th:if="${listProduct != null}">
@@ -194,20 +162,21 @@
                                         <a th:text="${sanPham.productName}"></a>
                                     </option>
                                 </th:block>
+
                             </select>
                             <input hidden="hidden" name="page" value="0">
                             <button class="home-filter__btn btn" type="submit">Tìm Kiếm</button>
-                            <a  class="home-filter__btn btn btn--primary" href="/searchProduct?nameProduct=new&page=0">Mới nhất</a>
+                            <button class="home-filter__btn btn btn--primary">Mới nhất</button>
                             <div class="select-input">
                                 <span class="select-input__label">Giá</span>
                                 <i class="select-input__icon fas fa-angle-down"></i>
                                 <ul class="select-input__list">
                                     <li class="select-input__item">
-                                        <a href="/searchProduct?nameProduct=asc&page=0"
+                                        <a href="/searchProduct/?nameProduct=desc&page=0"
                                            class="select-input__link">Giá: thấp đến cao</a>
                                     </li>
                                     <li class="select-input__item">
-                                        <a href="/searchProduct?nameProduct=desc&page=0"
+                                        <a href="/searchProduct/?nameProduct=asc&page=0"
                                            class="select-input__link">Giá: cao đến thấp</a>
                                     </li>
 
@@ -249,45 +218,42 @@
                                 </a>
                             </div>
                         </th:block>
-                        <th:block th:if="${listProduct == null  && product == null}">
-                            <h1>Không có sản phẩm nào</h1>
-                        </th:block>
 
                     </div>
                 </div>
-                <th:block th:if="${listProduct != null}" >
-                    <th:block th:if="${listProduct.totalPages >1}">
-                        <ul class="pagination home-product__pagination">
-                                <li class="pagination-item">
-                                    <a th:href="@{'/searchProduct?nameProduct='+${nameProduct}(page=${listProduct.number -1})}"
-                                       th:if="${listProduct.hasPrevious()}" class="pagination-item__link">
-                                        <img class="pagination-item__icon fas" style="width: 20px;height: 20px" src="/Images/arrrowleft.png" alt=""/>
-                                    </a>
-                                </li>
-                                <th:block th:if="${listProduct.number >1}">
-                                    <li class="pagination-item ">
-                                        <a th:href="@{'/searchProduct?nameProduct='+${nameProduct}(page=${listProduct.number -1})}"
-                                           class="pagination-item__link" th:text="${listProduct.number - 1}"></a>
-                                    </li>
-                                </th:block>
-                                <li class="pagination-item pagination-item--active">
-                                    <a th:href="@{'/searchProduct?nameProduct='+${nameProduct}(page=${listProduct.number})}"
-                                       class="pagination-item__link" th:text="${listProduct.number}"></a>
-                                </li>
-                                <th:block th:if="${listProduct.totalPages >= listProduct.number}">
-                                    <li class="pagination-item">
-                                        <a th:href="@{'/searchProduct?nameProduct='+${nameProduct}(page=${listProduct.number +1})}"
-                                           class="pagination-item__link" th:text="${listProduct.number+1}"></a>
-                                    </li>
-                                </th:block>
-                                <li class="pagination-item">
-                                    <a th:href="@{'/searchProduct?nameProduct='+${nameProduct}(page=${listProduct.number + 1})}"
-                                       th:if="${listProduct.hasNext()}" class="pagination-item__link">
-                                        <img class="pagination-item__icon fas" style="width: 20px;height: 20px" src="/Images/arrowright.png" alt=""/>
-                                    </a>
-                                </li>
-                        </ul>
-                    </th:block>
+                <th:block th:if="${listProduct != null}">
+                <ul class="pagination home-product__pagination">
+                        <li class="pagination-item">
+                            <a th:href="@{'/searchProduct/'(page=${listProduct.number -1})}"
+                               th:if="${listProduct.hasPrevious()}" class="pagination-item__link">
+                                <img class="pagination-item__icon fas" src="/Images/arrrowleft.png" alt=""/>
+                            </a>
+                        </li>
+                        <th:block th:if="${listProduct.number >1}">
+                            <li class="pagination-item ">
+                                <a th:href="@{'/searchProduct/'(page=${listProduct.number -1})}"
+                                   class="pagination-item__link" th:text="${listProduct.number - 1}"></a>
+                            </li>
+                        </th:block>
+                        <li class="pagination-item pagination-item--active">
+                            <a th:href="@{'/searchProduct/'(page=${listProduct.number})}"
+                               class="pagination-item__link" th:text="${listProduct.number}"></a>
+                        </li>
+                        <th:block th:if="${listProduct.totalPages >= listProduct.number}">
+                            <li class="pagination-item">
+                                <a th:href="@{'/searchProduct/'(page=${listProduct.number +1})}"
+                                   class="pagination-item__link" th:text="${listProduct.number+1}"></a>
+                            </li>
+                        </th:block>
+
+
+                        <li class="pagination-item">
+                            <a th:href="@{'/searchProduct/'(page=${listProduct.number + 1})}"
+                               th:if="${listProduct.hasNext()}" class="pagination-item__link">
+                                <img class="pagination-item__icon fas" src="/Images/arrowright.png" alt=""/>
+                            </a>
+                        </li>
+                </ul>
                 </th:block>
             </div>
         </div>
@@ -410,23 +376,5 @@
         // });
     });
 </script>
-<!-- ALL JS FILES -->
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/popper.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<!-- ALL PLUGINS -->
-<script src="/js/jquery.superslides.min.js"></script>
-<script src="/js/bootstrap-select.js"></script>
-<script src="/js/inewsticker.js"></script>
-<script src="/js/bootsnav.js."></script>
-<script src="/js/images-loded.min.js"></script>
-<script src="/js/isotope.min.js"></script>
-<script src="/js/owl.carousel.min.js"></script>
-<script src="/js/baguetteBox.min.js"></script>
-<script src="/js/jquery-ui.js"></script>
-<script src="/js/jquery.nicescroll.min.js"></script>
-<script src="/js/form-validator.min.js"></script>
-<script src="/js/contact-form-script.js"></script>
-<script src="/js/custom.js"></script>
 </body>
 </html>

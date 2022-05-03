@@ -49,14 +49,15 @@ public class ColorsController {
     }
     @GetMapping("/listcolor")
     public String colorList(@RequestParam(defaultValue = "0") int page,
-                            Optional<String> nameColor,Optional<String> nameProduct, Model model){
+                            Optional<String> nameColor,Optional<String> nameProduct, Model model,Principal principal){
         Pageable pageableSort = PageRequest.of(page, 5);
+        String userName = principal.getName();
         if(!nameColor.isPresent()){
             if(nameProduct.isPresent()){
                 model.addAttribute("nameColor",nameColor.get());
                 model.addAttribute("colorlist",null);
             }else{
-                model.addAttribute("colorlist",colorService.findAllPage(pageableSort));
+                model.addAttribute("colorlist",colorService.findAllPage(userName,pageableSort));
             }
         }else{
             model.addAttribute("nameColor",nameColor.get());

@@ -71,38 +71,18 @@ public class SearchHomeController {
 //
 //    }
     @GetMapping("/searchProduct")
-    public String searchProductAll(@RequestParam(value = "nameProduct") String nameProduct,@RequestParam(name="page",defaultValue = "0") int page,Model model) {
+    public String searchProductAll(@RequestParam(value = "nameProduct",required = false) String nameProduct,@RequestParam(name="page",defaultValue = "0") int page,Model model) {
+
         Pageable pageable = PageRequest.of(page,20);
-        double numberMin =0;
-        double numberMax =1;
         if (nameProduct.isEmpty()) {
             model.addAttribute("listProduct", productRepository.findByStatus("Đã duyệt",pageable));
-        } else if(nameProduct.substring(0,2).equals("ds")){
-            model.addAttribute("listProduct", productRepository.findAllSearch(nameProduct.substring(2,nameProduct.length()),pageable));
-        } else if(nameProduct.equals("asc")){
-            model.addAttribute("listProduct",productRepository.findByStatusOrderByProductNameColorAsc(pageable));
-        } else if(nameProduct.equals("desc")){
-            model.addAttribute("listProduct", productRepository.findByStatusOrderByProductNameColorDesc(pageable));
-        } else if(nameProduct.equals("new")){
-            model.addAttribute("listProduct", productRepository.findByStatusOrderByProductNameIdProductDesc(pageable));
-        } else if(nameProduct.length()>=7){
-            if( nameProduct.substring(0,7).equals("plzabvc")) {
-                System.out.println("da vao");
-                String[] splits = nameProduct.substring(7, nameProduct.length()).split("-");
-                System.out.println("numberMin" + Double.parseDouble(splits[0]) + "numberMax" + Double.parseDouble(splits[1]));
-                numberMin = Double.parseDouble(splits[0]);
-                numberMax = Double.parseDouble(splits[1]);
-                model.addAttribute("listProduct", productRepository.findByStatusAndSearchPrice(numberMin, numberMax, pageable));
-            }
-        }
-        else {
+        } else {
             model.addAttribute("listProduct", productRepository.findByStatusAndProductNameContains("Đã duyệt",nameProduct,pageable));
         }
+        String idCategory = null;
         model.addAttribute("drowdownCategory", categoryRepository.findAll());
         model.addAttribute("category", categoryRepository.findTop());
-        model.addAttribute("idCategory", null);
-        model.addAttribute("nameProduct",nameProduct);
-        model.addAttribute("product",null);
+        model.addAttribute("idCategory", idCategory);
         model.addAttribute("page",page);
         return "/nha/Search";
     }
@@ -132,7 +112,6 @@ public class SearchHomeController {
         model.addAttribute("searchProduct", colorService.findProduct("Đã duyệt", id));
         model.addAttribute("drowdownCategory", categoryRepository.findAll());
         model.addAttribute("category", categoryRepository.findTop());
-        model.addAttribute("listProduct",null);
         model.addAttribute("idCategory", idCategory);
 
         return "/nha/Search";

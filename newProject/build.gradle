@@ -41,6 +41,8 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     // https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.5.3'
+// https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons
+    implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '2.6.3'
 
     implementation 'commons-fileupload:commons-fileupload:1.4'
     compileOnly 'org.projectlombok:lombok'
@@ -51,7 +53,9 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.4'
     implementation group: 'com.paypal.sdk', name: 'rest-api-sdk', version: '1.4.2'
     implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
-
+    implementation group: 'org.springframework.security', name: 'spring-security-web', version: '5.4.2'
+    implementation group: 'org.springframework.security', name: 'spring-security-config', version: '5.4.2'
+    implementation group: 'org.springframework.security', name: 'spring-security-taglibs', version: '5.4.2'
 
 }
 

@@ -1,13 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.*;
-import com.example.demo.model.DTO.AddressAuctionDTO;
 import com.example.demo.model.DTO.AddressDTO;
 import com.example.demo.repository.UserRepository.UserRepository;
-import com.example.demo.repository.addressRepository.WardRepository;
-import com.example.demo.repository.productBillRepository.ProductRepository;
-import com.example.demo.repository.tempAuctionRepo.TempAuctionRepository;
-import com.example.demo.service.payPalService.PayPalService;
+//import com.example.demo.service.payPalService.PayPalService;
+import com.example.demo.service.product.ProductServiceImpl;
 import com.example.demo.service.productBillService.BillService;
 import com.example.demo.service.userService.UserService;
 import org.slf4j.Logger;
@@ -19,50 +16,47 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 @Controller
-@SessionAttributes("tempProduct")
 public class PaymentController {
+    public static final String URL_PAYPAL_SUCCESS = "pay/success";
+    public static final String URL_PAYPAL_CANCEL = "pay/cancel";
+
     private Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private UserRepository userRepo;
+//    @Autowired
+//    private PayPalService paypalService;
 
     @Autowired
-    private UserService userService;
-    @Autowired
-    private WardRepository wardRepository;
-    @Autowired
-    private ProductRepository productRepository;
+    public JavaMailSender emailSender;
 
     @Autowired
-    private BillService billService;
+    UserRepository userRepo;
 
     @Autowired
-    private TempAuctionRepository tempAuctionRepository;
+    UserService userService;
 
+    @Autowired
+    BillService billService;
+    @Autowired
+    ProductServiceImpl productService;
     public static double totalMoney = 0;
     public static int totalQuantity = 0;
     public static ProductBill productDetailBill = new ProductBill();
     public static HashMap<Double, Product> listProductBillTemp = new HashMap<>();
+
     @ModelAttribute("admin")
-    public String AdminOrSaler(){
+    public String AdminOrSaler() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth.getAuthorities().toString().equals("[ROLE_ADMIN]")){
+        if (auth.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
             if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
                 return "là admin";
             }
-        }else{
+        } else {
             if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().
                     anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_SALER"))) {
                 return "là saler";
@@ -70,118 +64,133 @@ public class PaymentController {
         }
         return null;
     }
+
     @ModelAttribute("userNames")
     public AccUser getDauGia() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userRepo.findByAccount_IdAccount(auth.getName());
     }
+
     @GetMapping("/bill/getData")
-    public String getHoaDon(@RequestParam String total
-            , @RequestParam String quantity
-            , Model model
-            , @SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
-        System.out.println("cart");
-        billGetData(total, quantity, model);
+    public String getHoaDon(@RequestParam String total, @RequestParam String quantity, Model model,
+                            @RequestParam(name = "checkboxCart", required = false) int idCart,
+                            @RequestParam(name = "discountCode", required = false) String discountCode,
+                            @SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
+        System.out.println("day la ten san pham");
+        System.out.println(idCart);
+        for (Integer i : cartMap.keySet()) {
+            System.out.println("day la key ne");
+            System.out.println(i);
+            System.out.println("day la id nguoi ban");
+            String str = productService.findIdUserByProduct(i);
+            System.out.println(str);
+        }
+        System.out.println("day la hashmap");
+        System.out.println(cartMap);
+//        System.out.println(cartMap.toString().substring(0, 1));
 
-        model.addAttribute("addressDTO", new AddressDTO());
-        model.addAttribute("carts",cartMap);
-        return "Vinh/Pay";
-    }
+        System.out.println("day la code discount:");
+        System.out.println(discountCode);
+        int discount = Integer.parseInt(discountCode.substring(11));
+        System.out.println("day la code sau khi cat chuoi:");
+        System.out.println(discount);
 
-    private void billGetData(@RequestParam String total
-            , @RequestParam String quantity
-            , Model model) {
-        totalMoney = Double.parseDouble(total);
+        totalMoney = Integer.parseInt(total);
         totalQuantity = Integer.parseInt(quantity);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("total", total);
         model.addAttribute("quantity", quantity);
-        model.addAttribute("accUser",userService.findByAccount(auth.getName()));
+        model.addAttribute("addressDTO", new AddressDTO());
+        model.addAttribute("accUser", userService.findByAccount(auth.getName()));
+        model.addAttribute("carts", cartMap);
+        return "Vinh/Pay";
     }
 
-    @PostMapping("/bill/getData")
-    public String getAuction(@RequestParam("idProduct")int idProduct
-            , @RequestParam("money") String total
-            , @RequestParam("quantity") String quantity
-            , Model model)
-    {
-        System.out.println("auction");
-        Product product = productRepository.findById(idProduct).orElse(null);
-        TempAuction tempAuction = new TempAuction(product.getAccounts().getIdAccount()
-                    ,product.getProductName()
-                    , product.getCategory().getCategoryName()
-                    , product.getImage1()
-                    , product.getImage2()
-                    , product.getImage3()
-                    , product.getDescription()
-                    , product.getDatePost()
-            );
-            tempAuctionRepository.save(tempAuction);
-        product.setStatus("Đã đấu giá");
-        productRepository.save(product);
-        billGetData(total, quantity, model);
-        AddressAuctionDTO addressAuctionDTO = new AddressAuctionDTO();
-        addressAuctionDTO.setTotalAuction(Double.parseDouble(total));
-        addressAuctionDTO.setIdProduct(tempAuction.getIdProduct());
-        model.addAttribute("addressAuctionDTO",addressAuctionDTO);
-        model.addAttribute("product",product);
-        model.addAttribute("carts",null);
-        return "/Vinh/Pay";
-    }
-
-    @PostMapping("/bill/pay/auction")
-    public String payAuction(@Valid @ModelAttribute("addressAuctionDTO") AddressAuctionDTO addressDTO, Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AccUser user = userService.findByAccount(auth.getName());
-        LocalDate currentDate = LocalDate.now();
-        Bill bill = new Bill();
-        bill.setCurrent(String.valueOf(currentDate));
-        bill.setStatus("Đang giao");
-        bill.setUser(user);
-        bill.setAddress(addressDTO.getAddress());
-        bill.setTotalCost(totalMoney);
-        bill.setQuantity(1);
-        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).orElse(null));
-        billService.save(bill);
-        System.out.println(addressDTO.toString());
-        TempAuction tempAuction = tempAuctionRepository.findById(addressDTO.getIdProduct()).orElse(null);
-        tempAuction.setBliss(bill);
-        tempAuctionRepository.save(tempAuction);
-
-        model.addAttribute("inputTotal",addressDTO.getTotalAuction());
-        model.addAttribute("product",tempAuction);
-        model.addAttribute("user",user);
-        return "Vinh/ReceiptPage";
-    }
-
-    @GetMapping("/bill/history/{idProduct}")
-    public String historyBuy(@PathVariable int idProduct,@RequestParam("total") Double total){
-        Product product = productRepository.findById(idProduct).orElse(null);
-        TempAuction tempAuction = new TempAuction(product.getAccounts().getIdAccount()
-                ,product.getProductName()
-                , product.getCategory().getCategoryName()
-                , product.getImage1()
-                , product.getImage2()
-                , product.getImage3()
-                , product.getDescription()
-                , product.getDatePost()
-        );
-        tempAuctionRepository.save(tempAuction);
-        product.setStatus("Đã đấu giá");
-        productRepository.save(product);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AccUser user = userService.findByAccount(auth.getName());
-        LocalDate currentDate = LocalDate.now();
-        Bill bill = new Bill();
-        bill.setCurrent(String.valueOf(currentDate));
-        bill.setStatus("Chưa thanh toán");
-        bill.setUser(user);
-        bill.setTotalCost(total);
-        bill.setQuantity(1);
-        billService.save(bill);
-        tempAuction.setBliss(bill);
-        tempAuctionRepository.save(tempAuction);
-        return "redirect:/";
-    }
-
+//    @GetMapping("/paypal")
+//    public String index(){
+//        return "paypal/index";
+//    }
+//    @PostMapping("/hoaDon/thanhToan")
+//    public String pay(HttpServletRequest request, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, @ModelAttribute Bill donHang,
+//                      Model model ){
+//        HashMap<Double, Product> listSpHoaDon = new HashMap<>();
+//        String temp = "";
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User user = userService.findByUser_User(auth.getName());
+//        LocalDate currentDate = java.time.LocalDate.now();
+//        donHang.setDateOder(String.valueOf(currentDate));
+//        donHang.setStatus("Đang Giao");
+//        donHang.setUser(user);
+//        donHang.setTotalCost(totalMoney);
+//        billService.create(donHang);
+//        ProductBillKey chiTietDonHangKey = new ProductBillKey();
+//        ProductBill chiTietDonHang = new ProductBill();
+//        for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
+//            Cart value = entry.getValue();
+//            listSpHoaDon.put(value.getMaxPrice(), value.getProduct());
+//            chiTietDonHangKey.setInBill(donHang.getInBill());
+//            chiTietDonHangKey.setIdProduct(value.getProduct().getIdProduct());
+//            chiTietDonHang.setBill(donHang);
+//            chiTietDonHang.setId(chiTietDonHangKey);
+//            chiTietDonHang.setProduct(value.getProduct());
+//            chiTietDonHang.setQuantity(totalSoLuong);
+//            chiTietDonHang.setPrice(value.getMaxPrice());
+//            billService.createChiTiet(chiTietDonHang);
+//        }
+//        chiTietDonHangTemp = chiTietDonHang;
+//        listSpHoaDonTemp = listSpHoaDon;
+//        String cancelUrl = PaypalUtils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
+//        String successUrl = PaypalUtils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
+//        try {
+//            Payment payment = paypalService.createPayment(
+//                    totalMoney,
+//                    "USD",
+//                    PaypalPaymentMethod.paypal,
+//                    PaypalPaymentIntent.sale,
+//                    "payment description",
+//                    cancelUrl,
+//                    successUrl);
+//            for(Links links : payment.getLinks()){
+//                if(links.getRel().equals("approval_url")){
+//                    return "redirect:" + links.getHref();
+//                }
+//            }
+//        } catch (PayPalRESTException e) {
+//            log.error(e.getMessage());
+//        }
+//        return "redirect:/";
+//    }
+//    @GetMapping(URL_PAYPAL_CANCEL)
+//    public String cancelPay(){
+//        return "paypal/cancel";
+//    }
+//    @GetMapping(URL_PAYPAL_SUCCESS)
+//    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap){
+//        List<String> tenSp = new ArrayList<>();
+//        for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
+//            Cart value = entry.getValue();
+//            tenSp.add(value.getProduct().getProductName());
+//        }
+//
+//        try {
+//            Payment payment = paypalService.executePayment(paymentId, payerId);
+//            if (payment.getState().equals("approved")) {
+//                SimpleMailMessage message = new SimpleMailMessage();
+//                message.setFrom("luytlong122@gmail.com");
+//                message.setTo(MyConstants.FRIEND_EMAIL);
+//                message.setSubject("THÔNG BÁO ĐÃ THANH TOÁN HÓA ĐƠN!");
+//                message.setText("Mã hóa đơn: HD" + chiTietDonHangTemp.getBill().getInBill() + "\n" +
+//                        "Danh sách sản phẩm: " + tenSp + "\n" +
+//                        "Ngày mua: " + chiTietDonHangTemp.getBill().getDateOder() + "\n" +
+//                        "Số tiền đã thanh toán: " + totalMoney);
+//                this.emailSender.send(message);
+//                model.addAttribute("hoaDon", chiTietDonHangTemp);
+//                model.addAttribute("listSp", listSpHoaDonTemp);
+//                return "nha/HoaDon";
+//            }
+//        } catch (PayPalRESTException e) {
+//            log.error(e.getMessage());
+//        }
+//        return "redirect:/paypal";
+//    }
 }

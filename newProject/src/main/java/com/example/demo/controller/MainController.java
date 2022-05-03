@@ -237,7 +237,7 @@ public class MainController {
 
 
     @GetMapping("/403")
-    private String accessDenied(Model model, Principal principal) {
+    public String accessDenied(Model model, Principal principal) {
         AccUser user = userService.findByAccount(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("mgs", "Bạn không có quyền truy cập !");

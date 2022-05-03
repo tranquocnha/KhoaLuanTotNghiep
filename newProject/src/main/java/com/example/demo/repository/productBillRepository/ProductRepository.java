@@ -6,17 +6,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-//    List<Product> findByStatusAndCategory_IdCategoryOrderByPrice(String status , int category);
+    //    List<Product> findByStatusAndCategory_IdCategoryOrderByPrice(String status , int category);
+//    List<Product> findAllByCategory(int id);
+    @Query(value = "select count(p.productName) as sanPham from Product p inner join Account a on a.idAccount=p.accounts inner join AccUser ac on ac.account=a.idAccount where ac.idUser=:id")
+    int findByQuantity(int id);
 
     // comment - product inner join
     @Query(value = "select p from  Product p inner join Comment cm on cm.product.idProduct=p.idProduct")
     Page<Product> findProductAndComment(Pageable pageable);
+
 
     @Query("select p from  Product p where p.accounts.idAccount= ?1")
     List<Product> findProduct(String idAccount);
@@ -25,9 +27,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     List<Product> findByStatus(String status);
 
-    Page<Product> findByProductNameContains(String nameProduct,Pageable pageable);
+    List<Product> findByProductNameContains(String nameProduct);
 
-    List<Product> findByStatusAndProductNameContains(String status,String nameProduct);
+    List<Product> findByStatusAndProductNameContains(String status, String nameProduct);
 
     @Query("select p " +
             "from  Product p " +
@@ -47,7 +49,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("select p " +
             "from Product p " +
             "where p.status = ?1 and p.accounts.idAccount = ?2")
-    List<Product> findAllByNotApprovedYet(String status , String idAccount);
+    List<Product> findAllByNotApprovedYet(String status, String idAccount);
 
     @Query("select p " +
             "from  Product p " +
@@ -66,10 +68,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("select p " +
             "from  Product p,Auction a " +
-            "where p.status = ?1 " +
-            "   and p.category.idCategory = ?2 " +
-            "   and p.idProduct=a.product.idProduct " +
-            "   and p.auction.startDate <= current_date and p.auction.endDate >= current_date and p.auction.auctionTime >= current_time ")
+            "where p.status = ?1 and p.category.idCategory = ?2 and p.idProduct=a.product.idProduct and p.idProduct=a.product.idProduct ")
     List<Product> findByStatusAndCategory_IdCategoryAndAuction_IdProductOrderByPrice(String status, Integer idCategory);
 
     @Query("select p " +
@@ -78,45 +77,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByCategory_IdCategory(int idCategory);
 
     //page
-    @Query("select p " +
-            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
-            "where p.status = 'Đã duyệt' " +
-            "   and p.productName like %?1% " +
-            "   or c.color like %?1% " +
-            "   or p.datePost like %?1% " +
-            "   or p.category.categoryName like %?1% " +
-            "group by p.idProduct")
-    Page<Product> findAllSearch(String nameProduct,Pageable pageable);
 
-    Page<Product> findByStatus(String status,Pageable pageable);
+    Page<Product> findByStatus(String status, Pageable pageable);
 
-    @Query("select p " +
-            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
-            "where p.status = 'Đã duyệt' " +
-            "group by p.idProduct order by c.price asc ")
-    Page<Product> findByStatusOrderByProductNameColorAsc(Pageable pageable);
-
-
-    @Query("select p " +
-            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
-            "where p.status = 'Đã duyệt' " +
-            "group by p.idProduct order by c.price desc ")
-    Page<Product> findByStatusOrderByProductNameColorDesc(Pageable pageable);
-    @Query("select p " +
-            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
-            "where p.status = 'Đã duyệt' " +
-            "group by p.idProduct order by p.idProduct desc ")
-    Page<Product> findByStatusOrderByProductNameIdProductDesc(Pageable pageable);
-
-    @Query("select p " +
-            "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
-            "where p.status = 'Đã duyệt' " +
-            "and c.price >= ?1 and c.price <= ?2 " +
-            "group by p.idProduct")
-    Page<Product> findByStatusAndSearchPrice(Double min ,Double max , Pageable pageable);
-
-
-    Page<Product> findByStatusAndProductNameContains(String status,String nameProduct,Pageable pageable);
-
-    Product findByStatusAndIdProduct(String status, int idProduct);
+    Page<Product> findByStatusAndProductNameContains(String status, String nameProduct, Pageable pageable);
+    //
+    @Query(value = "select p.accounts from Product p where p.idProduct=:idProduct")
+    String findIdUserByProduct(int idProduct);
 }

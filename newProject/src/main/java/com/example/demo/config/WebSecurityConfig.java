@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
 
-        http.authorizeRequests().antMatchers("/product/**").access("hasAnyRole('ROLE_SALER')");
+        http.authorizeRequests().antMatchers("/product/**","/discount/**").access("hasAnyRole('ROLE_SALER')");
 
         // admin vào quản trị admin và danh mục
         http.authorizeRequests().antMatchers("/admin/**",
@@ -52,7 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // shop  admin và user đều đc đấu giá
         http.authorizeRequests().antMatchers("/daugia/**",
-                "/showCart/**",
                 "/afterLogin/**",
                 "/user/**,",
                 "/chatSocket/**",

@@ -214,6 +214,7 @@ a.morebtn:hover {
 .form__content {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
 }
 
 .form__group_input  {
@@ -227,8 +228,13 @@ a.morebtn:hover {
 .form__content_status {
     color:white;
     padding: 5px 10px;
-    background: #7cb305;
-    border-radius: 10px;
+    background: #00E676;
+
+    min-width: 130px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form__group_button  {
@@ -236,6 +242,7 @@ a.morebtn:hover {
     justify-content: flex-end;
     align-items: center;
     margin-top: 20px;
+    font-family: 'BenchNine', Arial, sans-serif;
 }
 
 
@@ -246,8 +253,9 @@ a.morebtn:hover {
     padding: 5px 10px;
     border-radius: 10px;
     cursor: pointer;
-    min-width: 100px;
-    height: 35px;
+    min-width: 130px;
+    height: 50px;
+
     font-size: 16px;
     font-weight: 500;
 }
@@ -275,8 +283,8 @@ a.morebtn:hover {
     border: 1px solid #041E42;
     border-radius: 10px;
     cursor: pointer;
-    min-width: 100px;
-    height: 35px;
+    min-width: 130px;
+    height: 50px;
     font-size: 16px;
     font-weight: 500;
 }
@@ -395,6 +403,7 @@ a.morebtn:hover {
 .services__layout {
     display: flex;
     justify-content: center;
+    font-family: 'BenchNine', Arial, sans-serif;
 
 }
 
@@ -407,7 +416,7 @@ a.morebtn:hover {
 .services-top > button > a {
     text-align: center;
     font-size: 15px ;
-    font-weight: 550;
+    /*font-weight: 550;*/
     color: #ffffff;
     margin: 0px;
 }
@@ -418,7 +427,9 @@ a.morebtn:hover {
 
 .services-top > button {
     border: 1px solid #FFCC20;
-    background: #FFCC20;
+    background-color: var(--cui-warning, #f9b115) !important;
+    background-image: linear-gradient( 45deg, var(--cui-warning-start,  #FFCC20) 0%, var(--cui-warning-stop, #f9b115 100%));
+
     outline: none;
 }
 
@@ -453,15 +464,16 @@ a.morebtn:hover {
 }
 
 .item-dau-gia:hover  {
-    border: 1px solid #c5edfa;border-radius: 8px;
+    transition: 0.5s;
+    border: 1px solid #2982cc;border-radius: 8px;
 }
 .thumbnail .caption {
-    padding: 0px;
+    padding: 0;
     color: #333;
 }
 
 .itemProduct {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .caption__item{
@@ -511,8 +523,8 @@ a.morebtn:hover {
     height: 156px;
 }
 .img-dau-gia a img{
-    height: 140px;
-    width: auto;
+    height: 150px;
+    width: 150px;
     object-fit: cover;
 }
 .btn-dau-gia{

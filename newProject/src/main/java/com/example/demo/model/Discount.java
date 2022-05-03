@@ -12,8 +12,20 @@ public class Discount {
     private int idDiscount;
     private String nameDiscount;
     private int quantity;
+    private int percent;
     private String description;
     private String datePost;
+
+    public Discount(int idDiscount, String nameDiscount, int quantity, int percent, String description, String datePost, Account accounts, Set<DiscountCode> discountCodes) {
+        this.idDiscount = idDiscount;
+        this.nameDiscount = nameDiscount;
+        this.quantity = quantity;
+        this.percent = percent;
+        this.description = description;
+        this.datePost = datePost;
+        this.accounts = accounts;
+        this.discountCodes = discountCodes;
+    }
 
     @ManyToOne(targetEntity = Account.class)
     @JoinColumn(name = "account" , referencedColumnName = "idAccount")
@@ -25,6 +37,14 @@ public class Discount {
     public Discount() {
     }
 
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
+
     public Discount(int idDiscount, String nameDiscount, int quantity, String description, String datePost, Account accounts, Set<DiscountCode> discountCodes) {
         this.idDiscount = idDiscount;
         this.nameDiscount = nameDiscount;
@@ -33,6 +53,20 @@ public class Discount {
         this.datePost = datePost;
         this.accounts = accounts;
         this.discountCodes = discountCodes;
+    }
+
+    @Override
+    public String toString() {
+        return "Discount{" +
+                "idDiscount=" + idDiscount +
+                ", nameDiscount='" + nameDiscount + '\'' +
+                ", quantity=" + quantity +
+                ", percent=" + percent +
+                ", description='" + description + '\'' +
+                ", datePost='" + datePost + '\'' +
+                ", accounts=" + accounts +
+                ", discountCodes=" + discountCodes +
+                '}';
     }
 
     public void generateCode(DiscountCode code) {

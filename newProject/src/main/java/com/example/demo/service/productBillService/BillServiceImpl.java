@@ -36,4 +36,9 @@ public class BillServiceImpl implements BillService{
     public void saveDetail(ProductBill productBill) {
         productBillRepository.save(productBill);
     }
+
+    @Override
+    public String findRevenue(int id) {
+        return billRepository.findRevenue(id);
+    }
 }

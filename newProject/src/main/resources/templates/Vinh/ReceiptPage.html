@@ -24,7 +24,6 @@
 
 <div class="main">
   <div class="receipt__card">
-    <th:block th:if="${carts != null}">
     <div class="receipt__card-top">
       <img src="/Images/Walmart_logo.svg" alt="">
       <h5>Your order is confirmed!</h5>
@@ -77,61 +76,7 @@
         </div>
       </div>
     </div>
-    </th:block>
-    <th:block th:if="${product != null}">
-      <div class="receipt__card-top">
-        <img src="/Images/Walmart_logo.svg" alt="">
-        <h5>Your order is confirmed!</h5>
-        <div class="recipt__card-user">
-          <h5 >Hi</h5>
-          <h4 th:text="${user.name}"></h4>
-        </div>
-      </div>
 
-      <div class="receipt__card-address">
-        <div class="receipt__card-address-info">
-          <p>Mã Hóa Đơn</p>
-          <p th:text="'DH'+${product.bliss.idBill}"></p>
-        </div>
-        <div class="receipt__card-address-info">
-          <p>Tên người nhận: </p>
-          <p th:text="${user.name}"></p>
-        </div>
-        <div class="receipt__card-address-info">
-          <p>Số điện thoại</p>
-          <p th:text="${product.bliss.user.phoneUser}"></p>
-        </div>
-
-        <div class="receipt__card-address-info">
-          <p>Trạng thái đơn hàng</p>
-          <p th:text="${product.bliss.status}"></p>
-        </div>
-
-        <!--      <div class="receipt__card-address-info">-->
-        <!--        <p>Địa chỉ giao hàng</p>-->
-        <!--        <p th:text="">Chưa làm ra </p>-->
-        <!--      </div>-->
-      </div>
-
-      <div class="receipt__card-info">
-        <div class="receipt__card-item">
-          <div class="receipt__card-img">
-            <img th:src="@{${'/Images/' + product.image1}}" alt="hinh">
-            <div class="receipt__card-name">
-              <h4 th:text="${product.productName}"></h4>
-            </div>
-          </div>
-
-          <div class="receipt__card-quantity">
-            <p >Số Lượng : 1</p>
-          </div>
-
-          <div class="receipt__card-price">
-            <p th:text="${product.bliss.totalCost}+' USD'"></p>
-          </div>
-        </div>
-      </div>
-    </th:block>
     <div class="receipt__card-bill">
       <div class="receipt__card-bill-total">
         <div class="receipt__card-bill-title">
