@@ -68,10 +68,9 @@ public class HauController {
         }
         return null;
     }
-    @GetMapping(value = "/ProfileDetail/{idUser}")
-    public String showMemberView(@PathVariable("idUser") int idUser, Model model, Principal principal) {
-        AccUser user = userService.findById(idUser);
-
+    @GetMapping(value = "/ProfileDetail")
+    public String showMemberView(Model model, Principal principal) {
+        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
         model.addAttribute("users", user);
         return "Hau/ProfileDetail";
     }
