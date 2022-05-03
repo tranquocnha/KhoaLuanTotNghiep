@@ -40,6 +40,7 @@ public interface ProductService {
     List<Product> findByApproved(String status);
 
     List<Product> findAllByNotApprovedYet(String status , String idAccount);
+    Page<Product> findAllProductByNotApprovedYet(Pageable pageable,String status , String idAccount);
 
     List<Product> findByNotApprovedYet(String status, String idAccount, String nameProduct);
 

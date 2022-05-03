@@ -16,7 +16,11 @@ public interface ColorRepository extends JpaRepository<Color, Integer> {
     List<Color> findAllByProduct_Accounts_IdAccount(String idAccount);
 
     List<Color> findAllByProduct_StatusAndProduct_Accounts_IdAccount(String status , String idAccount);
+    Page<Color> findAllByProduct_StatusAndProduct_Accounts_IdAccount(String status, String idAccount, Pageable pageable);
 
+    Page<Color> findAllByProduct_Accounts_UserIdUser(int idAccount, Pageable pageable);
+
+    Page<Color> findAllByProduct_Accounts_IdAccount(String idAccount, Pageable pageable);
     //list
 
     @Query("select c , min(c.price) as min1 " +

@@ -19,10 +19,13 @@ public interface ColorService {
     List<Color> findByIdProduct(int id);
 
     Page<Color> findAllPage(Pageable pageable);
+    Page<Color> findAllByProduct(String idAccount, Pageable pageable);
 
     List<Color> findAllProduct(String idAccount);
 
     List<Color> findAllApprovedProduct(String status , String idAccount);
+
+    Page<Color> findAllApprovedProduct(String status , String idAccount,Pageable pageable);
 
     List<Color> findProduct(String status , Integer idCategory);
     List<Color> findProduct(String status , Integer idCategory,String nameProduct);

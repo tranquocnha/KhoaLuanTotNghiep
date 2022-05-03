@@ -50,6 +50,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByNotApprovedYet(String status , String idAccount);
 
     @Query("select p " +
+            "from Product p " +
+            "where p.status = ?1 and p.accounts.idAccount = ?2")
+    Page<Product> findAllProductByNotApprovedYet(Pageable pageable,String status , String idAccount);
+
+    @Query("select p " +
             "from  Product p " +
             "where p.accounts.idAccount= ?1")
     List<Product> findAccount(String idAccount);
