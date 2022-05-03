@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Thông tin cá nhân</title></head>
+    <title>Thông tin cá nhân</title>
+</head>
 
 <div th:insert="~{/Hau/layout :: head}"></div>
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<!--<div th:insert="~{/nha/HomePage::header}"></div>-->
 
 <div class="alert alert-success  alert-dismissible fade show" role="alert" th:if="${message}">
     <strong th:text="${message}">Holy guacamole!</strong>
@@ -16,7 +18,7 @@
     <div class="main__userbill">
         <div th:replace="~{/Hau/layout :: main__left}"></div>
         <div class="main__right  " style="border-color: #00BFFF;margin: 50px 0px 0px">
-            <div class="table__col" role="alert">
+            <div class="titlePage" role="alert">
                 <label class="col-form-label user__title"><h4>Thông Tin Cá Nhân :</h4></label>
                 <div class="col-lg-6 user__name" th:text="${users.account.idAccount} "></div>
             </div>

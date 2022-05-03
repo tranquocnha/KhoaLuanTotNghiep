@@ -99,7 +99,7 @@
 <!-- End Main Top -->
 
 <!-- Start Main Top -->
-<header class="main-header">
+<header class="main-header" th:fragment="header">
     <!-- Start Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
         <div class="container">
@@ -194,7 +194,7 @@
                                     <li th:if="${admin == 'là saler'}"><a href="/product/list">Shop</a></li>
                                 </th:block>
                                 <li>
-                                    <a th:href="@{/ProfileDetail/__${userNames.idUser}__}">Hồ sơ cá nhân</a>
+                                    <a th:href="@{/ProfileDetail}">Hồ sơ cá nhân</a>
                                 </li>
                                 <li><a href="/logout">Đăng Xuất</a></li>
                             </th:block>
