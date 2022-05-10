@@ -82,7 +82,7 @@
                     <td>
                         <div class="media">
                             <div class="mr-3 img-fluid" >
-                                <img th:src="@{${products.tempProduct.image1}}" alt=""/>
+                                <img th:src="@{'/Images/' + ${products.tempProduct.getImage1()}}" alt="" />
                             </div>
                         </div>
                     </td>
