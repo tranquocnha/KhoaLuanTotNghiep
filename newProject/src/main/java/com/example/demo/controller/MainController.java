@@ -128,6 +128,7 @@ public class MainController {
         String rePassword = accountUser.getRePassWord1();
         String phoneUser = accountUser.getPhoneUser1();
         String add = accountUser.getAddress1();
+        int role = accountUser.getRole1();
 
 
         String registerLink = Utility.getSiteURL(request) + "/confirmRegister?&userName=" + userName
@@ -139,6 +140,7 @@ public class MainController {
                 + "&password=" + password
                 + "&phoneUser=" + phoneUser
                 + "&address=" + add
+                + "&role=" + role
                 + "&rePassword="+rePassword;
 
         redirectAttributes.addAttribute("email1", email1);
@@ -151,6 +153,7 @@ public class MainController {
         redirectAttributes.addAttribute("add", add);
         redirectAttributes.addAttribute("date", date);
         redirectAttributes.addAttribute("name", name);
+        redirectAttributes.addAttribute("role", role);
 //
 //        address.setAccUser(user);
 //        address.setNameAddress(accountUser.getAddress1());
@@ -158,7 +161,8 @@ public class MainController {
 //        System.out.println("dia chi " + address);
         System.out.println("repasss " + rePassword);
         sendMailRegister(email1, registerLink);
-        return "/nha/login";
+//        redirectAttributes.addFlashAttribute("message","Please check your email");
+        return "nha/login";
 
 
 //        System.out.println("nguoi dun  ==========" + user);
@@ -184,6 +188,8 @@ public class MainController {
                     int numberCard,
             @RequestParam("date")
                     String date,
+            @RequestParam("role")
+                    int role,
             @RequestParam("rePassword")
                     String rePassword,
             AccountUser accountUser,
@@ -198,7 +204,9 @@ public class MainController {
         model.addAttribute("date", date);
         model.addAttribute("rePassword", rePassword);
         model.addAttribute("name", name);
-        accountUser1 = new AccountUser(name,sex,date,email1,numberCard,add,phoneUser,userName,password,rePassword);
+        model.addAttribute("role", role);
+//        accountUser1 = new AccountUser(name,sex,date,email1,numberCard,add,phoneUser,userName,password,rePassword);
+        accountUser1 = new AccountUser(name,sex,date,email1,numberCard,add,phoneUser,userName,password,rePassword,role);
 //        model.addAttribute("roles", roles);
 
         return "Hau/RegisterCheck";
@@ -206,17 +214,40 @@ public class MainController {
     @PostMapping("/confirm")
     private String page3(Model model,RedirectAttributes redirectAttributes,Account account) {
         Address address = new Address();
-        Set<Role> roles = roleService.findByRoleName("ROLE_CUSTOMER");
-        Account account1 = new Account(accountUser1.getUserName1(),bCryptPasswordEncoder.encode(accountUser1.getPassWord1()),accountUser1.getRePassWord1(),null, true, roles);
-        AccUser user1 = new AccUser( accountUser1.getName1(), Boolean.parseBoolean(accountUser1.getSex1()),
-                accountUser1.getDateTime1(), accountUser1.getGmail1(),
-                accountUser1.getNumberCard1(), accountUser1.getPhoneUser1(), account1);
+        System.out.println("day la role: ");
+        int role=accountUser1.getRole1();
+        System.out.println(role);
+        System.out.println(accountUser1.getName1());
+        if(role==0){
+            Set<Role> roles1 = roleService.findByRoleName("ROLE_CUSTOMER");
+            Account account1 = new Account(accountUser1.getUserName1(),bCryptPasswordEncoder.encode(accountUser1.getPassWord1()),accountUser1.getRePassWord1(),null, true, roles1);
+            AccUser user1 = new AccUser( accountUser1.getName1(), Boolean.parseBoolean(accountUser1.getSex1()),
+                    accountUser1.getDateTime1(), accountUser1.getGmail1(),
+                    accountUser1.getNumberCard1(), accountUser1.getPhoneUser1(), account1);
 
-        address.setAccUser(user1);
-        address.setNameAddress(accountUser1.getAddress1());
-        addressService.save(address);
-        redirectAttributes.addFlashAttribute("message", "Successful Account");
+            address.setAccUser(user1);
+            address.setNameAddress(accountUser1.getAddress1());
+            addressService.save(address);
+            redirectAttributes.addFlashAttribute("message", "Register Successful Customer");
+        }
+        else {
+            Set<Role> roles2 = roleService.findByRoleName("ROLE_SALER");
+            Account account2 = new Account(accountUser1.getUserName1(),bCryptPasswordEncoder.encode(accountUser1.getPassWord1()),accountUser1.getRePassWord1(),null, true, roles2);
+            AccUser user1 = new AccUser( accountUser1.getName1(), Boolean.parseBoolean(accountUser1.getSex1()),
+                    accountUser1.getDateTime1(), accountUser1.getGmail1(),
+                    accountUser1.getNumberCard1(), accountUser1.getPhoneUser1(), account2);
+
+            address.setAccUser(user1);
+            address.setNameAddress(accountUser1.getAddress1());
+            addressService.save(address);
+            redirectAttributes.addFlashAttribute("message", "Register Successful Saler");
+        }
+
+////        Account account1 = new Account(accountUser1.getUserName1(),bCryptPasswordEncoder.encode(accountUser1.getPassWord1()),accountUser1.getRePassWord1(),null, true, roles);
+//
         return "redirect:/login";
+//       return "nha/login";
+
     }
 
     private void sendMailRegister(String email, String registerLink) throws UnsupportedEncodingException, MessagingException {

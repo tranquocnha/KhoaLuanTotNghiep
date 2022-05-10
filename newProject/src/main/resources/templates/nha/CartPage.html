@@ -35,6 +35,7 @@
 
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}" ></div>
+<div  th:if="${msgCheck}"><p class="alert alert-success" th:text="${msgCheck}"></p></div>
 <div class="cart">
     <div class="cart__banner">
         <h2>Giỏ hàng</h2>
@@ -49,6 +50,7 @@
                 <th class="cart-table-container__cart-category">Danh mục</th>
                 <th class="cart-table-container__cart-price">Giá tiền</th>
                 <th class="cart-table-container__cart-quantity">Số lượng</th>
+                <th class="cart-table-container__cart-quantity"> Mã Giảm Giá</th>
                 <th class="cart-table-container__cart-subtotal">Tổng cộng</th>
             </tr>
             </thead>
@@ -76,9 +78,21 @@
                         <button class="plus-btn" th:onclick="handleIncrease[[${iterStat.count}]]()">&#43;</button>
                     </div>
                 </td>
+<!--                <td class="product-quantity">-->
+<!--                    <form action="/bill/checkDiscount" method="get">-->
+<!--                    <input type="text" name="discountCode" class="form-control" style="width: 60%"/>-->
+<!--&lt;!&ndash;                        <input id="grand__total" class="grand__total">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input id="grand__total1" type="hidden" class="grand__total" name="total">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input id="grand__total2" type="text"  name="total2">&ndash;&gt;-->
+<!--                        <div th:text="${item.value.maxPrice}" ></div>-->
+<!--&lt;!&ndash;                        <h3 type="text" th:text="${idProduct}"></h3>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div th:class="product__price+${iterStat.count}" th:text="${item.value.getColor().price}"></div>&ndash;&gt;-->
+<!--                        <input type="submit" value="check">-->
+<!--                    </form>-->
+<!--                </td>-->
                 <td class="total-price">
                     <input type="hidden" th:id="totalMoney+${iterStat.count}"  th:value="${item.value.maxPrice}">
-                    <div th:id="totalMoneySubmit+${iterStat.count}" th:text="${item.value.maxPrice}+' USD'"></div>
+                    <div th:id="totalMoneySubmit+${iterStat.count}" th:text="${item.value.maxPrice}+' USD'" ></div>
                 </td>
 
                 <td class="product-remove">
@@ -144,7 +158,7 @@
 </div>
 
 
-</div>
+
 
 <script src="/Vinh/js/cart.js"></script>
 </body>

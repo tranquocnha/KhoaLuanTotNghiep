@@ -37,15 +37,17 @@
                         <th class="table__col">Trạng thái</th>
                         <th class="table__col">Tổng tiền</th>
                         <th class="table__col">Địa Chỉ</th>
+                        <th class="table__col">Chi tiết</th>
                     </tr>
                     <tr class="mt-2" th:each="billDetail : ${bills}">
-                        <td class="table__data" th:text="${billDetail.idBill}"></td>
+                        <td class="table__data" th:text="${billDetail.idBill}" name="idBill"></td>
                         <td class="table__data" th:text="${billDetail.current}"></td>
 
                         <td class="table__data" th:text="${billDetail.status}"></td>
                         <td class="table__data" th:text="${billDetail.totalCost}"></td>
                         <td class="table__data"
                             th:text="${billDetail.address}+ '/' +${billDetail.ward.wardName}+ '/' +${billDetail.ward.district.districtName}+ '/' +${billDetail.ward.district.province.provinceName}"></td>
+                        <td class="table__data" ><a th:href="@{/detailBill/__${billDetail.idBill}__}">Chi tiết</a></td>
                     </tr>
                     </thead>
                 </table>

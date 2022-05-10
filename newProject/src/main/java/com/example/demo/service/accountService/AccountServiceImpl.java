@@ -1,5 +1,6 @@
 package com.example.demo.service.accountService;
 
+import com.example.demo.model.AccUser;
 import com.example.demo.model.Account;
 import com.example.demo.repository.accountRepository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,18 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
+    public int findIdUserByIdAccount(String id) {
+        return accountRepository.findIdUserByIdAccount(id);
+    }
+
+    @Override
     public void save(Account account) {
         accountRepository.save(account);
+    }
+
+    @Override
+    public AccUser findAccUserByIdUser(int id) {
+        return accountRepository.findAccUserByIdUser(id);
     }
 
     @Override

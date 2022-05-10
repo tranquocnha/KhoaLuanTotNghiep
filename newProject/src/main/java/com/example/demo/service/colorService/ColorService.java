@@ -26,7 +26,7 @@ public interface ColorService {
     List<Color> findAllApprovedProduct(String status , String idAccount);
 
     Page<Color> findAllApprovedProduct(String status , String idAccount,Pageable pageable);
-
+    Page<Color> findAllPageById(int idAccount,Pageable pageable);
     List<Color> findProduct(String status , Integer idCategory);
     List<Color> findProduct(String status , Integer idCategory,String nameProduct);
     List<Color> findByProduct_Status(String status);

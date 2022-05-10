@@ -6,14 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 //    List<Product> findByStatusAndCategory_IdCategoryOrderByPrice(String status , int category);
-
+    Product findProductByIdProduct(int id);
     // comment - product inner join
     @Query(value = "select p from  Product p inner join Comment cm on cm.product.idProduct=p.idProduct")
     Page<Product> findProductAndComment(Pageable pageable);
@@ -21,13 +19,16 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("select p from  Product p where p.accounts.idAccount= ?1")
     List<Product> findProduct(String idAccount);
 
+    @Query(value = "select count(p.productName) as sanPham from Product p inner join Account a on a.idAccount=p.accounts inner join AccUser ac on ac.account=a.idAccount where ac.idUser=:id")
+    int findByQuantity(int id);
+
     List<Product> findAllByStatusContaining(String status);
 
     List<Product> findByStatus(String status);
 
-    Page<Product> findByProductNameContains(String nameProduct,Pageable pageable);
+    Page<Product> findByProductNameContains(String nameProduct, Pageable pageable);
 
-    List<Product> findByStatusAndProductNameContains(String status,String nameProduct);
+    List<Product> findByStatusAndProductNameContains(String status, String nameProduct);
 
     @Query("select p " +
             "from  Product p " +
@@ -47,12 +48,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("select p " +
             "from Product p " +
             "where p.status = ?1 and p.accounts.idAccount = ?2")
-    List<Product> findAllByNotApprovedYet(String status , String idAccount);
+    List<Product> findAllByNotApprovedYet(String status, String idAccount);
 
     @Query("select p " +
             "from Product p " +
             "where p.status = ?1 and p.accounts.idAccount = ?2")
-    Page<Product> findAllProductByNotApprovedYet(Pageable pageable,String status , String idAccount);
+    Page<Product> findAllProductByNotApprovedYet(Pageable pageable, String status, String idAccount);
 
     @Query("select p " +
             "from  Product p " +
@@ -81,7 +82,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "    inner join category c on p.id_category = c.id_category\n" +
             "where p.status like ?1\n" +
             "    and c.id_category = ?2\n" +
-            "    and a.start_date <= CURDATE() and a.end_date >= CURDATE() and a.auction_time >= CURTIME()",nativeQuery = true)
+            "    and a.start_date <= CURDATE() and a.end_date >= CURDATE() and a.auction_time >= CURTIME()", nativeQuery = true)
     List<Product> findByAuction(String status, Integer idCategory);
 
     @Query("select p " +
@@ -98,9 +99,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "   or p.datePost like %?1% " +
             "   or p.category.categoryName like %?1% " +
             "group by p.idProduct")
-    Page<Product> findAllSearch(String nameProduct,Pageable pageable);
+    Page<Product> findAllSearch(String nameProduct, Pageable pageable);
 
-    Page<Product> findByStatus(String status,Pageable pageable);
+    Page<Product> findByStatus(String status, Pageable pageable);
 
     @Query("select p " +
             "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
@@ -114,6 +115,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "where p.status = 'Đã duyệt' " +
             "group by p.idProduct order by c.price desc ")
     Page<Product> findByStatusOrderByProductNameColorDesc(Pageable pageable);
+
     @Query("select p " +
             "from Product p inner join Color c on p.idProduct=c.product.idProduct " +
             "where p.status = 'Đã duyệt' " +
@@ -125,10 +127,15 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "where p.status = 'Đã duyệt' " +
             "and c.price >= ?1 and c.price <= ?2 " +
             "group by p.idProduct")
-    Page<Product> findByStatusAndSearchPrice(Double min ,Double max , Pageable pageable);
+    Page<Product> findByStatusAndSearchPrice(Double min, Double max, Pageable pageable);
 
 
-    Page<Product> findByStatusAndProductNameContains(String status,String nameProduct,Pageable pageable);
+    Page<Product> findByStatusAndProductNameContains(String status, String nameProduct, Pageable pageable);
 
     Product findByStatusAndIdProduct(String status, int idProduct);
+
+    @Query(value = "select `account` from product p where id_product=:idProduct",nativeQuery = true)
+    String findIdAccountByProduct(int idProduct);
+
+
 }

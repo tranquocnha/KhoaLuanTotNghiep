@@ -13,7 +13,7 @@
 
     <div class="register__form-background">
         <div class="register__form-img">
-            <img src="/Images/Logo-Neffex.png" />
+            <img src="/Images/Logo-Neffex.png"/>
         </div>
 
         <h5 class="register__form-title">Create your Walmart account</h5>
@@ -23,14 +23,15 @@
 
                 <div class="form__field">
                     <input type="text" class="form__field-input" placeholder=" " th:field="*{name1}" autofocus>
-                    <label class="form__field-label" >Họ và tên</label>
+                    <label class="form__field-label">Họ và tên</label>
                     <p th:if="${#fields.hasErrors('name1')}" th:errors="*{name1}" class="form__field-error"></p>
                 </div>
 
                 <div class="form__field">
-                    <p class="form__field-error" style="color: red;font-size: 13px" th:if="${errEmail}">Email đã tồn tại trong hệ thống</p>
-                    <input type="text"  class="form__field-input"  placeholder=" " th:field="*{gmail1}" autofocus>
-                    <label class="form__field-label" >Email</label>
+                    <p class="form__field-error" style="color: red;font-size: 13px" th:if="${errEmail}">Email đã tồn tại
+                        trong hệ thống</p>
+                    <input type="text" class="form__field-input" placeholder=" " th:field="*{gmail1}" autofocus>
+                    <label class="form__field-label">Email</label>
                     <p class="form__field-error" th:if="${#fields.hasErrors('gmail1')}" th:errors="*{gmail1}"></p>
                     <p class="form__field-error" th:if="${#fields.hasErrors('gmail1')}" th:errors="*{gmail1}"></p>
                 </div>
@@ -39,28 +40,29 @@
 
                 <div class="form__field">
 
-                    <input type="text" class="form__field-input"  placeholder=" " th:field="*{userName1}" autofocus>
-                    <label class="form__field-label" >Tên đăng nhập</label>
-                    <p  class="form__field-error" style="color: red;font-size: 13px" th:if="${errTK}">Tên tài khoản đã tồn tại</p>
+                    <input type="text" class="form__field-input" placeholder=" " th:field="*{userName1}" autofocus>
+                    <label class="form__field-label">Tên đăng nhập</label>
+                    <p class="form__field-error" style="color: red;font-size: 13px" th:if="${errTK}">Tên tài khoản đã
+                        tồn tại</p>
                     <p class="form__field-error" th:if="${#fields.hasErrors('userName1')}" th:errors="*{userName1}"></p>
 
                 </div>
 
                 <div class="form__field">
-                    <input type="password"  class="form__field-input"  placeholder=" " th:field="*{passWord1}">
-                    <label class="form__field-label" >Mật khẩu</label>
+                    <input type="password" class="form__field-input" placeholder=" " th:field="*{passWord1}">
+                    <label class="form__field-label">Mật khẩu</label>
 
-                    <p class="form__field-error" th:if="${#fields.hasErrors('passWord1')}" ></p>
+                    <p class="form__field-error" th:if="${#fields.hasErrors('passWord1')}"></p>
                     <p class="form__field-error" th:errors="*{passWord1}"></p>
                 </div>
-
 
 
             </div>
 
             <div class="form__field">
-                <input type="Password"  class="form__field-input"  placeholder=" " th:id="rePassWord1" th:name="rePassWord1">
-                <label class="form__field-label" >Xác Nhận Mật khẩu</label>
+                <input type="Password" class="form__field-input" placeholder=" " th:id="rePassWord1"
+                       th:name="rePassWord1">
+                <label class="form__field-label">Xác Nhận Mật khẩu</label>
 
                 <!--                <p class="form__field-error" th:if="${#fields.hasErrors('rePassWord1')}" ></p>-->
                 <!--                <p class="form__field-error" th:errors="*{rePassWord1}"></p>-->
@@ -69,7 +71,7 @@
             <div class="form__register-content">
 
                 <div class="form__field">
-                    <input type="date" class="form__field-input"  placeholder=" " th:field="*{dateTime1}" autofocus>
+                    <input type="date" class="form__field-input" placeholder=" " th:field="*{dateTime1}" autofocus>
                     <p style="color: red;font-size: 13px" th:if="${#fields.hasErrors('dateTime1')}"
                        th:errors="*{dateTime1}"></p>
                 </div>
@@ -77,9 +79,9 @@
                 <div class="form__field">
 
                     <div class="form__field-gender">
-                        <select>
-                            <option value="1" id="nam" th:field="*{sex1}">Nam</option>
-                            <option value="0" id="nu" th:field="*{sex1}">Nu</option>
+                        <select th:field="*{sex1}">
+                            <option th:value="1"  >Nam</option>
+                            <option th:value="0"  >Nu</option>
                         </select>
                         <!-- <input type="radio" placeholder=" ">
                         <label for="nam" class="form__field-label">Nam</label>
@@ -92,36 +94,48 @@
             <div class="form__register-content">
                 <div class="form__field">
 
-                    <input type="text" class="form__field-input" placeholder=" "  th:field="*{phoneUser1}"  autofocus>
+                    <input type="text" class="form__field-input" placeholder=" " th:field="*{phoneUser1}" autofocus>
                     <label class="form__field-label">Số điện thoại</label>
-                    <p class="form__field-error"  th:if="${#fields.hasErrors('phoneUser1')}" th:errors="*{phoneUser1}"></p>
+                    <p class="form__field-error" th:if="${#fields.hasErrors('phoneUser1')}"
+                       th:errors="*{phoneUser1}"></p>
                 </div>
                 <div class="form__field">
 
                     <input type="text" class="form__field-input" placeholder=" " th:field="*{address1}" autofocus>
-                    <label class="form__field-label" >Địa chỉ</label>
+                    <label class="form__field-label">Địa chỉ</label>
                     <p class="form__field-error" th:if="${#fields.hasErrors('address1')}" th:errors="*{address1}"></p>
                 </div>
             </div>
-            <div class="form__field">
-                <input type="text" class="form__field-input" placeholder=" " th:field="*{numberCard1}" />
-                <label class="form__field-label" >Căn cước cá nhân</label>
-                <p class="form__field-error" th:if="${#fields.hasErrors('numberCard1')}" th:errors="*{numberCard1}"></p>
-            </div>
-            <div class="form__checkbox">
-                <div class="form__checkbox-content">
-                    <input type="checkbox" />
-                    <h5>Keep me signed in</h5>
+            <div class="form__register-content">
+                <div class="form__field">
+                    <input type="text" class="form__field-input" placeholder=" " th:field="*{numberCard1}"/>
+                    <label class="form__field-label">Căn cước cá nhân</label>
+                    <p class="form__field-error" th:if="${#fields.hasErrors('numberCard1')}"
+                       th:errors="*{numberCard1}"></p>
                 </div>
-                <p>Uncheck emails about new arrivals, hot items, daily savings, &more</p>
+                <div class="form__field">
+                    <div class="form__field-gender">
+                    <select th:field="*{role1}">
+<!--                            th:field="*{percent}" >-->
+                        <option th:value="0" >Customer</option>
+                        <option th:value="1" >Saler</option>
+                    </select>
+                    </div>
+                </div>
             </div>
-
+                <div class="form__checkbox">
+                    <div class="form__checkbox-content">
+                        <input type="checkbox"/>
+                        <h5>Keep me signed in</h5>
+                    </div>
+                    <p>Uncheck emails about new arrivals, hot items, daily savings, &more</p>
+                </div>
             <div class="form__button">
-                <button class="form__button-register"  type="submit">Create account</button>
+                <button class="form__button-register" type="submit">Create account</button>
 
                 <p>Already have account ? </p>
 
-                <button class="form__button-signin" ><a href="/login">Sign in</a></button>
+                <button class="form__button-signin"><a href="/login">Sign in</a></button>
             </div>
         </form>
 

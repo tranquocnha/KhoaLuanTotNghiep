@@ -8,9 +8,9 @@ import com.example.demo.repository.UserRepository.UserRepository;
 import com.example.demo.repository.addressRepository.WardRepository;
 import com.example.demo.repository.productBillRepository.ProductRepository;
 import com.example.demo.repository.tempAuctionRepo.TempAuctionRepository;
-//import com.example.demo.service.payPalService.PayPalPaymentIntent;
-//import com.example.demo.service.payPalService.PayPalPaymentMethod;
-//import com.example.demo.service.payPalService.PayPalService;
+import com.example.demo.service.payPalService.PayPalPaymentIntent;
+import com.example.demo.service.payPalService.PayPalPaymentMethod;
+import com.example.demo.service.payPalService.PayPalService;
 import com.example.demo.service.productBillService.BillService;
 import com.example.demo.service.userService.UserService;
 import com.example.demo.util.PayPalUtils;
@@ -44,8 +44,8 @@ public class PaymentController {
     public static final String URL_PAYPAL_SUCCESS = "pay/successs";
     public static final String URL_PAYPAL_CANCEL = "pay/cancell";
     private Logger log = LoggerFactory.getLogger(getClass());
-//    @Autowired
-//    private PayPalService paypalService;
+    @Autowired
+    private PayPalService paypalService;
     @Autowired
     public JavaMailSender emailSender;
     @Autowired
@@ -199,82 +199,82 @@ public class PaymentController {
     }
 
 
-//    @PostMapping("/payAuction")
-//    public String payAuction(@Valid @ModelAttribute("addressAuctionDTO") AddressAuctionDTO addressDTO, HttpServletRequest request) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        AccUser user = userService.findByAccount(auth.getName());
-//        LocalDate currentDate = LocalDate.now();
-//        Bill bill = new Bill();
-//        bill.setCurrent(String.valueOf(currentDate));
-//        bill.setStatus("Đang giao");
-//        bill.setUser(user);
-//        bill.setAddress(addressDTO.getAddress());
-//        bill.setTotalCost(totalMoney);
-//        bill.setQuantity(1);
-//        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).orElse(null));
-//        billService.save(bill);
-//        System.out.println(addressDTO.toString());
-//        TempAuction tempAuction = tempAuctionRepository.findById(addressDTO.getIdProduct()).orElse(null);
-//        tempAuction.setBliss(bill);
-//        tempAuctionRepository.save(tempAuction);
-//        billAuction = bill;
-//        tempAuctionTemp = tempAuction;
-//        String cancelUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
-//        String successUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
-//        try {
-//            Payment payment = paypalService.createPayment(
-//                    totalMoney,
-//                    "USD",
-//                    PayPalPaymentMethod.paypal,
-//                    PayPalPaymentIntent.sale,
-//                    "payment description",
-//                    cancelUrl,
-//                    successUrl);
-//            for (Links links : payment.getLinks()) {
-//                if (links.getRel().equals("approval_url")) {
-//                    return "redirect:" + links.getHref();
-//                }
-//            }
-//        } catch (PayPalRESTException e) {
-//            log.error(e.getMessage());
-//        }
-//        return "redirect:/";
-//    }
+    @PostMapping("/payAuction")
+    public String payAuction(@Valid @ModelAttribute("addressAuctionDTO") AddressAuctionDTO addressDTO, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AccUser user = userService.findByAccount(auth.getName());
+        LocalDate currentDate = LocalDate.now();
+        Bill bill = new Bill();
+        bill.setCurrent(String.valueOf(currentDate));
+        bill.setStatus("Đang giao");
+        bill.setUser(user);
+        bill.setAddress(addressDTO.getAddress());
+        bill.setTotalCost(totalMoney);
+        bill.setQuantity(1);
+        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).orElse(null));
+        billService.save(bill);
+        System.out.println(addressDTO.toString());
+        TempAuction tempAuction = tempAuctionRepository.findById(addressDTO.getIdProduct()).orElse(null);
+        tempAuction.setBliss(bill);
+        tempAuctionRepository.save(tempAuction);
+        billAuction = bill;
+        tempAuctionTemp = tempAuction;
+        String cancelUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
+        String successUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
+        try {
+            Payment payment = paypalService.createPayment(
+                    totalMoney,
+                    "USD",
+                    PayPalPaymentMethod.paypal,
+                    PayPalPaymentIntent.sale,
+                    "payment description",
+                    cancelUrl,
+                    successUrl);
+            for (Links links : payment.getLinks()) {
+                if (links.getRel().equals("approval_url")) {
+                    return "redirect:" + links.getHref();
+                }
+            }
+        } catch (PayPalRESTException e) {
+            log.error(e.getMessage());
+        }
+        return "redirect:/";
+    }
 
     @GetMapping(URL_PAYPAL_CANCEL)
     public String cancelPay() {
         return "paypal/cancel";
     }
 
-//    @GetMapping(URL_PAYPAL_SUCCESS)
-//    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String
-//            payerId, Model model, Principal principal) {
-//        Double inputTotal = totalMoney;
-//        List<String> tenSp = new ArrayList<>();
-//        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
-//        MyConstants.setFriendEmail(user.getGmail());
-//        try {
-//            Payment payment = paypalService.executePayment(paymentId, payerId);
-//            if (payment.getState().equals("approved")) {
-//                SimpleMailMessage message = new SimpleMailMessage();
-//                message.setFrom("luytlong122@gmail.com");
-//                message.setTo(MyConstants.FRIEND_EMAIL);
-//                message.setSubject("THÔNG BÁO ĐÃ THANH TOÁN HÓA ĐƠN!");
-//                message.setText("Mã hóa đơn: HD" + billAuction.getIdBill() + "\n" +
-//                        "Danh sách sản phẩm: " + tenSp + "\n" +
-//                        "Ngày mua: " + billAuction.getCurrent() + "\n" +
-//                        "Số tiền đã thanh toán: " + totalMoney);
-//                this.emailSender.send(message);
-//                model.addAttribute("inputTotal",inputTotal);
-//                model.addAttribute("product",tempAuctionTemp);
-//                model.addAttribute("user",user);
-//                return "/nha/ReceiptPage";
-//            }
-//        } catch (PayPalRESTException e) {
-//            log.error(e.getMessage());
-//        }
-//        totalMoney = 0;
-//        return "redirect:/payPal";
-//    }
+    @GetMapping(URL_PAYPAL_SUCCESS)
+    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String
+            payerId, Model model, Principal principal) {
+        Double inputTotal = totalMoney;
+        List<String> tenSp = new ArrayList<>();
+        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
+        MyConstants.setFriendEmail(user.getGmail());
+        try {
+            Payment payment = paypalService.executePayment(paymentId, payerId);
+            if (payment.getState().equals("approved")) {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom("luytlong122@gmail.com");
+                message.setTo(MyConstants.FRIEND_EMAIL);
+                message.setSubject("THÔNG BÁO ĐÃ THANH TOÁN HÓA ĐƠN!");
+                message.setText("Mã hóa đơn: HD" + billAuction.getIdBill() + "\n" +
+                        "Danh sách sản phẩm: " + tenSp + "\n" +
+                        "Ngày mua: " + billAuction.getCurrent() + "\n" +
+                        "Số tiền đã thanh toán: " + totalMoney);
+                this.emailSender.send(message);
+                model.addAttribute("inputTotal",inputTotal);
+                model.addAttribute("product",tempAuctionTemp);
+                model.addAttribute("user",user);
+                return "/nha/ReceiptPage";
+            }
+        } catch (PayPalRESTException e) {
+            log.error(e.getMessage());
+        }
+        totalMoney = 0;
+        return "redirect:/payPal";
+    }
 
 }

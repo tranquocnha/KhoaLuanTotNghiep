@@ -28,6 +28,9 @@
 </head>
 <body>
 <div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div>
+    <span class="alert alert-success" th:utext="${mgsecolor}" th:if="${mgsecolor}"></span>
+</div>
 <div class="main">
     <div th:insert="~{/nha/admin/ListProduct::main__left}"></div>
     <div class="main__right">
@@ -36,9 +39,6 @@
 <!--            <input type="text" name="tensanpham" id="mem-name"/>-->
 <!--            <button class="filter-btn" type="submit">Lọc kết quả</button>-->
 <!--        </form>-->
-        <div>
-            <span class="alert alert-success" th:utext="${mgsecolor}" th:if="${mgsecolor}"></span>
-        </div>
         <table class="table__container"  th:unless="${mgs}">
             <thead class="table__thead">
             <tr>

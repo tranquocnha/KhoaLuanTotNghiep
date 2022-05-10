@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface BillService {
     List<Bill> findBills(int id);
+    Bill findBillsById(int id);
 
     Page<Bill> findAll(Pageable pageable);
 

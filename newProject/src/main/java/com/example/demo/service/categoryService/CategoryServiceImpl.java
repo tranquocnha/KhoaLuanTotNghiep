@@ -43,4 +43,10 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findByName(String nameCategory) {
         return categoryRepository.findCategoryByCategoryName(nameCategory);
     }
+
+    @Override
+    public List<Category> findByIdCategory(int id) {
+        return categoryRepository.findCategoryByIdUsers(id);
+    }
+
 }

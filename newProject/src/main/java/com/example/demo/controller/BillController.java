@@ -2,10 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.model.*;
 import com.example.demo.repository.UserRepository.UserRepository;
+import com.example.demo.service.accountService.AccountServiceImpl;
 import com.example.demo.service.categoryService.CategoryService;
 import com.example.demo.service.colorService.ColorServiceImpl;
 import com.example.demo.service.commentService.CommentService;
 import com.example.demo.service.product.ProductService;
+import com.example.demo.service.productBillService.BillService;
 import com.example.demo.service.productBillService.ProductBillService;
 import com.example.demo.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ import java.util.List;
 @RequestMapping("/")
 @SessionAttributes("carts")
 public class BillController {
+    @Autowired
+    BillService billService;
     @Autowired
     private ProductService productService;
 
@@ -43,6 +47,8 @@ public class BillController {
 
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private AccountServiceImpl accountService;
 
     @ModelAttribute("carts")
     public HashMap<Integer, Cart> showInfo() {
@@ -147,6 +153,12 @@ public class BillController {
         Product product = productService.findByIdStatus("Đã duyệt",id);
         Color color = colorService.findById(id);
         List<Color> colorList = colorService.findByIdProduct(id);
+        System.out.println("day la id user");
+        String idAccount= productService.findIdAccountByProduct(id);
+        model.addAttribute("idAccount", idAccount);
+//        int idUser= accountService.findIdUserByIdAccount(idAccount);
+//        AccUser accUser=accountService.findAccUserByIdUser(accountService.findIdUserByIdAccount(idAccount));
+//        model.addAttribute("accUser", accUser);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.getName().equals("anonymousUser")) {
             model.addAttribute("userName", auth.getName());
@@ -195,6 +207,16 @@ public class BillController {
             model.addAttribute("mgs", "Danh sách sp tìm thấy");
             return "/nha/Home";
         }
+    }
+    @GetMapping("detailBill/{idBill}")
+    public String detailBill(@PathVariable(name="idBill") int id, Model model,Principal principal){
+        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
+        Bill bills = billService.findBillsById(id);
+        System.out.println("day la id bill");
+        System.out.println(id);
+        model.addAttribute("bills", bills);
+        model.addAttribute("users", user);
+        return "Hau/BillDetail";
     }
 
 }

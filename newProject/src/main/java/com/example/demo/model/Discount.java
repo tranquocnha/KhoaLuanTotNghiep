@@ -14,7 +14,7 @@ public class Discount {
     private int quantity;
     private String description;
     private String datePost;
-
+    private int percent;
     @ManyToOne(targetEntity = Account.class)
     @JoinColumn(name = "account" , referencedColumnName = "idAccount")
     private Account accounts;
@@ -25,12 +25,31 @@ public class Discount {
     public Discount() {
     }
 
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
+
     public Discount(int idDiscount, String nameDiscount, int quantity, String description, String datePost, Account accounts, Set<DiscountCode> discountCodes) {
         this.idDiscount = idDiscount;
         this.nameDiscount = nameDiscount;
         this.quantity = quantity;
         this.description = description;
         this.datePost = datePost;
+        this.accounts = accounts;
+        this.discountCodes = discountCodes;
+    }
+
+    public Discount(int idDiscount, String nameDiscount, int quantity, String description, String datePost, int percent, Account accounts, Set<DiscountCode> discountCodes) {
+        this.idDiscount = idDiscount;
+        this.nameDiscount = nameDiscount;
+        this.quantity = quantity;
+        this.description = description;
+        this.datePost = datePost;
+        this.percent = percent;
         this.accounts = accounts;
         this.discountCodes = discountCodes;
     }

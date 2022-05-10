@@ -11,9 +11,9 @@ import com.example.demo.repository.tempAuctionRepo.TempAuctionRepository;
 import com.example.demo.repository.tempProductRepo.TempBillProductRepository;
 import com.example.demo.repository.tempProductRepo.TempProductRepository;
 import com.example.demo.service.colorService.ColorService;
-//import com.example.demo.service.payPalService.PayPalPaymentIntent;
-//import com.example.demo.service.payPalService.PayPalPaymentMethod;
-//import com.example.demo.service.payPalService.PayPalService;
+import com.example.demo.service.payPalService.PayPalPaymentIntent;
+import com.example.demo.service.payPalService.PayPalPaymentMethod;
+import com.example.demo.service.payPalService.PayPalService;
 import com.example.demo.service.product.ProductService;
 
 import com.example.demo.service.productBillService.BillService;
@@ -50,8 +50,8 @@ public class CartController {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
-//    @Autowired
-//    private PayPalService paypalService;
+    @Autowired
+    private PayPalService paypalService;
 
     @Autowired
     public JavaMailSender emailSender;
@@ -171,6 +171,7 @@ public class CartController {
         }
         model.addAttribute("carts", cartMap);
         model.addAttribute("cartSize", cartMap.size());
+//        model.addAttribute("idProduct", idProduct);
         return "redirect:/showCart";
     }
 
@@ -209,35 +210,35 @@ public class CartController {
         return "redirect:/showCart";
     }
 
-//    @GetMapping("/hoaDon/layDuLieu/{id}")
-//    public String getHoaDon(@PathVariable int id, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
-//        if (cartMap == null) {
-//            cartMap = new HashMap<>();
-//        }
-//        Color color = colorService.findById(id);
-//        if (color != null) {
-//            color.setQuantity(color.getQuantity() - totalQuantity);
-//            if (color.getQuantity() <= 0) {
-//                color.setStatus("Out of product"); // thay ham xoa cx dc
-//            }
-//            colorService.save(color);
-//            if (cartMap.containsKey(id)) {
-//                Cart item = cartMap.get(id);
-//                item.setColor(color);
-//                item.setQuantity(item.getQuantity() + totalQuantity);
-//                item.setMaxPrice(totalMoney);
-//                cartMap.put(id, item);
-//            } else {
-//                Cart cart = new Cart();
-//                cart.setColor(color);
-//                cart.setQuantity(totalQuantity);
-//                cart.setMaxPrice(totalMoney);
-//                cartMap.put(id, cart);
-//            }
-//        }
-//        model.addAttribute("carts", cartMap);
-//        return "nha/Pay";
-//    }
+    @GetMapping("/hoaDon/layDuLieu/{id}")
+    public String getHoaDon(@PathVariable int id, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
+        if (cartMap == null) {
+            cartMap = new HashMap<>();
+        }
+        Color color = colorService.findById(id);
+        if (color != null) {
+            color.setQuantity(color.getQuantity() - totalQuantity);
+            if (color.getQuantity() <= 0) {
+                color.setStatus("Out of product"); // thay ham xoa cx dc
+            }
+            colorService.save(color);
+            if (cartMap.containsKey(id)) {
+                Cart item = cartMap.get(id);
+                item.setColor(color);
+                item.setQuantity(item.getQuantity() + totalQuantity);
+                item.setMaxPrice(totalMoney);
+                cartMap.put(id, item);
+            } else {
+                Cart cart = new Cart();
+                cart.setColor(color);
+                cart.setQuantity(totalQuantity);
+                cart.setMaxPrice(totalMoney);
+                cartMap.put(id, cart);
+            }
+        }
+        model.addAttribute("carts", cartMap);
+        return "nha/Pay";
+    }
 
     @PostMapping("/bill/pay")
     public String thanhToan(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO,
@@ -299,124 +300,124 @@ public class CartController {
         return "nha/ReceiptPage";
     }
 
-//
-//
-//    @GetMapping("/payPal")
-//    public String index() {
-//        return "paypal/index";
-//    }
-//
-//    @PostMapping("/pay")
-//    public String pay(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO,HttpServletRequest request,
-//                      @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, @ModelAttribute Bill bill) {
-//        HashMap<Double, Product> productListBill = new HashMap<>();
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        AccUser user = userService.findByAccount(auth.getName());
-//        LocalDate currentDate = LocalDate.now();
-//        bill.setCurrent(String.valueOf(currentDate));
-//        bill.setStatus("Đang giao");
-//        bill.setUser(user);
-//        bill.setTotalCost(totalMoney);
-//        bill.setQuantity(totalQuantity);
-//        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).orElse(null));
-//        billService.save(bill);
-//        ProductBill productBill1 = new ProductBill();
-//        for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
-//            Cart value = entry.getValue();
-//            productListBill.put(value.getMaxPrice(), value.getProduct());
-//            ProductBill productBill = new ProductBill();
-//            productBill.setBill(bill);
-//            productBill.setProduct(value.getProduct());
-//            productBill1 = productBill;
-//            billService.saveDetail(productBill);
-//            TempBillProduct tempBillProduct = new TempBillProduct();
-//            tempBillProduct.setBills(bill);
-//            TempProduct tempProduct = new TempProduct(
-//                    value.getProduct().getAccounts().getIdAccount(),
-//                    value.getProduct().getCategory().getCategoryName(),
-//                    value.getColor().getColor(),
-//                    value.getQuantity(),
-//                    value.getColor().getPrice(),
-//                    value.getProduct().getProductName(),
-//                    value.getProduct().getImage1(),
-//                    value.getProduct().getImage2(),
-//                    value.getProduct().getImage3(),
-//                    value.getProduct().getDescription(),
-//                    value.getProduct().getDatePost()
-//            );
-//            tempProductRepository.save(tempProduct);
-//            tempBillProduct.setTempProduct(tempProduct);
-//            tempBillProductRepository.save(tempBillProduct);
-//        }
-//        orderDetail = productBill1;
-//        productListBillTemp = productListBill;
-//        String cancelUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
-//        String successUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
-//        try {
-//            Payment payment = paypalService.createPayment(
-//                    sumTotalMoney,
-//                    "USD",
-//                    PayPalPaymentMethod.paypal,
-//                    PayPalPaymentIntent.sale,
-//                    "payment description",
-//                    cancelUrl,
-//                    successUrl);
-//            for (Links links : payment.getLinks()) {
-//                if (links.getRel().equals("approval_url")) {
-//                    return "redirect:" + links.getHref();
-//                }
-//            }
-//        } catch (PayPalRESTException e) {
-//            log.error(e.getMessage());
-//        }
-//        return "redirect:/";
-//    }
+
+
+    @GetMapping("/payPal")
+    public String index() {
+        return "paypal/index";
+    }
+
+    @PostMapping("/pay")
+    public String pay(@Valid @ModelAttribute("addressDTO") AddressDTO addressDTO,HttpServletRequest request,
+                      @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, @ModelAttribute Bill bill) {
+        HashMap<Double, Product> productListBill = new HashMap<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AccUser user = userService.findByAccount(auth.getName());
+        LocalDate currentDate = LocalDate.now();
+        bill.setCurrent(String.valueOf(currentDate));
+        bill.setStatus("Đang giao");
+        bill.setUser(user);
+        bill.setTotalCost(totalMoney);
+        bill.setQuantity(totalQuantity);
+        bill.setWard(wardRepository.findById(Integer.parseInt(addressDTO.getIdWard())).orElse(null));
+        billService.save(bill);
+        ProductBill productBill1 = new ProductBill();
+        for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
+            Cart value = entry.getValue();
+            productListBill.put(value.getMaxPrice(), value.getProduct());
+            ProductBill productBill = new ProductBill();
+            productBill.setBill(bill);
+            productBill.setProduct(value.getProduct());
+            productBill1 = productBill;
+            billService.saveDetail(productBill);
+            TempBillProduct tempBillProduct = new TempBillProduct();
+            tempBillProduct.setBills(bill);
+            TempProduct tempProduct = new TempProduct(
+                    value.getProduct().getAccounts().getIdAccount(),
+                    value.getProduct().getCategory().getCategoryName(),
+                    value.getColor().getColor(),
+                    value.getQuantity(),
+                    value.getColor().getPrice(),
+                    value.getProduct().getProductName(),
+                    value.getProduct().getImage1(),
+                    value.getProduct().getImage2(),
+                    value.getProduct().getImage3(),
+                    value.getProduct().getDescription(),
+                    value.getProduct().getDatePost()
+            );
+            tempProductRepository.save(tempProduct);
+            tempBillProduct.setTempProduct(tempProduct);
+            tempBillProductRepository.save(tempBillProduct);
+        }
+        orderDetail = productBill1;
+        productListBillTemp = productListBill;
+        String cancelUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
+        String successUrl = PayPalUtils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
+        try {
+            Payment payment = paypalService.createPayment(
+                    sumTotalMoney,
+                    "USD",
+                    PayPalPaymentMethod.paypal,
+                    PayPalPaymentIntent.sale,
+                    "payment description",
+                    cancelUrl,
+                    successUrl);
+            for (Links links : payment.getLinks()) {
+                if (links.getRel().equals("approval_url")) {
+                    return "redirect:" + links.getHref();
+                }
+            }
+        } catch (PayPalRESTException e) {
+            log.error(e.getMessage());
+        }
+        return "redirect:/";
+    }
 
     @GetMapping(URL_PAYPAL_CANCEL)
     public String cancelPay() {
         return "paypal/cancel";
     }
 
-//    @GetMapping(URL_PAYPAL_SUCCESS)
-//    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String
-//            payerId, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, Principal principal) {
-//        Double inputTotal = sumTotalMoney;
-//        List<String> tenSp = new ArrayList<>();
-//        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
-//        MyConstants.setFriendEmail(user.getGmail());
-//        for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
-//            Cart value = entry.getValue();
-//            tenSp.add(value.getProduct().getProductName());
-//        }
-//
-//        try {
-//            Payment payment = paypalService.executePayment(paymentId, payerId);
-//            if (payment.getState().equals("approved")) {
-//                SimpleMailMessage message = new SimpleMailMessage();
-//                message.setFrom("luytlong122@gmail.com");
-//                message.setTo(MyConstants.FRIEND_EMAIL);
-//                message.setSubject("THÔNG BÁO ĐÃ THANH TOÁN HÓA ĐƠN!");
-//                message.setText("Mã hóa đơn: HD" + orderDetail.getBill().getIdBill() + "\n" +
-//                        "Danh sách sản phẩm: " + tenSp + "\n" +
-//                        "Ngày mua: " + orderDetail.getBill().getCurrent() + "\n" +
-//                        "Số tiền đã thanh toán: " + sumTotalMoney);
-//                this.emailSender.send(message);
-//                model.addAttribute("inputTotal", inputTotal);
-//                model.addAttribute("carts", cartMap);
-//                model.addAttribute("orderDetail", orderDetail);
-//                model.addAttribute("productListBillTemp", productListBillTemp);
-//                return "/nha/ReceiptPage";
-//            }
-//        } catch (PayPalRESTException e) {
-//            log.error(e.getMessage());
-//        }
-//        cartMap.clear();
-//        sumTotalMoney = 0;
-//        return "redirect:/payPal";
-//    }
-//    @ExceptionHandler(Exception.class)
-//    public String showErrorPage(Exception e, Model model){
-//        model.addAttribute("message", e.getMessage());
-//        return "/nha/ErrorPage";
-//    }
+    @GetMapping(URL_PAYPAL_SUCCESS)
+    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String
+            payerId, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, Principal principal) {
+        Double inputTotal = sumTotalMoney;
+        List<String> tenSp = new ArrayList<>();
+        AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
+        MyConstants.setFriendEmail(user.getGmail());
+        for (Map.Entry<Integer, Cart> entry : cartMap.entrySet()) {
+            Cart value = entry.getValue();
+            tenSp.add(value.getProduct().getProductName());
+        }
+
+        try {
+            Payment payment = paypalService.executePayment(paymentId, payerId);
+            if (payment.getState().equals("approved")) {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom("luytlong122@gmail.com");
+                message.setTo(MyConstants.FRIEND_EMAIL);
+                message.setSubject("THÔNG BÁO ĐÃ THANH TOÁN HÓA ĐƠN!");
+                message.setText("Mã hóa đơn: HD" + orderDetail.getBill().getIdBill() + "\n" +
+                        "Danh sách sản phẩm: " + tenSp + "\n" +
+                        "Ngày mua: " + orderDetail.getBill().getCurrent() + "\n" +
+                        "Số tiền đã thanh toán: " + sumTotalMoney);
+                this.emailSender.send(message);
+                model.addAttribute("inputTotal", inputTotal);
+                model.addAttribute("carts", cartMap);
+                model.addAttribute("orderDetail", orderDetail);
+                model.addAttribute("productListBillTemp", productListBillTemp);
+                return "/nha/ReceiptPage";
+            }
+        } catch (PayPalRESTException e) {
+            log.error(e.getMessage());
+        }
+        cartMap.clear();
+        sumTotalMoney = 0;
+        return "redirect:/payPal";
+    }
+    @ExceptionHandler(Exception.class)
+    public String showErrorPage(Exception e, Model model){
+        model.addAttribute("message", e.getMessage());
+        return "/nha/ErrorPage";
+    }
 }
