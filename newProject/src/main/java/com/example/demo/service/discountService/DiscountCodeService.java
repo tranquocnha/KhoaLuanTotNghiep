@@ -18,5 +18,6 @@ public interface DiscountCodeService {
 
     List<DiscountCode> findUsedCodeByNameDiscount(String nameDiscount);
 
+    List<DiscountCode> findDiscountCodeByIdSaler(int id);
 //    void returnDiscount(Discount book, Integer returnCode);
 }

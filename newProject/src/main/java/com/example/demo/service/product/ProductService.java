@@ -11,13 +11,17 @@ public interface ProductService {
 
     List<Product> findAll();
 
+    String findIdAccountByProduct(int id);
+
     void save(Product product);
 
     Product findById(int id);
 
-    Product findByIdStatus(String status,int idProduct);
+    Product findByIdStatus(String status, int idProduct);
 
     void delete(int id);
+
+    int findByQuantity(int id);
 
     List<Product> findProduct(String idAccount);
 
@@ -31,7 +35,7 @@ public interface ProductService {
 
     List<Product> findByStatus(String status);
 
-    Page<Product> findByName(String productName,Pageable pageable);
+    Page<Product> findByName(String productName, Pageable pageable);
 
     List<Product> findByCategoryAndNameProduct(String status, Integer idCategory, String nameProduct);
 
@@ -39,8 +43,9 @@ public interface ProductService {
 
     List<Product> findByApproved(String status);
 
-    List<Product> findAllByNotApprovedYet(String status , String idAccount);
-    Page<Product> findAllProductByNotApprovedYet(Pageable pageable,String status , String idAccount);
+    List<Product> findAllByNotApprovedYet(String status, String idAccount);
+
+    Page<Product> findAllProductByNotApprovedYet(Pageable pageable, String status, String idAccount);
 
     List<Product> findByNotApprovedYet(String status, String idAccount, String nameProduct);
 

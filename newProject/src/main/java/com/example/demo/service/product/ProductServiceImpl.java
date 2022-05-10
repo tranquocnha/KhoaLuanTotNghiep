@@ -25,6 +25,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public String findIdAccountByProduct(int id) {
+        return productRepository.findIdAccountByProduct(id);
+    }
+
+    @Override
     public void save(Product product) {
         productRepository.save(product);
     }
@@ -42,6 +47,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void delete(int id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public int findByQuantity(int id) {
+        return productRepository.findByQuantity(id);
     }
 
     @Override

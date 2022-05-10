@@ -67,6 +67,11 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
+    public Page<Color> findAllPageById(int idAccount, Pageable pageable) {
+        return colorRepository.findAllByProduct_Accounts_UserIdUser(idAccount,pageable);
+    }
+
+    @Override
     public List<Color> findProduct(String status, Integer idCategory) {
         return colorRepository.findByProduct_StatusAndProduct_Category_IdCategory(status, idCategory);
     }

@@ -1,5 +1,6 @@
 package com.example.demo.repository.accountRepository;
 
+import com.example.demo.model.AccUser;
 import com.example.demo.model.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,10 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     @Query(value="select *  from  acc_user join`account`  where  `account`.id_account=acc_user.`account` and   gmail=:gmail", nativeQuery = true)
     Account findAccountByGmail(@Param("gmail")String gmail);
 
-
+    @Query(value = "select ac.id_user from acc_user ac inner join `account` a on a.id_account=ac.`account` where a.id_account=:idAccount", nativeQuery = true)
+    int findIdUserByIdAccount(String idAccount);
+    @Query(value = "select * from acc_user where id_user=:id",nativeQuery = true)
+    AccUser findAccUserByIdUser(int id);
     Account findAccountByResetPasswordToken(String token);
 
 }

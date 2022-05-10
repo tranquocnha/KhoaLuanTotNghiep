@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Đơn hàng</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/RCMBfPu.png">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!--    <script crossorigin="anonymous"-->
+    <!--            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"-->
+    <!--            src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>-->
+    <!--    -->
+    <!--        <div th:insert="~{/Hau/layout :: head}"></div>-->
+    <link rel="stylesheet" href="/nha/css/Demo.css">
+    <link rel="stylesheet" href="/Vinh/css/Footer.css">
+    <link rel="stylesheet" href="/Vinh/css/Header.css">
+    <link rel="stylesheet" href="../../static/nha/css/category/create.css">
+</head>
+<body>
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
+<div class="main ">
+    <div class="main__userbill">
+        <div th:replace="/Hau/layout :: main__left"></div>
+        <div class="main__right  " style="border-color: #00BFFF;margin: 50px 0px 0px">
+            <div th:fragment="thong-ke">
+                <div class="titlePage">
+                    <label class="col-form-label user__title"><i class="fas fa-file-invoice"></i></i>
+                        Chi tiết đơn hàng đơn hàng
+                    </label>
+                </div>
+                <table class="table table-hover h-50 rounded mt-4" id="tableHistory" style="font-size: 14px">
+                    <tr >
+                        <th><label>ID</label></th>
+                        <td class="table__data" th:field="${bills.idBill}"></td>
+                    </tr>
+
+                    <tr >
+                        <th><label>Tên Khách Hàng</label></th>
+                        <td class="table__data" th:text="${bills.user.name}"></td>
+                    </tr>
+                    <tr >
+                        <th><label>Ngày Mua</label></th>
+                        <td class="table__data" th:text="${bills.current}"></td>
+                    </tr>
+                    <tr >
+                        <th><label>Trạng Thái</label></th>
+                        <td class="table__data" th:text="${bills.status}"></td>
+                    </tr>
+                    <tr >
+                        <th><label>totalCost</label></th>
+                        <td class="table__data" th:text="${bills.totalCost}"></td>
+                    </tr>
+
+                    <tr th:each="products : ${bills.tempBillProducts}">
+                        <th><label>Sản Phẩm</label></th>
+                        <td>
+                            <label>id sản phẩm</label>
+                            <div class="table__data" th:text="${products.tempProduct.getIdProduct()}"></div>
+                        </td>
+                        <td>
+                            <label>Tên sản phẩm</label>
+                            <div class="table__data" th:text="${products.tempProduct.getProductName()}">
+                            </div>
+                        </td>
+                        <td>
+                            <label>hình ảnh sản phẩm</label>
+                            <div class="table__data" th:text="${products.tempProduct.getImage1()}"></div>
+                        </td>
+                        <td>
+                            <label>hình ảnh sản phẩm</label>
+                            <div class="table__data" th:text="${products.tempProduct.getImage2()}"></div>
+                        </td>
+                        <td>
+                            <label>hình ảnh sản phẩm</label>
+                            <div class="table__data" th:text="${products.tempProduct.getImage3()}"></div>
+                        </td>
+                        <td>
+                            <label>Màu sắc sản phẩm</label>
+                            <div class="table__data" th:text="${products.tempProduct.getColor()}"></div>
+                        </td>
+                        <td>
+                            <label>Giá sản phẩm</label>
+                            <div class="table__data" th:text="${products.tempProduct.getPrice()}"></div>
+                        </td>
+                        <td>
+                            <label>Giá sản phẩm</label>
+                            <div class="table__data" th:text="${products.tempProduct.getCategoryName()}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label>Tổng Tiền</label></th>
+                        <td class="table__data" th:text="${bills.quantity}"></td>
+                    </tr>
+                    <tr>
+                        <th><label>Địa Chỉ</label></th>
+                        <td class="table__data"
+                            th:text="${bills.address}+ '/' +${bills.ward.wardName}+ '/' +${bills.ward.district.districtName}+ '/' +${bills.ward.district.province.provinceName}"></td>
+                    </tr>
+                </table>
+                <div class="button__layout">
+                    <a th:href="@{/}" class="btn btn-warning " style="color: white">
+                        Quay lại trang chủ
+                    </a>
+                </div>
+                <div class="row col-lg-12 hide mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="~{/HeaderFooter/Footer::footer_clinet}"></div>
+<div th:replace="~{/Hau/layout :: script}"></div>
+</body>
+</html>

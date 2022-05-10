@@ -25,6 +25,11 @@ public class BillServiceImpl implements BillService{
     }
 
     @Override
+    public Bill findBillsById(int id) {
+        return billRepository.findBillByIdBill(id);
+    }
+
+    @Override
     public Page<Bill> findAll(Pageable pageable) {
         return billRepository.findAll(pageable);
     }

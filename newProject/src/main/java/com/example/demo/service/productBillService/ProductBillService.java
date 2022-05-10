@@ -1,10 +1,12 @@
 package com.example.demo.service.productBillService;
 
+import com.example.demo.model.Product;
 import com.example.demo.model.ProductBill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductBillService {
+    Product findProductByIdProduct(int id);
     void delete(int idProductBill);
     Page<ProductBill> findAll(Pageable pageable);
 

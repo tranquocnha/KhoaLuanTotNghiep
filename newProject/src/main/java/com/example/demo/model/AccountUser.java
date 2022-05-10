@@ -4,21 +4,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.ConstraintViolation;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.validation.executable.ExecutableValidator;
-import javax.validation.metadata.BeanDescriptor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Set;
 
 
 public class AccountUser implements Validator {
@@ -48,6 +42,30 @@ public class AccountUser implements Validator {
     private String passWord1;
 
     private String rePassWord1;
+    private int role1;
+
+    public AccountUser(String name1, String sex1, String dateTime1, String gmail1, int numberCard1, String address1, String phoneUser1, String userName1, String passWord1, String rePassWord1, int role1) {
+        this.id = id;
+        this.name1 = name1;
+        this.sex1 = sex1;
+        DateTime1 = dateTime1;
+        this.gmail1 = gmail1;
+        this.numberCard1 = numberCard1;
+        this.address1 = address1;
+        this.phoneUser1 = phoneUser1;
+        this.userName1 = userName1;
+        this.passWord1 = passWord1;
+        this.rePassWord1 = rePassWord1;
+        this.role1 = role1;
+    }
+
+    public int getRole1() {
+        return role1;
+    }
+
+    public void setRole1(int role1) {
+        this.role1 = role1;
+    }
 
     public AccountUser() {
     }

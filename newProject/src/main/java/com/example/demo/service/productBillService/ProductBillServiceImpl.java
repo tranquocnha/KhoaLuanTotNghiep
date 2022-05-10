@@ -1,7 +1,9 @@
 package com.example.demo.service.productBillService;
 
+import com.example.demo.model.Product;
 import com.example.demo.model.ProductBill;
 import com.example.demo.repository.productBillRepository.ProductBillRepository;
+import com.example.demo.repository.productBillRepository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,12 @@ import org.springframework.stereotype.Service;
 public class ProductBillServiceImpl implements ProductBillService{
     @Autowired
     ProductBillRepository productBillRepository;
+    @Autowired
+    ProductRepository productRepository;
+    @Override
+    public Product findProductByIdProduct(int id) {
+        return productRepository.findProductByIdProduct(id);
+    }
 
     @Override
     public void delete(int idProductBill) {
