@@ -43,9 +43,10 @@
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
 
-                        <div><a class="card__body-content" th:href="@{/ProfileDetail/__${users.idUser}__}">Tài khoản của tôi</a></div>
-                        <div><a class="card__body-content" th:href="@{/listOfInvoices/__${users.idUser}__}">Đơn mua</a></div>
-                        <div><a class="card__body-content" th:href="@{/editPass/__${users.account.idAccount}__}">Đổi mật khẩu</a></div>
+                        <div><a class="card__body-content" th:href="@{/ProfileDetail}">Tài khoản của tôi</a></div>
+                        <div><a class="card__body-content" th:href="@{/listOfInvoices}">Đơn mua</a></div>
+                        <div><a class="card__body-content" th:href="@{/listOfInvoicesAuction}">Đơn đã đấu giá</a></div>
+                        <div><a class="card__body-content" th:href="@{/editPass}">Đổi mật khẩu</a></div>
 
                     </div>
                 </div>
