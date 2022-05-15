@@ -11,6 +11,9 @@ import com.example.demo.service.productBillService.BillService;
 import com.example.demo.service.userService.UserService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -136,16 +139,17 @@ public class HauController {
 //                redirectAttributes.addAttribute("account", account.getIdAccount()).
 //                        addFlashAttribute("message", "Cập nhật thành công ! ");
                 redirectAttributes.addFlashAttribute("message", "Cập nhật thành công ! ");
-                return "redirect:/editPass/";
+                return "redirect:/editPass";
             } else {
 //                    System.out.println("day la mat khau moi " + account.getPassword());
 //                    System.out.println("day la mat khau moi xac nhan" + account.getRePassword());
                 redirectAttributes.addFlashAttribute("messages", "Mật khẩu phải trùng nhau ! ");
+
             }
         } else {
             redirectAttributes.addFlashAttribute("messagess", "Mật Khẩu Không Đúng ! ");
         }
-        return "redirect:/editPass/";
+        return "redirect:/editPass";
     }
 //    }
 
@@ -158,6 +162,17 @@ public class HauController {
         model.addAttribute("users", user);
         return "Hau/UserBill";
     }
+
+    @GetMapping(value = "/listOfInvoicesAuction")
+    public String showHistoryAuction(@RequestParam(name="page",defaultValue = "0") int page , Model model, Principal principal) {
+        Pageable pageable = PageRequest.of(page,5);
+        Page<Bill> bills = billService.findBillAuction(principal.getName(),pageable);
+        model.addAttribute("bills", bills);
+        AccUser user = userService.findByAccount(principal.getName());
+        model.addAttribute("users", user);
+        return "Hau/UserBillAuction";
+    }
+
 
     @GetMapping("/forgot_password")
     public String showForgotPasswordForm(Model model) {

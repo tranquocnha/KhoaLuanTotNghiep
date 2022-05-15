@@ -87,7 +87,7 @@ public class AuctionController {
         return null;
     }
     @RequestMapping("/auction")
-    public String index(Model model) throws ParseException {
+    public String index(Model model,@SessionAttribute("carts") HashMap<Integer, Cart> cartMap) throws ParseException {
         List<Category> categoryList;
         categoryList = categoryService.findAll();
         model.addAttribute("category", categoryList);
@@ -105,6 +105,11 @@ public class AuctionController {
                 toString.append(s2);
             }
             model.addAttribute(String.valueOf(toString), productRepository.findByAuction("Đã duyệt", category.getIdCategory()));
+        }
+        if(cartMap != null) {
+            model.addAttribute("card", cartMap.size());
+        }else{
+            model.addAttribute("card", "0");
         }
         return "/nha/auction/Home";
     }

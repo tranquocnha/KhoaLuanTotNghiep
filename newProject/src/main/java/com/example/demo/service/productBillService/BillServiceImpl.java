@@ -30,6 +30,11 @@ public class BillServiceImpl implements BillService{
     }
 
     @Override
+    public Page<Bill> findBillAuction(String idAuction,Pageable pageable) {
+        return billRepository.findBillAndTempAuction(idAuction,pageable);
+    }
+
+    @Override
     public Page<Bill> findAll(Pageable pageable) {
         return billRepository.findAll(pageable);
     }

@@ -6,10 +6,7 @@ import com.example.demo.repository.productBillRepository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +29,24 @@ public class AdminHomeAPI {
     public  ResponseEntity<List<String>> charYearAuction(){
         try{
             List<String> chartYearAuction = billRepository.chartYearAuction();
+            return new ResponseEntity<>(chartYearAuction, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/chart/month/auction")
+    public  ResponseEntity<List<String>> charMonthAuction(){
+        try{
+            List<String> chartYearAuction = billRepository.chartMothAuction();
+            return new ResponseEntity<>(chartYearAuction, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/chart/month/product")
+    public  ResponseEntity<List<String>> charYearProduct(){
+        try{
+            List<String> chartYearAuction = billRepository.chartMothProduct();
             return new ResponseEntity<>(chartYearAuction, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

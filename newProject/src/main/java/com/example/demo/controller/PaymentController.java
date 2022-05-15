@@ -117,11 +117,13 @@ public class PaymentController {
     public String getAuction(@RequestParam("idProduct")int idProduct
             , @RequestParam("money") String total
             , @RequestParam("quantity") String quantity
+            , @RequestParam(name = "submitAuction",required = false) String submitAuction
             , Model model)
     {
         System.out.println("auction");
-        Product product = productRepository.findById(idProduct).orElse(null);
-        TempAuction tempAuction = new TempAuction(product.getAccounts().getIdAccount()
+        if(submitAuction == null){
+            Product product = productRepository.findById(idProduct).orElse(null);
+            TempAuction tempAuction = new TempAuction(product.getAccounts().getIdAccount()
                     ,product.getProductName()
                     , product.getCategory().getCategoryName()
                     , product.getImage1()
@@ -131,15 +133,25 @@ public class PaymentController {
                     , product.getDatePost()
             );
             tempAuctionRepository.save(tempAuction);
-        product.setStatus("Đã đấu giá");
-        productRepository.save(product);
-        billGetData(total, quantity, model);
-        AddressAuctionDTO addressAuctionDTO = new AddressAuctionDTO();
-        addressAuctionDTO.setTotalAuction(Double.parseDouble(total));
-        addressAuctionDTO.setIdProduct(tempAuction.getIdProduct());
-        model.addAttribute("addressAuctionDTO",addressAuctionDTO);
-        model.addAttribute("product",product);
-        model.addAttribute("carts",null);
+            product.setStatus("Đã đấu giá");
+            productRepository.save(product);
+            billGetData(total, quantity, model);
+            AddressAuctionDTO addressAuctionDTO = new AddressAuctionDTO();
+            addressAuctionDTO.setTotalAuction(Double.parseDouble(total));
+            addressAuctionDTO.setIdProduct(tempAuction.getIdProduct());
+            model.addAttribute("addressAuctionDTO",addressAuctionDTO);
+            model.addAttribute("product",product);
+            model.addAttribute("carts",null);
+        }else{
+            TempAuction product = tempAuctionRepository.findById(idProduct).orElse(null);
+            billGetData(total, quantity, model);
+            AddressAuctionDTO addressAuctionDTO = new AddressAuctionDTO();
+            addressAuctionDTO.setTotalAuction(Double.parseDouble(total));
+            addressAuctionDTO.setIdProduct(product.getIdProduct());
+            model.addAttribute("addressAuctionDTO",addressAuctionDTO);
+            model.addAttribute("product",product);
+            model.addAttribute("carts",null);
+        }
         return "/nha/Pay";
     }
 

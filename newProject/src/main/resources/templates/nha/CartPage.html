@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -30,11 +31,31 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/Vinh/css/CartPage.css">
 
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="/Images/Logo-Neffex.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/Images/Logo-Neffex.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"/>
+
 
 </head>
 
 <body>
-<div th:insert="~{/HeaderFooter/Header::header-cline}" ></div>
+<div th:insert="~{/nha/HomePage::main-header}" ></div>
 <div  th:if="${msgCheck}"><p class="alert alert-success" th:text="${msgCheck}"></p></div>
 <div class="cart">
     <div class="cart__banner">
@@ -48,6 +69,8 @@
             <tr>
                 <th class="cart-table-container__cart-name" colSpan="2">sản phẩm</th>
                 <th class="cart-table-container__cart-category">Danh mục</th>
+                <th class="cart-table-container__cart-category">Tên Màu</th>
+                <th class="cart-table-container__cart-price">Giá tiền</th>
                 <th class="cart-table-container__cart-price">Giá tiền</th>
                 <th class="cart-table-container__cart-quantity">Số lượng</th>
                 <th class="cart-table-container__cart-quantity"> Mã Giảm Giá</th>
@@ -67,7 +90,10 @@
                 <td class="product-category" style="cursor: pointer;text-align: center;">
                     <div th:text="${item.value.getProduct().getCategory().categoryName}"></div>
                 </td>
-                <td class="product-price}">
+                <td class="product-category" style="cursor: pointer;text-align: center;">
+                    <div th:text="${item.value.getColor().getColor()}"></div>
+                </td>
+                <td class="product-price">
                     <div th:class="product__price+${iterStat.count}" th:text="${item.value.getColor().price}"></div>
                     <input type="hidden" th:id="product__price+${iterStat.count}" th:value="${item.value.getColor().price}">
                 <td class="product-quantity">

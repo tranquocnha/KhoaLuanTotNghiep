@@ -345,102 +345,131 @@
     });
 
 
-
-
-
 })(jQuery);
 
 (function($) {
-    "use strict"
-
-    let ctx = document.getElementById("chart_widget_3");
-    ctx.height = 130;
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-            type: 'line',
-            defaultFontFamily: 'Montserrat',
-            datasets: [{
-                data: [0, 15, 57, 12, 85, 10],
-                label: "iPhone X",
-                backgroundColor: 'transparent',
-                borderColor: '#847DFA',
-                borderWidth: 2,
-                pointStyle: 'circle',
-                pointRadius: 5,
-                pointBorderColor: '#847DFA',
-                pointBackgroundColor: '#fff',
-            }, {
-            label: "Pixel 2",
-                data: [0, 30, 5, 53, 15, 55, 0],
-                backgroundColor: '#F196B0',
-                borderColor: '#F196B0',
-                borderWidth: 0.5,
-                pointStyle: 'circle',
-                pointRadius: 5,
-                pointBorderColor: 'transparent',
-                pointBackgroundColor: '#F196B0',
-                }]
-            },
-        options: {
-            responsive: !0,
-            maintainAspectRatio: true,
-            tooltips: {
-                mode: 'index',
-                titleFontSize: 12,
-                titleFontColor: '#fff',
-                bodyFontColor: '#fff',
-                backgroundColor: '#000',
-                titleFontFamily: 'Montserrat',
-                bodyFontFamily: 'Montserrat',
-                cornerRadius: 3,
-                intersect: false,
-            },
-            legend: {
-                display: false,
-                position: 'top',
-                labels: {
-                    usePointStyle: true,
-                    fontFamily: 'Montserrat',
-                },
-
-
-            },
-            scales: {
-                xAxes: [{
-                    display: false,
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    scaleLabel: {
-                        display: false,
-                        labelString: 'Month'
+    var labels = [];
+    $.ajax({
+        type: "GET",
+        //tên API
+        url: "http://localhost:8080/admin/api/chart/month/auction",
+        //xử lý khi thành công
+        success: function (dataAuction) {
+            $.ajax({
+                type: "GET",
+                //tên API
+                url: "http://localhost:8080/admin/api/chart/month/product",
+                //xử lý khi thành công
+                success: function (dataProduct) {
+                let month = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+                let totalProduct = [0,0,0,0,0,0,0,0,0,0,0,0];
+                for (let j = 0; j < dataProduct.length; j++) {
+                    for (let i=0;i<month.length;i++)
+                    {
+                        if (month[i] === dataProduct[j].split(",")[0]) {
+                            totalProduct[i] = dataProduct[j].split(",")[1]
+                        }
                     }
-                }],
-                yAxes: [{
-                    display: false,
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Value'
+                }
+                let totalAuction = [0,0,0,0,0,0,0,0,0,0,0,0];
+                for (let j = 0; j < dataAuction.length; j++) {
+                    for (let i=0;i<month.length;i++)
+                    {
+                        if (month[i] === dataAuction[j].split(",")[0]) {
+                            totalAuction[i] = dataAuction[j].split(",")[1]
+                        }
                     }
-                }]
-            },
-            title: {
-                display: false,
-            }
+                }
+                console.log(month)
+                    console.log(totalAuction)
+                    console.log(totalProduct)
+                let ctx = document.getElementById("chart_widget_3");
+                ctx.height = 130;
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: month,
+                        type: 'line',
+                        defaultFontFamily: 'Montserrat',
+                        datasets: [{
+                            data: totalProduct,
+                            label: "Product",
+                            backgroundColor: 'transparent',
+                            borderColor: '#847DFA',
+                            borderWidth: 2,
+                            pointStyle: 'circle',
+                            pointRadius: 5,
+                            pointBorderColor: '#847DFA',
+                            pointBackgroundColor: '#fff',
+                        }, {
+                            label: "Auction",
+                            data: totalAuction,
+                            backgroundColor: '#F196B0',
+                            borderColor: '#F196B0',
+                            borderWidth: 0.5,
+                            pointStyle: 'circle',
+                            pointRadius: 5,
+                            pointBorderColor: 'transparent',
+                            pointBackgroundColor: '#F196B0',
+                        }]
+                    },
+                    options: {
+                        responsive: !0,
+                        maintainAspectRatio: true,
+                        tooltips: {
+                            mode: 'index',
+                            titleFontSize: 12,
+                            titleFontColor: '#fff',
+                            bodyFontColor: '#fff',
+                            backgroundColor: '#000',
+                            titleFontFamily: 'Montserrat',
+                            bodyFontFamily: 'Montserrat',
+                            cornerRadius: 3,
+                            intersect: false,
+                        },
+                        legend: {
+                            display: false,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                fontFamily: 'Montserrat',
+                            },
+
+
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: false,
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                scaleLabel: {
+                                    display: false,
+                                    labelString: 'Month'
+                                }
+                            }],
+                            yAxes: [{
+                                display: false,
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Value'
+                                }
+                            }]
+                        },
+                        title: {
+                            display: false,
+                        }
+                }
+            });
         }
-    });
-
-
-    
-
-
+        });
+    }
+});
 })(jQuery);
 
 

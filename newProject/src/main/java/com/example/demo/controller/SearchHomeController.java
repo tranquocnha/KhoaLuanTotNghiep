@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.AccUser;
+import com.example.demo.model.Cart;
 import com.example.demo.model.Color;
 import com.example.demo.model.Product;
 import com.example.demo.repository.UserRepository.UserRepository;
@@ -16,9 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
+@SessionAttributes("carts")
 public class SearchHomeController {
     private final UserRepository userRepo;
     private final ProductRepository productRepository;
@@ -71,7 +74,10 @@ public class SearchHomeController {
 //
 //    }
     @GetMapping("/searchProduct")
-    public String searchProductAll(@RequestParam(value = "nameProduct") String nameProduct,@RequestParam(name="page",defaultValue = "0") int page,Model model) {
+    public String searchProductAll(@RequestParam(value = "nameProduct") String nameProduct
+            ,@RequestParam(name="page",defaultValue = "0") int page
+            ,Model model
+            ,@SessionAttribute(value = "carts",required = false) HashMap<Integer, Cart> cartMap) {
         Pageable pageable = PageRequest.of(page,20);
         double numberMin =0;
         double numberMax =1;
@@ -97,6 +103,11 @@ public class SearchHomeController {
         }else {
             model.addAttribute("listProduct", productRepository.findByStatusAndProductNameContains("Đã duyệt",nameProduct,pageable));
         }
+        if(cartMap != null) {
+            model.addAttribute("card", cartMap.size());
+        }else{
+            model.addAttribute("card", "0");
+        }
         model.addAttribute("drowdownCategory", categoryRepository.findAll());
         model.addAttribute("category", categoryRepository.findTop());
         model.addAttribute("idCategory", null);
@@ -107,7 +118,8 @@ public class SearchHomeController {
     }
 
     @GetMapping("/searchProduct/{idCategory}")
-    public String searchAndNameProduct(@PathVariable(name = "idCategory") int id, @RequestParam("nameProduct") String nameProduct, Model model) {
+    public String searchAndNameProduct(@PathVariable(name = "idCategory") int id, @RequestParam("nameProduct") String nameProduct, Model model
+            ,@SessionAttribute(value = "carts",required = false) HashMap<Integer, Cart> cartMap) {
         if (nameProduct.isEmpty()) {
             model.addAttribute("product", colorService.findProduct("Đã duyệt", id));
         } else {
@@ -125,6 +137,11 @@ public class SearchHomeController {
                     model.addAttribute("product", colorService.findProduct("Đã duyệt", id, nameProduct));
                     break;
             }
+        }
+        if(cartMap != null) {
+            model.addAttribute("card", cartMap.size());
+        }else{
+            model.addAttribute("card", "0");
         }
         String idCategory = String.valueOf(id);
         model.addAttribute("nameProduct",nameProduct);

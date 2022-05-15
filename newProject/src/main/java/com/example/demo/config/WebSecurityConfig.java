@@ -56,7 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/chats/**",
                 "/listOfInvoices/**",
                 "/editPass/**",
-                "/ProfileDetail/**"
+                "/ProfileDetail/**",
+                "/listOfInvoicesAuction/**"
 
         ).access("hasAnyRole('ROLE_CUSTOMER','ROLE_ADMIN','ROLE_SALER')");
 

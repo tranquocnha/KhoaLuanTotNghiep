@@ -11,13 +11,15 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="/Images/Logo-Neffex.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/Images/Logo-Neffex.png">
 
     <link rel="stylesheet" href="/Vinh/css/Header.css">
     <link rel="stylesheet" href="/Vinh/css/Footer.css">
     <!-- Link font-awesome -->
     <link rel="stylesheet" href="/nha/css/Home.css">
-    <title>Trang chủ</title>
-    <link rel="stylesheet" href="/nha/css/Home.css">
+    <title>Tìm kiếm</title>
     <link rel="stylesheet" href="/nha/css/search.css">
 
     <!-- Bootstrap CSS -->
@@ -29,79 +31,89 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/custom.css">
 
+
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"/>
 </head>
 <body>
-<div class="header__container" th:fragment="header-cline">
-    <div class="header__top" sec:authorize="isAuthenticated()">
-        <div class="header__top-right">
-            <a href="/auction">
-                <button>
-                    <img src="/Images/icons8-auction-32.png"/>
-                    Đấu giá
+<header class="main-header">
+    <!-- Start Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
                 </button>
-            </a>
-        </div>
-        <div class="header__top-left">
-            <button class="btn btn-primary " type="button"
-                    style="background-color: #FFCC20; border: 1px solid #FFCC20"
-                    sec:authorize="hasRole('ADMIN') or hasRole('SALER')">
-                <div class="header__management" sec:authorize="hasRole('ADMIN') or hasRole('SALER')">
-                    <i class="material-icons" title="Account" style="font-size: 25px;cursor: pointer;"
-                       data-uw-styling-context="true">person</i>
-                    <span class="caret" th:if="${admin == 'là admin'}">
-                        <a style="text-decoration: none; color:white" href="/admin/">Quản lý</a>
-                     </span>
-
-                    <span class="caret" th:if="${admin == 'là saler'}">
-                         <a style="text-decoration: none; color:white" href="/product/list">Truy cập đến shop</a>
-                    </span>
-                </div>
-            </button>
-        </div>
-    </div>
-    <div class="header__second">
-
-        <div class="header__logo">
-            <a href="/">
-                <img src="/Images/Logo-Neffex.png"/>
-            </a>
-        </div>
-
-        <div class="header__search">
-
-        </div>
-        <div class="button__login" th:unless="${userNames}">
-            <span class="txt"><a style="color: white" href="/login">
-                            Đăng nhập
-                        </a></span>
-        </div>
-        <div class="header__navigation" th:if="${userNames}">
-            <div class="header__navigation-img">
-                <a href="/showCart">
-                    <img src="/Images/cart-nav-white.00018279d92b8685ff0d50c146eefe5491200c0b.svg" alt="">
-                </a>
+                <a class="navbar-brand" href="/" ><img src="/Images/Logo-Neffex.png" class="logo" alt="" style="width: 200px;height: 91px"></a>
             </div>
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
-                        style="background-color: #FFCC20; border: 1px solid #FFCC20; display: flex;align-items: center">
-                    <i class="material-icons" title="Account" style="font-size: 25px;cursor: pointer;"
-                       data-uw-styling-context="true">person</i>
-                    <span class="caret">Chào mừng, [[${userNames.name}]]</span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a th:if="${userNames}" th:href="@{/ProfileDetail/__${userNames.idUser}__}">Hồ sơ cá nhân</a>
+            <!-- End Header Navigation -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                    <li class="dropdown megamenu-fw">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Product</a>
+                        <ul class="dropdown-menu megamenu-content" role="menu">
+                            <li>
+                                <div class="row">
+                                    <div class="col-menu col-md-3">
+                                        <a href="/searchProduct?nameProduct=&page=0"><h6 class="title">All Product</h6></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </li>
-                    <li><a href="/showCart">Giỏ Hàng</a></li>
-                    <li><a href="/logout">Đăng Xuất</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Auction</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/auction">List Auction</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <th:block th:unless="${userNames}">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User</a>
+                        </th:block>
+                        <th:block th:if="${userNames}">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"> Chào mừng, [[${userNames.name}]]</a>
+                        </th:block>
+                        <ul class="dropdown-menu">
+                            <th:block th:if="${userNames}">
+                                <th:block sec:authorize="hasRole('ADMIN') or hasRole('SALER')">
+                                    <li th:if="${admin == 'là admin'}"><a href="/admin">Quản lý</a></li>
+                                    <li th:if="${admin == 'là saler'}"><a href="/product/list">Shop</a></li>
+                                </th:block>
+                                <li>
+                                    <a th:href="@{/ProfileDetail/__${userNames.idUser}__}">Hồ sơ cá nhân</a>
+                                </li>
+                                <li><a href="/logout">Đăng Xuất</a></li>
+                            </th:block>
+                            <li th:unless="${userNames}">
+                                <a href="/login">Login</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="attr-nav">
+                <ul>
+                    <li class="side-menu"><a href="/showCart">
+                        <i class="fa fa-shopping-bag"></i>
+                        <span class="badge">[[${card}]]</span>
+                    </a></li>
                 </ul>
             </div>
         </div>
-    </div>
-</div>
+    </nav>
+</header>
 
 <div class="app__container">
     <div class="grid">

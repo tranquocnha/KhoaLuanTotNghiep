@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Page</title>
-
     <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
     <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
     <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
     <!--  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -19,13 +17,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
     <style>
         .box {
             transition: 0.5s;
@@ -312,6 +306,35 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body pb-0 d-flex justify-content-between">
+                                            <div>
+                                                <h4 class="mb-1">Product Sales</h4>
+                                                <p>Total Earnings Year 2022</p>
+                                                <h3 class="m-0" th:text="${'$ '+sumYear2022}"></h3>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper">
+                                            <canvas id="chart_widget_3"></canvas>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <div class="w-100 mr-2">
+                                                    <h6>Product</h6>
+                                                    <div class="progress" style="height: 6px">
+                                                        <div class="progress-bar bg-danger" th:style="'width:'+${ percentProduct +10}+'%'"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="ml-2 w-100">
+                                                    <h6>Auction</h6>
+                                                    <div class="progress" style="height: 6px">
+                                                        <div class="progress-bar bg-primary" th:style="'width:'+${ percentAuction -10}+'%'"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

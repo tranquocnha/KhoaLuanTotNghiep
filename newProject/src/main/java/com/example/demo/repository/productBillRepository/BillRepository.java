@@ -2,6 +2,8 @@ package com.example.demo.repository.productBillRepository;
 
 import com.example.demo.model.Bill;
 import com.example.demo.model.DTO.ChartDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +16,7 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
 
     @Query(value = "select * " +
             "from bill " +
-            "where id_user = :id ;"
+            "where id_user = :id and (status like 'Đang giao' or status like 'Đã giao') ;"
             , nativeQuery = true)
     List<Bill> findBills(@Param("id") int id);
     @Query(value = "select sum(b.total_cost) " +
@@ -68,9 +70,26 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
             "    inner join temp_bill_product pb on b.id_bill = pb.id_bill\n" +
             "    inner join temp_product tp on pb.id_product = tp.id_product\n" +
             "where b.status like 'Đã giao'\n" +
-            "group by year(b.current);"
+            "group by year(b.current) ;"
             ,nativeQuery = true)
     List<String> chartYear();
+    @Query(value = "select month(b.current),sum(b.total_cost)\n" +
+            "from bill as b\n" +
+            "         inner join temp_auction ta on b.id_bill = ta.id_bill\n" +
+            "where b.status like 'Đã giao'  and  year(b.current) like year(curdate())\n" +
+            "group by month(b.current) order by month(b.current) desc;"
+            ,nativeQuery = true)
+    List<String> chartMothAuction();
+
+    @Query(value = "select month(b.current) as month,sum(b.total_cost) as total\n" +
+            "from bill as b\n" +
+            "         inner join temp_bill_product pb on b.id_bill = pb.id_bill\n" +
+            "         inner join temp_product tp on pb.id_product = tp.id_product\n" +
+            "where b.status like 'Đã giao'  and  year(b.current) like year(curdate())\n" +
+            "group by month(b.current) order by month(b.current) desc;"
+            ,nativeQuery = true)
+    List<String> chartMothProduct();
+
     @Query(value = "select year(b.current),sum(b.total_cost)\n" +
             "from bill as b\n" +
             "         inner join temp_auction ta on b.id_bill = ta.id_bill\n" +
@@ -78,6 +97,13 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
             "group by year(b.current)"
             ,nativeQuery = true)
     List<String> chartYearAuction();
+
+    @Query(value = "select sum(b.total_cost)\n" +
+            "from bill as b\n" +
+            "         inner join temp_auction ta on b.id_bill = ta.id_bill\n" +
+            "where b.status like 'Đã giao' and  year(b.current) like year(curdate());"
+            ,nativeQuery = true)
+    String sumTotalYear2022();
 
     @Query(value = "select sum(b.total_cost) as total\n" +
             "from bill as b\n" +
@@ -93,4 +119,13 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
             "where b.status like 'Đã giao';"
             ,nativeQuery = true)
     String sumAuctionYear();
+
+    @Query(value = "select b.* from bill as b\n" +
+            "    inner join temp_auction ta on b.id_bill = ta.id_bill\n" +
+            "    inner join acc_user au on b.id_user = au.id_user\n" +
+            "    inner join account a on au.account = a.id_account\n" +
+            "where a.id_account like ?1 ",nativeQuery = true)
+    Page<Bill> findBillAndTempAuction(String idAuction, Pageable pageable);
+
+
 }

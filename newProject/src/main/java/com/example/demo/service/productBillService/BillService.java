@@ -11,6 +11,8 @@ public interface BillService {
     List<Bill> findBills(int id);
     Bill findBillsById(int id);
 
+    Page<Bill> findBillAuction(String idAuction,Pageable pageable);
+
     Page<Bill> findAll(Pageable pageable);
 
     void delete(int id);

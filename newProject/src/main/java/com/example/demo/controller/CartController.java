@@ -48,6 +48,7 @@ public class CartController {
     public static final String URL_PAYPAL_SUCCESS = "pay/success";
     public static final String URL_PAYPAL_CANCEL = "pay/cancel";
 
+    
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -96,14 +97,6 @@ public class CartController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userRepo.findByAccount_IdAccount(auth.getName());
     }
-
-    @GetMapping("showCart")
-    public ModelAndView show(@SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
-        ModelAndView modelAndView = new ModelAndView("nha/CartPage");
-        modelAndView.addObject("carts", cartMap);
-        modelAndView.addObject("cartSize", cartMap.size());
-        return modelAndView;
-    }
     @ModelAttribute("admin")
     public String AdminOrSaler(){
         Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
@@ -120,6 +113,19 @@ public class CartController {
         }
         return null;
     }
+    @GetMapping("showCart")
+    public ModelAndView show(@SessionAttribute("carts") HashMap<Integer, Cart> cartMap) {
+
+        ModelAndView modelAndView = new ModelAndView("nha/CartPage");
+        if(cartMap != null) {
+            modelAndView.addObject("card", cartMap.size());
+        }else{
+            modelAndView.addObject("card", "0");
+        }
+        modelAndView.addObject("carts", cartMap);
+        modelAndView.addObject("cartSize", cartMap.size());
+        return modelAndView;
+    }
 //    @GetMapping("/showCart/getData/{idProduct}&{idColor}")
     @GetMapping("/showCart/getData/{idProduct}")
     public String show(@PathVariable(value ="idProduct") int idProduct,
@@ -133,9 +139,15 @@ public class CartController {
         extracted(idColor, arrayQuantity, temp);
         System.out.println("totalMoney:" + totalMoney);
         System.out.println("totalMoney:" + totalQuantity);
+        if(cartMap != null) {
+            model.addAttribute("card", cartMap.size());
+        }else{
+            model.addAttribute("card", "0");
+        }
         model.addAttribute("money", money);
         model.addAttribute("quantity", quantity);
         model.addAttribute("cart", new Cart());
+
         if (cartMap == null) {
             cartMap = new HashMap<>();
         }

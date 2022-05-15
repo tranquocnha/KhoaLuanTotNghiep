@@ -36,6 +36,7 @@ public class AdminHomeController {
         }
         model.addAttribute("sumTotal",billRepository.sumTotal());
         model.addAttribute("dateNow", LocalDate.now());
+        model.addAttribute("sumYear2022",billRepository.sumTotalYear2022());
         model.addAttribute("sumQuantity",billRepository.sumQuantity());
         model.addAttribute("countAccount",billRepository.countAccount());
         model.addAttribute("countAccountSaler",billRepository.countAccountSaler());
