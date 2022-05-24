@@ -20,10 +20,8 @@ public class TempProduct {
     private int quantity;
     @Min(value = 0)
     private double price;
-
     @OneToMany(mappedBy = "tempProduct")
     private Set<TempBillProduct> tempBillProducts;
-
     private String productName;
     private String image1;
     private String image2;

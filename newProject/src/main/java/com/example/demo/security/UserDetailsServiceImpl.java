@@ -31,6 +31,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             System.out.println("User not found! " + idAccount);
             throw new UsernameNotFoundException("User " + idAccount + " was not found in the database");
         }
+        if(!account.isStatus()){
+            System.out.println("User not found! " + idAccount);
+            throw new UsernameNotFoundException("User " + idAccount + " status false in the database");
+        }
+
         System.out.println("Found user:! " + account);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         Set<Role> roles = account.getRoles();

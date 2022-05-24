@@ -110,7 +110,8 @@ public class AccountAdminController {
                 if(role.getRoleName().equals(role1.getRoleName())){
                     redirectAttributes.addFlashAttribute("success","Unable to delete the same role");
                 }else{
-                    userService.delete(id);
+                    accUserDelete.getAccount().setStatus(false);
+                    userService.save(accUserDelete);
                     redirectAttributes.addFlashAttribute("success", "Deleted!!");
                 }
             }

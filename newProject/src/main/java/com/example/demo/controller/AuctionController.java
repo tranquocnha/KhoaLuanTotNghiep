@@ -97,15 +97,23 @@ public class AuctionController {
         LocalDateTime now = LocalDateTime.now();
         String dateTime = dtf.format(now);
         Date today = Calendar.getInstance().getTime();
-        System.out.println("day today :"+today);
-        for (Category category: categoryList) {
-            String[] s1=category.getCategoryName().split(" ");
-            StringBuilder toString= new StringBuilder();
-            for(String s2:s1){
-                toString.append(s2);
-            }
-            model.addAttribute(String.valueOf(toString), productRepository.findByAuction("Đã duyệt", category.getIdCategory()));
-        }
+
+        model.addAttribute("MensFashion", productRepository.findByAuction("Đã duyệt", 1));
+        model.addAttribute("WomanFashion", productRepository.findByAuction("Đã duyệt", 2));
+        model.addAttribute("Accessory", productRepository.findByAuction("Đã duyệt", 3));
+        model.addAttribute("Bags", productRepository.findByAuction("Đã duyệt", 4));
+        model.addAttribute("Camera", productRepository.findByAuction("Đã duyệt", 5));
+        model.addAttribute("FootwareMan", productRepository.findByAuction("Đã duyệt", 6));
+        model.addAttribute("FootwareWoman", productRepository.findByAuction("Đã duyệt", 7));
+        model.addAttribute("Health", productRepository.findByAuction("Đã duyệt", 8));
+        model.addAttribute("Houseware", productRepository.findByAuction("Đã duyệt", 9));
+        model.addAttribute("Laptop", productRepository.findByAuction("Đã duyệt", 10));
+        model.addAttribute("Makeup", productRepository.findByAuction("Đã duyệt", 11));
+        model.addAttribute("MotherAndBaby", productRepository.findByAuction("Đã duyệt", 12));
+        model.addAttribute("Smartphone", productRepository.findByAuction("Đã duyệt", 13));
+        model.addAttribute("Television", productRepository.findByAuction("Đã duyệt", 14));
+        model.addAttribute("Watch", productRepository.findByAuction("Đã duyệt", 15));
+        model.addAttribute("Sport", productRepository.findByAuction("Đã duyệt", 16));
         if(cartMap != null) {
             model.addAttribute("card", cartMap.size());
         }else{

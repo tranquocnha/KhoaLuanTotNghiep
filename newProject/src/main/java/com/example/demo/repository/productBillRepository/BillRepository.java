@@ -70,7 +70,8 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
             "    inner join temp_bill_product pb on b.id_bill = pb.id_bill\n" +
             "    inner join temp_product tp on pb.id_product = tp.id_product\n" +
             "where b.status like 'Đã giao'\n" +
-            "group by year(b.current) ;"
+            "group by year(b.current)\n" +
+            "order by year(b.current) desc ;"
             ,nativeQuery = true)
     List<String> chartYear();
     @Query(value = "select month(b.current),sum(b.total_cost)\n" +
@@ -94,7 +95,7 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
             "from bill as b\n" +
             "         inner join temp_auction ta on b.id_bill = ta.id_bill\n" +
             "where b.status like 'Đã giao'\n" +
-            "group by year(b.current)"
+            "group by year(b.current) order by year(b.current)  desc"
             ,nativeQuery = true)
     List<String> chartYearAuction();
 
@@ -126,6 +127,17 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
             "    inner join account a on au.account = a.id_account\n" +
             "where a.id_account like ?1 ",nativeQuery = true)
     Page<Bill> findBillAndTempAuction(String idAuction, Pageable pageable);
+
+    // shop
+
+    @Query(value = "select year(b.current) as year,sum(b.total_cost) as total\n" +
+            "from bill as b\n" +
+            "    inner join temp_bill_product pb on b.id_bill = pb.id_bill\n" +
+            "    inner join temp_product tp on pb.id_product = tp.id_product\n" +
+            "where b.status like 'Đã giao'\n" +
+            "group by year(b.current) ;"
+            ,nativeQuery = true)
+    List<String> chartYearShop();
 
 
 }

@@ -268,4 +268,11 @@ public class ProductController {
             return "/vuong/ListProductSaler";
         }
     }
+
+    @GetMapping("product/revenue")
+    public String searchWaitingApproval(Principal principal) {
+      AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
+
+      return "/nha/shop/RevenueShop";
+    }
 }

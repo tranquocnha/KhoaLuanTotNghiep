@@ -149,7 +149,9 @@ public class BillController {
     }
 
     @RequestMapping("/product-detail/{id}")
-    public String productDetailBill(@PathVariable int id, Model model) {
+    public String productDetailBill(@PathVariable int id,
+                                    @SessionAttribute(value = "carts",required = false) HashMap<Integer, Cart> cartMap,
+                                    Model model) {
         Product product = productService.findByIdStatus("Đã duyệt",id);
         Color color = colorService.findById(id);
         List<Color> colorList = colorService.findByIdProduct(id);
@@ -162,6 +164,11 @@ public class BillController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.getName().equals("anonymousUser")) {
             model.addAttribute("userName", auth.getName());
+        }
+        if(cartMap != null) {
+            model.addAttribute("card", cartMap.size());
+        }else{
+            model.addAttribute("card", "0");
         }
         model.addAttribute("codeObject", color);
         model.addAttribute("color", colorList);

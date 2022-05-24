@@ -260,7 +260,7 @@ public class PaymentController {
 
     @GetMapping(URL_PAYPAL_SUCCESS)
     public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String
-            payerId, Model model, Principal principal) {
+            payerId, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, Principal principal) {
         Double inputTotal = totalMoney;
         List<String> tenSp = new ArrayList<>();
         AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
@@ -285,6 +285,7 @@ public class PaymentController {
         } catch (PayPalRESTException e) {
             log.error(e.getMessage());
         }
+        cartMap.clear();
         totalMoney = 0;
         return "redirect:/payPal";
     }
