@@ -117,13 +117,11 @@ public class PaymentController {
     public String getAuction(@RequestParam("idProduct")int idProduct
             , @RequestParam("money") String total
             , @RequestParam("quantity") String quantity
-            , @RequestParam(name = "submitAuction",required = false) String submitAuction
             , Model model)
     {
         System.out.println("auction");
-        if(submitAuction == null){
-            Product product = productRepository.findById(idProduct).orElse(null);
-            TempAuction tempAuction = new TempAuction(product.getAccounts().getIdAccount()
+        Product product = productRepository.findById(idProduct).orElse(null);
+        TempAuction tempAuction = new TempAuction(product.getAccounts().getIdAccount()
                     ,product.getProductName()
                     , product.getCategory().getCategoryName()
                     , product.getImage1()
@@ -133,25 +131,15 @@ public class PaymentController {
                     , product.getDatePost()
             );
             tempAuctionRepository.save(tempAuction);
-            product.setStatus("Đã đấu giá");
-            productRepository.save(product);
-            billGetData(total, quantity, model);
-            AddressAuctionDTO addressAuctionDTO = new AddressAuctionDTO();
-            addressAuctionDTO.setTotalAuction(Double.parseDouble(total));
-            addressAuctionDTO.setIdProduct(tempAuction.getIdProduct());
-            model.addAttribute("addressAuctionDTO",addressAuctionDTO);
-            model.addAttribute("product",product);
-            model.addAttribute("carts",null);
-        }else{
-            TempAuction product = tempAuctionRepository.findById(idProduct).orElse(null);
-            billGetData(total, quantity, model);
-            AddressAuctionDTO addressAuctionDTO = new AddressAuctionDTO();
-            addressAuctionDTO.setTotalAuction(Double.parseDouble(total));
-            addressAuctionDTO.setIdProduct(product.getIdProduct());
-            model.addAttribute("addressAuctionDTO",addressAuctionDTO);
-            model.addAttribute("product",product);
-            model.addAttribute("carts",null);
-        }
+        product.setStatus("Đã đấu giá");
+        productRepository.save(product);
+        billGetData(total, quantity, model);
+        AddressAuctionDTO addressAuctionDTO = new AddressAuctionDTO();
+        addressAuctionDTO.setTotalAuction(Double.parseDouble(total));
+        addressAuctionDTO.setIdProduct(tempAuction.getIdProduct());
+        model.addAttribute("addressAuctionDTO",addressAuctionDTO);
+        model.addAttribute("product",product);
+        model.addAttribute("carts",null);
         return "/nha/Pay";
     }
 
@@ -218,7 +206,7 @@ public class PaymentController {
         LocalDate currentDate = LocalDate.now();
         Bill bill = new Bill();
         bill.setCurrent(String.valueOf(currentDate));
-        bill.setStatus("Đang giao");
+        bill.setStatus("Chờ lấy hàng");
         bill.setUser(user);
         bill.setAddress(addressDTO.getAddress());
         bill.setTotalCost(totalMoney);
@@ -260,7 +248,7 @@ public class PaymentController {
 
     @GetMapping(URL_PAYPAL_SUCCESS)
     public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String
-            payerId, Model model, @SessionAttribute("carts") HashMap<Integer, Cart> cartMap, Principal principal) {
+            payerId, Model model, Principal principal) {
         Double inputTotal = totalMoney;
         List<String> tenSp = new ArrayList<>();
         AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
@@ -285,7 +273,6 @@ public class PaymentController {
         } catch (PayPalRESTException e) {
             log.error(e.getMessage());
         }
-        cartMap.clear();
         totalMoney = 0;
         return "redirect:/payPal";
     }

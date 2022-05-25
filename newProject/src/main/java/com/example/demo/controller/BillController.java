@@ -7,6 +7,7 @@ import com.example.demo.service.categoryService.CategoryService;
 import com.example.demo.service.colorService.ColorServiceImpl;
 import com.example.demo.service.commentService.CommentService;
 import com.example.demo.service.product.ProductService;
+import com.example.demo.service.product.ProductServiceImpl;
 import com.example.demo.service.productBillService.BillService;
 import com.example.demo.service.productBillService.ProductBillService;
 import com.example.demo.service.userService.UserService;
@@ -50,6 +51,9 @@ public class BillController {
     @Autowired
     private AccountServiceImpl accountService;
 
+    @Autowired
+    private ProductServiceImpl productServiceImpl;
+
     @ModelAttribute("carts")
     public HashMap<Integer, Cart> showInfo() {
         return new HashMap<>();
@@ -60,15 +64,16 @@ public class BillController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userRepo.findByAccount_IdAccount(auth.getName());
     }
+
     @ModelAttribute("admin")
-    public String AdminOrSaler(){
-        Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth.getAuthorities().toString().equals("[ROLE_ADMIN]")){
+    public String AdminOrSaler() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
             if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
                 return "là admin";
             }
-        }else{
+        } else {
             if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().
                     anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_SALER"))) {
                 return "là saler";
@@ -76,40 +81,43 @@ public class BillController {
         }
         return null;
     }
+
     @GetMapping("")
-    public String home(Model model,@SessionAttribute(value = "carts",required = false) HashMap<Integer, Cart> cartMap){
+    public String home(Model model, @SessionAttribute(value = "carts", required = false) HashMap<Integer, Cart> cartMap) {
+
         List<Category> categoryList;
         categoryList = categoryService.findAll();
 
         model.addAttribute("category", categoryList);
-        if(cartMap != null) {
+        if (cartMap != null) {
             model.addAttribute("card", cartMap.size());
-        }else{
+        } else {
             model.addAttribute("card", "0");
         }
-        model.addAttribute("newProduct",colorService.findProductOderByLIMIT5("Đã duyệt"));
-        model.addAttribute("sellerProduct",colorService.findProductOderByDescLIMIT5("Đã duyệt"));
+        model.addAttribute("newProduct", colorService.findProductOderByLIMIT5("Đã duyệt"));
+        model.addAttribute("sellerProduct", colorService.findProductOderByDescLIMIT5("Đã duyệt"));
         return "/nha/HomePage";
     }
+
     @RequestMapping("/a")
     public String index(Model model) {
         List<Category> categoryList;
         categoryList = categoryService.findAll();
 
         String[] nameCategory = new String[100];
-        int i=0;
-        for (Category category: categoryList) {
+        int i = 0;
+        for (Category category : categoryList) {
 
-            String[] s1=category.getCategoryName().split(" ");
-            StringBuilder toString= new StringBuilder();
-            for(String s2:s1){
+            String[] s1 = category.getCategoryName().split(" ");
+            StringBuilder toString = new StringBuilder();
+            for (String s2 : s1) {
                 toString.append(s2);
             }
             nameCategory[i] = String.valueOf(toString);
             i++;
             model.addAttribute(String.valueOf(toString), colorService.findProduct("Đã duyệt", category.getIdCategory()));
         }
-        model.addAttribute("nameCategory",nameCategory);
+        model.addAttribute("nameCategory", nameCategory);
         model.addAttribute("category", categoryList);
 //        model.addAttribute("MensFashion", colorService.findProduct("Đã duyệt", 1));
 //        model.addAttribute("WomanFashion", colorService.findProduct("Đã duyệt", 2));
@@ -136,10 +144,10 @@ public class BillController {
         List<Category> categoryList;
         categoryList = categoryService.findAll();
         model.addAttribute("category", categoryList);
-        for (Category category: categoryList) {
-            String[] s1=category.getCategoryName().split(" ");
-            StringBuilder toString= new StringBuilder();
-            for(String s2:s1){
+        for (Category category : categoryList) {
+            String[] s1 = category.getCategoryName().split(" ");
+            StringBuilder toString = new StringBuilder();
+            for (String s2 : s1) {
                 toString.append(s2);
             }
             model.addAttribute(String.valueOf(toString), colorService.findProduct("Đã duyệt", category.getIdCategory()));
@@ -148,14 +156,12 @@ public class BillController {
     }
 
     @RequestMapping("/product-detail/{id}")
-    public String productDetailBill(@PathVariable int id,
-                                    @SessionAttribute(value = "carts",required = false) HashMap<Integer, Cart> cartMap,
-                                    Model model) {
-        Product product = productService.findByIdStatus("Đã duyệt",id);
+    public String productDetailBill(@PathVariable int id, Model model) {
+        Product product = productService.findByIdStatus("Đã duyệt", id);
         Color color = colorService.findById(id);
         List<Color> colorList = colorService.findByIdProduct(id);
         System.out.println("day la id user");
-        String idAccount= productService.findIdAccountByProduct(id);
+        String idAccount = productService.findIdAccountByProduct(id);
         model.addAttribute("idAccount", idAccount);
 //        int idUser= accountService.findIdUserByIdAccount(idAccount);
 //        AccUser accUser=accountService.findAccUserByIdUser(accountService.findIdUserByIdAccount(idAccount));
@@ -163,11 +169,6 @@ public class BillController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.getName().equals("anonymousUser")) {
             model.addAttribute("userName", auth.getName());
-        }
-        if(cartMap != null) {
-            model.addAttribute("card", cartMap.size());
-        }else{
-            model.addAttribute("card", "0");
         }
         model.addAttribute("codeObject", color);
         model.addAttribute("color", colorList);
@@ -177,7 +178,7 @@ public class BillController {
 
     @RequestMapping("/afterLogin/productDetail/{id}")
     public String afterLoginProductDetailBill(@PathVariable int id) {
-        return "redirect:/product-detail/"+id;
+        return "redirect:/product-detail/" + id;
     }
 
     @GetMapping("/search")
@@ -214,12 +215,17 @@ public class BillController {
             return "/nha/Home";
         }
     }
+
     @GetMapping("detailBill/{idBill}")
-    public String detailBill(@PathVariable(name="idBill") int id, Model model,Principal principal){
+    public String detailBill(@PathVariable(name = "idBill") int id
+//            ,@PathVariable(name = "idProduct") int idProduct
+            ,  Model model, Principal principal) {
         AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
         Bill bills = billService.findBillsById(id);
         System.out.println("day la id bill");
         System.out.println(id);
+//        System.out.println(idProduct);
+//        Product product=productServiceImpl.findProductByIdProduct();
         model.addAttribute("bills", bills);
         model.addAttribute("users", user);
         return "Hau/BillDetail";

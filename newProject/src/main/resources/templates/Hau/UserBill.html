@@ -48,6 +48,9 @@
                         <td class="table__data"
                             th:text="${billDetail.address}+ '/' +${billDetail.ward.wardName}+ '/' +${billDetail.ward.district.districtName}+ '/' +${billDetail.ward.district.province.provinceName}"></td>
                         <td class="table__data" ><a th:href="@{/detailBill/__${billDetail.idBill}__}">Chi tiết</a></td>
+<!--                        <td th:each="product: ${billDetail.productBills}">-->
+<!--                            <p th:text="${product.getProduct().getIdProduct()}" name="idProduct"></p>-->
+<!--                        </td>-->
                     </tr>
                     </thead>
                 </table>

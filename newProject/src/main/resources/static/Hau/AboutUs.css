@@ -1,0 +1,226 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    /*height: 500px;*/
+    /*font-family: "Rajdhani", sans-serif;*/
+}
+
+body {
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*min-height: 100vh;*/
+    /*background: linear-gradient(to right, #00bfa5, #a7ffeb);*/
+    /* -webkit-clip-path: ellipse(60% 60% at 50% 33%); */
+}
+
+section {
+    background: white;
+}
+
+.container1 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin:0;
+}
+
+.title1 h1 {
+    font-size: 3.5rem;
+    height: 10px;
+    display: flex;
+    justify-content: center;
+    color: #00bfa5;
+    margin: 20px 0 60px;
+    font-family: "Rajdhani", sans-serif;
+}
+.title1 h3 {
+    display: flex;
+    justify-content: center;
+    color: #9E9E9E;
+    font-family: "Rajdhani", sans-serif;
+}
+.card1::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    right: -3px;
+    left: -3px;
+    z-index: -1;
+    display: block;
+    border-radius: 16px;
+    background-image: linear-gradient(135deg, #752e7c, #734a58 20%, #1b2028 30%, #2c333e 100%);
+}
+
+.card1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-color: #1b2028;
+    background-clip: padding-box;
+    border: 3px solid transparent;
+    background-image: linear-gradient(45deg, #00bfa5, #64FFDA);
+    padding: 0.2rem;
+    border-radius: 15px;
+}
+
+.card1 .imgBx1 {
+    width: 175px;
+    height: 175px;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+.card1 .imgBx2 {
+    width: 175px;
+    height: 175px;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+.card1 .imgBx3 {
+    width: 175px;
+    height: 175px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+.card1 .imgBx4 {
+    width: 175px;
+    height: 175px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+.container1 .card1 {
+    position: relative;
+    margin: 25px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Rajdhani", sans-serif;
+}
+
+.container1 .card1 .content1 {
+    position: absolute;
+    bottom: -160px;
+    width: 100%;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    flex-direction: column;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: bottom 0.5s;
+}
+
+.container1 .card1:hover .content1 {
+    bottom: 0;
+}
+
+.container1 .card1 .content1 .contentBx1 h3 {
+    color: white;
+    text-transform: capitalize;
+    letter-spacing: 2px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 20px;
+    margin: 60px 0 15px;
+    line-height: 1.1em;
+    transition: 0.5s;
+    opacity: 0;
+    scale: calc(50%);
+    transform: translateY(-20px);
+    /* transition: bottom 0.5s; */
+    transition-delay: 0.2s;
+}
+
+.container1 .card1:hover .content1 .contentBx1 h3 {
+    opacity: 1;
+    transform: translateY(0px);
+}
+
+.container1 .card1 .content1 .contentBx1 h3 span {
+    font-size: 16px;
+}
+
+.container1 .card1 .content1 .sci {
+    position: relative;
+    bottom: 10px;
+    display: block;
+    color: #fff;
+    list-style: none;
+    font-size: 20px;
+}
+
+.container1 .card1:hover .content1 .sci1 li {
+    color: #00bfa5;
+    transform: translateY(-100px);
+    list-style: none;
+}
+
+.container1 .card1 .imgBx1 {
+    background-image: url("/Images/Hau.png");
+    background-position: center;
+    background-size: 570px 400px;
+    min-height: 400px;
+    min-width: 300px;
+}
+
+.container1 .card1 .imgBx2 {
+    background-image: url("/Images/Toan.jpg");
+    background-position: center;
+    background-size: 520px 400px;
+    min-height: 400px;
+    min-width: 300px;
+}
+
+.container1 .card1 .imgBx3 {
+    background-image: url("/Images/Nha1.jpg");
+    background-position: center;
+    background-size: 400px 400px;
+    min-height: 400px;
+    min-width: 300px;
+}
+
+.container1 .card1 .imgBx4 {
+    background-image: url("/Images/Vuong.jpg");
+    background-position: center;
+    background-size: 325px 400px;
+    min-height: 400px;
+    min-width: 300px;
+}
+
+
+/* .container .card:hover .content .sci .span {
+    list-style: none;
+    margin: 0 10px;
+    transform: translateY(100px);
+    transition: 0.5s;
+    opacity: 0;
+    transition-delay: calc(0.2s * var(--i));
+} */
+
+
+/* .container .card:hover .content .sci li {
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+.container .card .content .sci li a {
+.container .card .content .sci li a {
+    color: white;
+    font-size: 24px;
+} */

@@ -170,24 +170,23 @@ public class ProductController {
     }
 
     @PostMapping(value = "/product/edit")
-    public String Edit(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model, Principal principal,RedirectAttributes redirectAttributes) {
+    public String edit(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model, Principal principal, RedirectAttributes redirectAttributes) {
         String idAccount = principal.getName();
         AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
-//        new Product().validate(product, bindingResult);
         if (bindingResult.hasFieldErrors()) {
             model.addAttribute("category", categoryService.findAll());
-            return "/vuong/edit";
+            return "redirect:/product/edit?id=" + product.getIdProduct();
         }
         this.productService.save(product);
         model.addAttribute("product", colorService.findAllProduct(idAccount));
         model.addAttribute("category", categoryService.findAll());
         redirectAttributes.addFlashAttribute("mgsedit", "Sửa sản phẩm thành công");
-//        model.addAttribute("mgsedit", "Sửa sản phẩm thành công");
         System.out.println("userName ------ " + product.getAccounts());
         System.out.println("ten -----------" + product.getStatus());
         System.out.println("ten -----------" + product.getProductName());
         return "redirect:/product/list";
     }
+
 
     @GetMapping("/product/productDone/{id}")
     public String doneProduct(@PathVariable int id, Model model, Principal principal) {
@@ -220,8 +219,8 @@ public class ProductController {
         }
         this.colorService.save(color);
         model.addAttribute("listProduct", colorService.findAllProduct(idAccount));
-        model.addAttribute("mgs", "thêm mới sản phẩm thành công");
-        return "/vuong/ListProductSaler";
+        model.addAttribute("mgs", "Thêm mới sản phẩm thành công");
+        return "redirect:/product/list";
     }
 
     @GetMapping(value = "/product/delete/{idProduct}")
@@ -267,12 +266,5 @@ public class ProductController {
             model.addAttribute("mgstk1", "sản phẩm được tìm thấy");
             return "/vuong/ListProductSaler";
         }
-    }
-
-    @GetMapping("product/revenue")
-    public String searchWaitingApproval(Principal principal) {
-      AccUser user = userRepo.findByAccount_IdAccount(principal.getName());
-
-      return "/nha/shop/RevenueShop";
     }
 }

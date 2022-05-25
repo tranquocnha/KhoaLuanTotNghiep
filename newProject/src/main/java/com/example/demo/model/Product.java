@@ -3,7 +3,7 @@ package com.example.demo.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -30,14 +30,18 @@ public class Product {
     @OneToOne(mappedBy = "product" , cascade = CascadeType.ALL)
     private Auction auction;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL)
     private Set<ProductBill> productBills;
 
+    @NotBlank(message = "Không được để trống")
     private String productName;
+    @NotBlank(message = "Thêm ảnh")
     private String image1;
+    @NotBlank(message = "Thêm ảnh")
     private String image2;
+    @NotBlank(message = "Thêm ảnh")
     private String image3;
-    @Column(length = 2500)
+    @NotBlank(message = "Không được để trống")
     private String description;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String datePost;

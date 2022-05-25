@@ -13,7 +13,7 @@
     <!-- Custom Style -->
 
     <link rel="stylesheet" href="/Hau/BillDetail.css">
-    <!--        Vinh CSS-->
+    <!--         CSS-->
     <link rel="stylesheet" href="/Vinh/css/Footer.css">
     <link rel="stylesheet" href="/Vinh/css/Header.css">
     <title>Bill Detail</title>
@@ -41,26 +41,23 @@
             <div class="col-10">
                 <div class="row bb pb-3">
                     <div class="col-7">
-                        <p>Supplier,</p>
-                        <h2>Your Store Name</h2>
-                        <p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>
-                        <div class="txn mt-2">TXN: XXXXXXX</div>
-                    </div>
-                    <div class="col-5">
                         <p>Client,</p>
                         <h2 th:text="${bills.user.name}"></h2>
                         <p class="address"
                            th:text="${bills.address}+ '/' +${bills.ward.wardName}+ '/' +${bills.ward.district.districtName}+ '/' +${bills.ward.district.province.provinceName}"> </p>
-                        <div class="txn mt-2">TXN: XXXXXXX</div>
+<!--                        <div class="txn mt-2" >TXN: XXXXXXX</div>-->
+                    </div>
+                    <div class="col-5">
+
                     </div>
                 </div>
                 <div class="row extra-info pt-3">
                     <div class="col-7">
                         <p>Payment Method: <span>bKash</span></p>
                         <p>Order Number: <span>#868</span></p>
+                        <p>Deliver Date: <span th:text="${bills.current}"></span></p>
                     </div>
                     <div class="col-5">
-                        <p>Deliver Date: <span>10-04.2021</span></p>
                     </div>
                 </div>
             </div>
@@ -89,6 +86,10 @@
                     <td>
                         <div class="media-body">
                             <p class="mt-0 title" th:text="${products.tempProduct.getProductName()}"></p>
+                            <div class="media-body">
+                                <p class="mt-0 title}"></p>
+
+                            </div>
                         </div>
                     </td>
                     <td th:text="${products.tempProduct.getPrice()}"></td>
@@ -108,22 +109,24 @@
                 </div>
                 <div class="col-4">
                     <table class="table border-0 table-hover">
-                        <tr>
-                            <td>Sub Total:</td>
-                            <td>800$</td>
-                        </tr>
-                        <tr>
-                            <td>Tax:</td>
-                            <td>15$</td>
-                        </tr>
-                        <tr>
-                            <td>Deliver:</td>
-                            <td>10$</td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td>Sub Total:</td>-->
+<!--&lt;!&ndash;                            <td>800$</td>&ndash;&gt;-->
+<!--                            <td th:text="${bills.totalCost}">$</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>Tax:</td>-->
+<!--                            <td>15$</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>Deliver:</td>-->
+<!--                            <td>10$</td>-->
+<!--                        </tr>-->
                         <tfoot>
                         <tr>
                             <td>Total:</td>
-                            <td>825$</td>
+<!--                            <td>825$</td>-->
+                            <td th:text="${bills.totalCost}">$</td>
                         </tr>
                         </tfoot>
                     </table>
@@ -143,7 +146,7 @@
         <footer>
             <hr>
             <p class="m-0 text-center">
-                View THis Invoice Online At - <a href="#!"> invoice/saburbd.com/#868 </a>
+                Contact Us
             </p>
             <div class="social pt-3">
                     <span class="pr-2">
@@ -152,25 +155,22 @@
                     </span>
                 <span class="pr-2">
                         <i class="fas fa-envelope"></i>
-                        <span>me@saburali.com</span>
+                        <span>neffex@gmail.com</span>
                     </span>
                 <span class="pr-2">
                         <i class="fab fa-facebook-f"></i>
-                        <span>/sabur.7264</span>
+                        <span>/neffexShop</span>
                     </span>
-                <span class="pr-2">
-                        <i class="fab fa-youtube"></i>
-                        <span>/abdussabur</span>
-                    </span>
+
                 <span class="pr-2">
                         <i class="fab fa-github"></i>
-                        <span>/example</span>
+                        <span>/neffex</span>
                     </span>
             </div>
         </footer>
     </div>
 </div>
 
-
+<div th:insert="~{/HeaderFooter/Footer::footer_clinet}"></div>
 </body>
 </html>

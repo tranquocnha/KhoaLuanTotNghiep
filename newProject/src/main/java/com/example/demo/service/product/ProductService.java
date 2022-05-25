@@ -12,7 +12,7 @@ public interface ProductService {
     List<Product> findAll();
 
     String findIdAccountByProduct(int id);
-
+    Product findProductByIdProduct(int id);
     void save(Product product);
 
     Product findById(int id);

@@ -2,18 +2,21 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idColor;
+    @NotBlank(message = "Không được để trống")
     private String color;
-    @Min(value = 0)
+    @Min(value = 1 , message = "Phải lớn hơn 0")
     private int quantity;
     private String status;
-    @Min(value = 0)
+    @Min(value = 1 , message = "Phải lớn hơn 0")
     private double price;
+
 
     @ManyToOne(targetEntity = Account.class)
     @JoinColumn(name = "account", referencedColumnName = "idAccount")

@@ -76,29 +76,13 @@
             cursor: pointer
         }
     </style>
-    <!-- Site Icons -->
-    <link rel="shortcut icon" href="/Images/Logo-Neffex.png" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/Images/Logo-Neffex.png">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!-- Site CSS -->
-    <link rel="stylesheet" href="/css/style.css">
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="/css/responsive.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/custom.css">
-
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"/>
 </head>
 
+
 <body>
-<div th:insert="~{/nha/HomePage::main-header}" ></div>
+
+
+<div th:insert="~{/HeaderFooter/Header::header-cline}"></div>
 <div class="page__container">
     <div id="alert__notification" class="alert__notification">
         <h4>
@@ -121,7 +105,7 @@
                     </div>
                 </div>
                 <div class="page__right">
-                    <h1 class="product__title over"  th:text="${product.productName}"></h1>
+                    <h1 class="product__title over" th:text="${product.productName}"></h1>
                     <div class="product__price">
                         <p id="priceProduct"></p>
                         <p style="margin-left: 10px">$</p>
@@ -189,9 +173,9 @@
                     </div>
                 </div>
             </div>
-<!--            DETAIL SHOP-->
-            <section class="py-5 bg-light mt-2 mb-2">
-                <div class="container" >
+            <!--            DETAIL SHOP-->
+            <section class="py-5 bg-light mt-4 mb-2" >
+                <div class="container">
                     <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
                         <div class="col-lg-6">
                             <h1 class="h2 text-uppercase mb-0" th:text="${idAccount}"><a th:href=""></a></h1>
@@ -200,16 +184,19 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
                                     <li class="breadcrumb-item"><a class="text-dark" href="@{/}">liên hệ email</a></li>
-<!--                                    <li class="breadcrumb-item active" aria-current="page" th:text="${accUser.getGmail()}"></li>-->
+                                    <li class="breadcrumb-item active" aria-current="page"
+                                        th:text="${product.accounts.user.gmail}"></li>
                                 </ol>
                                 <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
                                     <li class="breadcrumb-item"><a class="text-dark" href="@{/}">Địa chỉ</a></li>
-<!--                                    <li class="breadcrumb-item active" aria-current="page" th:text="${accUser.getAddress()}"></li>-->
+                                    <li class="breadcrumb-item active" aria-current="page"
+                                        th:each="address: ${product.accounts.user.address}" th:text="${address.nameAddress}">
+                                    </li>
                                 </ol>
-<!--                                <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">-->
-<!--                                    <li class="breadcrumb-item"><a class="text-dark" href="@{/}">số lượng sản phẩm</a></li>-->
-<!--&lt;!&ndash;                                    <li class="breadcrumb-item active" aria-current="page" th:text="${quantity}"></li>&ndash;&gt;-->
-<!--                                </ol>-->
+                                <!--                                <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">-->
+                                <!--                                    <li class="breadcrumb-item"><a class="text-dark" href="@{/}">số lượng sản phẩm</a></li>-->
+                                <!--&lt;!&ndash;                                    <li class="breadcrumb-item active" aria-current="page" th:text="${quantity}"></li>&ndash;&gt;-->
+                                <!--                                </ol>-->
                             </nav>
                         </div>
                     </div>
@@ -267,11 +254,11 @@
         $.ajax({
             type: "GET",
             //tên API
-            url: "/api/comment/"+document.getElementById('idProduct').value,
+            url: "/api/comment/" + document.getElementById('idProduct').value,
             //xử lý khi thành công
             success: function (data) {
                 // hien thi danh sach o day
-                let content ='';
+                let content = '';
                 for (let i = 0; i < data.length; i++) {
                     console.log(data[i]);
                     content += '<div class="">\n' +
@@ -283,51 +270,53 @@
                         '               </div>\n' +
                         '                <div class="d-flex flex-column ml-3">\n' +
                         '                    <div class="d-flex flex-row post-title">\n' +
-                        '                        <h5>'+data[i].userSet[0].accUser.name+'</h5>\n' +
+                        '                        <h5>' + data[i].userSet[0].accUser.name + '</h5>\n' +
                         '                    </div>\n' +
-                        '                    <div class="d-flex flex-row align-items-center align-content-center post-title">'+data[i].content+'</div>\n' +
+                        '                    <div class="d-flex flex-row align-items-center align-content-center post-title">' + data[i].content + '</div>\n' +
                         '                </div>\n' +
                         '            </div>\n' +
                         '            <div class="coment-bottom bg-white p-2 px-4">\n' +
                         '                <div class="d-flex flex-row add-comment-section mt-4 mb-4">' +
                         '                   <img class="img-fluid img-responsive rounded-circle mr-2" src="https://pluspng.com/img-png/user-png-icon-download-icons-logos-emojis-users-2240.png" width="38">' +
-                        '                       <input type="text" class="form-control mr-3" id="content'+i+'" placeholder="Add comment">' +
-                        '                       <button sec:authorize="isAuthenticated()" class="btn btn-primary" onclick="addCommentRep('+data[i].idComment+','+i+')" type="button">Comment</button>' +
+                        '                       <input type="text" class="form-control mr-3" id="content' + i + '" placeholder="Add comment">' +
+                        '                       <button sec:authorize="isAuthenticated()" class="btn btn-primary" onclick="addCommentRep(' + data[i].idComment + ',' + i + ')" type="button">Comment</button>' +
                         '                 </div> \n';
-                            if(data[i].commentReps.length>=1) {
-                                content += '<div class="collapsable-comment">\n' +
-                                '                    <div class="d-flex flex-row justify-content-between align-items-center action-collapse p-2" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-' + (i + 1) + '" href="#collapse-' + (i + 1) + '">' +
-                                '                       <span>Comments</span>' +
-                                '                       <i class="fa fa-chevron-down servicedrop"></i>' +
-                                '                     </div>\n' +
-                                '              <div id="collapse-' + (i + 1) + '" class="collapse">\n';
-                                for (let j = 0; j < data[i].commentReps.length; j++) {
-                                    content += '<div class="commented-section mt-2">\n' +
-                                        '                            <div class="d-flex flex-row align-items-center commented-user">\n' +
-                                        '                                <h5 class="mr-2">' + data[i].commentReps[j].commentAccUsers[0].accUsers.name + '</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">4 hours ago</span>\n' +
-                                        '                            </div>\n' +
-                                        '                            <div class="comment-text-sm"><span>' + data[i].commentReps[j].content + '</span></div>\n' +
-                                        // '                            <div class="reply-section">\n' +
-                                        // '                                <div class="d-flex flex-row align-items-center voting-icons"><i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">10</span><span class="dot ml-2"></span>\n' +
-                                        // '                                    <h6 class="ml-2 mt-1">Reply</h6>\n' +
-                                        // '                                </div>\n' +
-                                        // '                            </div>\n' +
-                                        '                        </div> \n';
-                                }
-                            }
-                            content += '    </div>\n' +
-                                '            </div>\n' +
-                                '        </div>\n' +
-                                '    </div>\n' +
-                                '</div>';
+                    if (data[i].commentReps.length >= 1) {
+                        content += '<div class="collapsable-comment">\n' +
+                            '                    <div class="d-flex flex-row justify-content-between align-items-center action-collapse p-2" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-' + (i + 1) + '" href="#collapse-' + (i + 1) + '">' +
+                            '                       <span>Comments</span>' +
+                            '                       <i class="fa fa-chevron-down servicedrop"></i>' +
+                            '                     </div>\n' +
+                            '              <div id="collapse-' + (i + 1) + '" class="collapse">\n';
+                        for (let j = 0; j < data[i].commentReps.length; j++) {
+                            content += '<div class="commented-section mt-2">\n' +
+                                '                            <div class="d-flex flex-row align-items-center commented-user">\n' +
+                                '                                <h5 class="mr-2">' + data[i].commentReps[j].commentAccUsers[0].accUsers.name + '</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">4 hours ago</span>\n' +
+                                '                            </div>\n' +
+                                '                            <div class="comment-text-sm"><span>' + data[i].commentReps[j].content + '</span></div>\n' +
+                                // '                            <div class="reply-section">\n' +
+                                // '                                <div class="d-flex flex-row align-items-center voting-icons"><i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">10</span><span class="dot ml-2"></span>\n' +
+                                // '                                    <h6 class="ml-2 mt-1">Reply</h6>\n' +
+                                // '                                </div>\n' +
+                                // '                            </div>\n' +
+                                '                        </div> \n';
+                        }
+                    }
+                    content += '    </div>\n' +
+                        '            </div>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>';
 
                 }
                 document.getElementById('commnet').innerHTML = content;
             }
         });
     }
+
     listComment();
-    function addComment(){
+
+    function addComment() {
         let content = $('#contentComment').val();
         let idProduct = $('#idProduct').val();
         let Comment = {
@@ -344,15 +333,16 @@
             //tên API
             url: "/api/comment",
             //xử lý khi thành công
-            success: function (){
+            success: function () {
                 console.log('success');
                 listComment();
             }
         });
     }
-    function addCommentRep(idComment,i){
-        console.log("a"+idComment+"b"+i);
-        let content = $('#content'+i).val();
+
+    function addCommentRep(idComment, i) {
+        console.log("a" + idComment + "b" + i);
+        let content = $('#content' + i).val();
         let CommentRepDTO = {
             idComment: idComment,
             content: content,
@@ -368,7 +358,7 @@
             //tên API
             url: "/api/comment/rep",
             //xử lý khi thành công
-            success: function (){
+            success: function () {
                 console.log('success');
                 listComment();
             }
@@ -376,7 +366,8 @@
         //chặn sự kiện mặc định của thẻ
         listComment();
     }
-    function  forUpDown() {
+
+    function forUpDown() {
         for (let i = 0; i < 50; i++) {
             $(document).ready(function () {
                 $('#collapse-' + i).on('shown.bs.collapse', function () {
@@ -388,6 +379,7 @@
             });
         }
     }
+
     forUpDown();
 
     let mystring = document.getElementById("description");
