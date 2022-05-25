@@ -155,6 +155,7 @@ public class AuctionController {
         model.addAttribute("sanPham", productService.findByIdStatus("Đã duyệt",id));
         model.addAttribute("giaCaoNhat", giaCaoNhat);
         model.addAttribute("giaDau", giaDau);
+        model.addAttribute("giaDau", giaDau);
         model.addAttribute("dauGia", detailList);
         model.addAttribute("producTimeEnd",auction.getAuctionTime());
         return "nha/auction/ProductDetail";

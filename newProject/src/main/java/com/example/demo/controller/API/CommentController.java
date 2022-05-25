@@ -37,7 +37,7 @@ public class CommentController {
     @GetMapping("/comment/{id}")
     public ResponseEntity<Iterable<Comment>> commentProduct(@PathVariable("id")int id){
         try{
-            List<Comment> comments = commentRepository.findByProduct_IdProduct(id);
+            List<Comment> comments = commentRepository.findByProduct_IdProductOrderByIdCommentDesc(id);
             return new ResponseEntity<>(comments, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

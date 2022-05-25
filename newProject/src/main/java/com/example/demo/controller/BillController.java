@@ -78,7 +78,6 @@ public class BillController {
     }
     @GetMapping("")
     public String home(Model model,@SessionAttribute(value = "carts",required = false) HashMap<Integer, Cart> cartMap){
-
         List<Category> categoryList;
         categoryList = categoryService.findAll();
 

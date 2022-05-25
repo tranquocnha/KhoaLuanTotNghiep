@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     Page<Comment> findByProduct_IdProduct(int idProduct, Pageable pageable);
-    List<Comment> findByProduct_IdProduct(int idProduct);
+    List<Comment> findByProduct_IdProductOrderByIdCommentDesc(int idProduct);
 
 }
